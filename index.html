@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
-  <title>FOS Boss Terminal v13.0.2 (Neo-Brutalism Stable)</title>
+  <title>FOS Boss Terminal v14.0 (Cyber-Brutalism Overdrive)</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -14,22 +14,13 @@
       theme: { 
         extend: { 
           fontFamily: { mono: ['Consolas', 'Monaco', 'Courier New', 'monospace'] },
-          colors: {
-            brutal: {
-              white: '#ffffff',
-              black: '#000000',
-              gray: '#d6d3d1', // stone-300
-              yellow: '#facc15', // yellow-400
-              red: '#ef4444', // red-500
-              blue: '#3b82f6', // blue-500
-              green: '#22c55e', // green-500
-              purple: '#a855f7' // purple-500
-            }
+          animation: {
+            'fade-in-up': 'fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            'action-pulse': 'actionPulse 1.5s infinite alternate',
           },
-          boxShadow: {
-            'brutal': '8px 8px 0px 0px rgba(0,0,0,1)',
-            'brutal-sm': '4px 4px 0px 0px rgba(0,0,0,1)',
-            'brutal-hover': '12px 12px 0px 0px rgba(0,0,0,1)',
+          keyframes: {
+            fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            actionPulse: { '0%': { opacity: '1', transform: 'scale(1)' }, '100%': { opacity: '0.9', transform: 'scale(0.98)' } },
           }
         } 
       }
@@ -38,85 +29,98 @@
   <style>
     input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     ::-webkit-scrollbar { width: 16px; height: 16px; border-left: 4px solid #000; }
-    ::-webkit-scrollbar-track { background: #f8fafc; }
-    ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #f8fafc; }
+    ::-webkit-scrollbar-track { background: #020617; }
+    ::-webkit-scrollbar-thumb { background: #38bdf8; border: 2px solid #020617; }
+    ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
     
-    /* 粗野主義工程網格 */
-    .brutal-grid {
-      background-color: #f8fafc;
+    /* 黑暗工業網格 + 掃描線 */
+    .cyber-brutal-grid {
+      background-color: #020617;
       background-image: 
-        linear-gradient(to right, #e2e8f0 2px, transparent 2px),
-        linear-gradient(to bottom, #e2e8f0 2px, transparent 2px);
+        linear-gradient(to right, rgba(56, 189, 248, 0.1) 2px, transparent 2px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.1) 2px, transparent 2px);
       background-size: 60px 60px;
     }
-
-    .brutal-panel {
-      background: #ffffff;
-      border: 4px solid #000000;
-      box-shadow: 8px 8px 0px 0px #000000;
-      transition: all 0.2s ease-in-out;
+    .scanlines {
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.3)); 
+      background-size: 100% 4px; pointer-events: none; z-index: 5;
     }
 
-    .brutal-input {
-      background: #ffffff;
-      border: 4px solid #000000;
-      box-shadow: 4px 4px 0px 0px #000000;
+    /* 賽博粗野裝甲板 */
+    .c-panel-base {
+      background: #0f172a; /* slate-900 */
+      border: 4px solid #000;
+      box-shadow: 8px 8px 0px 0px #000;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+    }
+    .c-panel-cyan { border-color: #06b6d4; box-shadow: 8px 8px 0px 0px #0891b2; color: #cffafe; }
+    .c-panel-emerald { border-color: #10b981; box-shadow: 8px 8px 0px 0px #059669; color: #d1fae5; }
+    .c-panel-yellow { border-color: #eab308; box-shadow: 8px 8px 0px 0px #ca8a04; color: #fef08a; }
+    .c-panel-red { border-color: #ef4444; box-shadow: 8px 8px 0px 0px #b91c1c; color: #fee2e2; }
+    .c-panel-purple { border-color: #a855f7; box-shadow: 8px 8px 0px 0px #7e22ce; color: #f3e8ff; }
+
+    /* 高壓輸入框 */
+    .c-input {
+      background: #020617;
+      border: 4px solid #475569;
+      box-shadow: 4px 4px 0px 0px #1e293b;
       font-size: 1.5rem;
       padding: 1.25rem 1.5rem;
-      color: #000000;
+      color: #38bdf8;
       font-weight: 900;
       transition: all 0.1s ease;
       outline: none;
     }
-    .brutal-input:focus {
-      background: #fef08a; /* yellow-200 */
-      transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0px 0px #000000;
+    .c-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 4px 4px 0px 0px #0369a1;
+      transform: translate(-2px, -2px);
     }
+    .c-input-danger:focus { border-color: #ef4444; box-shadow: 4px 4px 0px 0px #b91c1c; color: #ef4444; }
 
-    .brutal-btn {
-      border: 4px solid #000000;
-      box-shadow: 6px 6px 0px 0px #000000;
+    /* 機械按鍵 */
+    .c-btn {
+      border: 4px solid #000;
+      box-shadow: 6px 6px 0px 0px #000;
       transition: all 0.1s ease;
       text-transform: uppercase;
       font-weight: 900;
+      cursor: pointer;
     }
-    .brutal-btn:active {
+    .c-btn:active {
       transform: translate(6px, 6px);
-      box-shadow: 0px 0px 0px 0px #000000;
+      box-shadow: 0px 0px 0px 0px #000;
+    }
+    .c-btn-cyan { background: #06b6d4; color: #000; border-color: #0891b2; box-shadow: 6px 6px 0px 0px #164e63; }
+    .c-btn-cyan:hover { background: #22d3ee; }
+    .c-btn-red { background: #ef4444; color: #000; border-color: #b91c1c; box-shadow: 6px 6px 0px 0px #7f1d1d; }
+    .c-btn-red:hover { background: #f87171; }
+
+    /* 工業危險膠帶 */
+    .hazard-stripes {
+      background: repeating-linear-gradient(45deg, #000, #000 15px, #eab308 15px, #eab308 30px);
+    }
+    .hazard-stripes-red {
+      background: repeating-linear-gradient(45deg, #000, #000 15px, #ef4444 15px, #ef4444 30px);
     }
 
-    .cyber-toggle { position: relative; display: inline-block; width: 80px; height: 40px; flex-shrink: 0; }
-    .cyber-toggle input { opacity: 0; width: 0; height: 0; }
-    .cyber-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e2e8f0; border: 4px solid #000; transition: .2s; box-shadow: 4px 4px 0px 0px #000; }
-    .cyber-slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: #000; transition: .2s; }
-    input:checked + .cyber-slider { background-color: #a855f7; }
-    input:checked + .cyber-slider:before { transform: translateX(40px); background-color: #fff; border: 2px solid #000; }
+    /* 粗野開關 */
+    .c-toggle { position: relative; display: inline-block; width: 80px; height: 40px; flex-shrink: 0; }
+    .c-toggle input { opacity: 0; width: 0; height: 0; }
+    .c-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #1e293b; border: 4px solid #0ea5e9; transition: .2s; box-shadow: 4px 4px 0px 0px #0369a1; }
+    .c-slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: #0ea5e9; transition: .2s; }
+    input:checked + .c-slider { background-color: #3b82f6; border-color: #93c5fd; }
+    input:checked + .c-slider:before { transform: translateX(40px); background-color: #fff; }
 
-    .marquee-container {
-      overflow: hidden;
-      white-space: nowrap;
-      border-top: 4px solid #000;
-      border-bottom: 4px solid #000;
-      background: #facc15;
-      padding: 0.5rem 0;
-    }
-    .marquee-content {
-      display: inline-block;
-      animation: marquee 15s linear infinite;
-      font-weight: 900;
-      font-size: 1.25rem;
-      color: #000;
-      text-transform: uppercase;
-    }
-    @keyframes marquee {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
+    /* 霓虹文字發光 */
+    .neon-text-cyan { text-shadow: 0 0 10px rgba(6, 182, 212, 0.8); }
+    .neon-text-red { text-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
+    .neon-text-green { text-shadow: 0 0 10px rgba(16, 185, 129, 0.8); }
   </style>
 </head>
-<body class="brutal-grid text-black font-mono min-h-screen relative overflow-x-hidden pt-8 pb-20 selection:bg-yellow-400 text-lg md:text-xl">
+<body class="cyber-brutal-grid text-slate-100 font-mono min-h-screen relative overflow-x-hidden pt-8 pb-20 selection:bg-cyan-500 selection:text-black text-lg md:text-xl">
 
+  <div class="fixed inset-0 scanlines"></div>
   <div id="root" class="relative z-10"></div>
 
   <script type="text/babel">
@@ -146,7 +150,23 @@
     };
 
     const ScrambleText = ({ text }) => {
-      return <span>{text}</span>; 
+      const [display, setDisplay] = useState(text);
+      useEffect(() => {
+        if (!text || text === '0') { setDisplay(text); return; }
+        let iteration = 0;
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+        const strText = String(text);
+        const interval = setInterval(() => {
+          setDisplay(strText.split("").map((letter, index) => {
+            if(index < iteration) return strText[index];
+            return chars[Math.floor(Math.random() * chars.length)];
+          }).join(""));
+          if(iteration >= strText.length) clearInterval(interval);
+          iteration += 1/2; 
+        }, 35);
+        return () => clearInterval(interval);
+      }, [text]);
+      return <span>{display}</span>;
     };
 
     function App() {
@@ -155,7 +175,7 @@
           const next = !isEng;
           setIsEng(next);
           safeSetStorage('fos_lang', next.toString());
-          setTerminalMsg(next ? '>> LANGUAGE OVERRIDE: ENGLISH ENGAGED.' : '>> 系統重構：粗野主義模式啟動。');
+          setTerminalMsg(next ? '>> LANGUAGE OVERRIDE: ENGLISH ENGAGED.' : '>> 系統重構：工業賽博龐克啟動。');
       };
       const t = (zh, en) => isEng ? en : zh;
 
@@ -167,7 +187,7 @@
       const [isSyncing, setIsSyncing] = useState(false);
       
       const isGasEnvironment = typeof google !== 'undefined' && google.script && google.script.run;
-      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - BRUTALISM V13.0.2`);
+      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - CYBER-BRUTALISM V14.0`);
       
       const [isPart9, setIsPart9] = useState(safeGetStorage('fos_isPart9', 'false') === 'true');
       const [escapeAmount, setEscapeAmount] = useState('');
@@ -233,28 +253,28 @@
         Chart.defaults.font.size = 18;
         Chart.defaults.font.family = 'monospace';
         Chart.defaults.font.weight = 'bold';
-        Chart.defaults.color = '#000';
+        Chart.defaults.color = '#cbd5e1';
 
         chartInstance.current = new Chart(ctx, {
           type: 'line',
           data: {
             labels: labels,
             datasets: [
-              { label: t('維持率 (MR %)', 'MR %'), data: mrData, borderColor: '#000', backgroundColor: '#3b82f6', borderWidth: 6, tension: 0, fill: false, yAxisID: 'y', pointBackgroundColor: '#facc15', pointBorderColor: '#000', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 },
-              { label: t('資金池 (P1 %)', 'P1 %'), data: p1Data, borderColor: '#000', borderWidth: 4, borderDash: [10, 10], tension: 0, fill: false, yAxisID: 'y1', pointBackgroundColor: '#a855f7', pointBorderColor: '#000', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 }
+              { label: t('維持率 (MR %)', 'MR %'), data: mrData, borderColor: '#10b981', backgroundColor: '#022c22', borderWidth: 6, tension: 0, fill: false, yAxisID: 'y', pointBackgroundColor: '#020617', pointBorderColor: '#10b981', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 },
+              { label: t('資金池 (P1 %)', 'P1 %'), data: p1Data, borderColor: '#a855f7', borderWidth: 4, borderDash: [10, 10], tension: 0, fill: false, yAxisID: 'y1', pointBackgroundColor: '#020617', pointBorderColor: '#a855f7', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 }
             ]
           },
           options: {
             responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             scales: {
-              x: { grid: { color: '#000', lineWidth: 2 }, ticks: { color: '#000' }, border: { color: '#000', width: 4 } },
-              y: { position: 'left', grid: { color: '#000', lineWidth: 2 }, title: { display: true, text: 'MR %', color: '#000', font: { size: 24, weight: '900' } }, border: { color: '#000', width: 4 } },
-              y1: { position: 'right', grid: { display: false }, title: { display: true, text: 'P1 %', color: '#000', font: { size: 24, weight: '900' } }, border: { color: '#000', width: 4 } }
+              x: { grid: { color: '#1e293b', lineWidth: 2 }, ticks: { color: '#94a3b8' }, border: { color: '#0ea5e9', width: 4 } },
+              y: { position: 'left', grid: { color: '#1e293b', lineWidth: 2 }, title: { display: true, text: 'MR %', color: '#10b981', font: { size: 24, weight: '900' } }, border: { color: '#0ea5e9', width: 4 } },
+              y1: { position: 'right', grid: { display: false }, title: { display: true, text: 'P1 %', color: '#a855f7', font: { size: 24, weight: '900' } }, border: { color: '#0ea5e9', width: 4 } }
             },
             plugins: { 
-              legend: { position: 'top', labels: { color: '#000', font: { size: 20, weight: 'bold' }, usePointStyle: true, boxWidth: 20 } },
-              tooltip: { backgroundColor: '#fff', titleColor: '#000', bodyColor: '#000', borderColor: '#000', borderWidth: 4, padding: 15, titleFont: { size: 20 }, bodyFont: { size: 18 }, cornerRadius: 0 } 
+              legend: { position: 'top', labels: { color: '#38bdf8', font: { size: 20, weight: 'bold' }, usePointStyle: true, boxWidth: 20 } },
+              tooltip: { backgroundColor: '#0f172a', titleColor: '#38bdf8', bodyColor: '#e2e8f0', borderColor: '#0ea5e9', borderWidth: 4, padding: 15, titleFont: { size: 20 }, bodyFont: { size: 18 }, cornerRadius: 0 } 
             }
           }
         });
@@ -295,7 +315,7 @@
         setIsSyncing(true); setTerminalMsg('>> SYNCING DATA...');
         try {
           const res = await gasAPI('saveCryptoMatrix', formData.p2Usdt, formData.btcAth, formData.ethAth);
-          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. BRUTALISM V13.0.2`), 3000); } 
+          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. CYBER-BRUTALISM V14.0`), 3000); } 
           else throw new Error();
         } catch (e) { setTerminalMsg('>> SYNC FAILED.'); setIsSyncing(false); }
       };
@@ -324,29 +344,27 @@
       const currentBtc = liveCrypto.BTC || 0; const currentEth = liveCrypto.ETH || 0;
       const ethBtcRatio = currentBtc > 0 ? (currentEth / currentBtc).toFixed(4) : '0.0000';
 
-      // === MISSING DRAWDOWN CALCULATION RESTORED ===
       const btcAth = parseFloat(formData.btcAth) || 1;
       const ethAth = parseFloat(formData.ethAth) || 1;
       const btcDrawdown = (currentBtc > 0 && btcAth > 0) ? (((currentBtc - btcAth) / btcAth) * 100).toFixed(2) : '0.00';
       const ethDrawdown = (currentEth > 0 && ethAth > 0) ? (((currentEth - ethAth) / ethAth) * 100).toFixed(2) : '0.00';
       
-      // CRASH RECOVERY: CRYPTO ACTIONS RESTORED
       const getCryptoAction = (asset, currentPrice, athPrice, drawdown) => {
         const dd = parseFloat(drawdown);
         const price = parseFloat(currentPrice);
         const ath = parseFloat(athPrice);
         
         if (price > 0 && ath > 0) {
-          if (price >= ath * 1.5) return { label: 'SHOT 3: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-white' };
-          if (price >= ath * 1.25) return { label: 'SHOT 2: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-white' };
-          if (price >= ath) return { label: 'SHOT 1: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-white' };
+          if (price >= ath * 1.5) return { label: 'SHOT 3: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-black border-red-700' };
+          if (price >= ath * 1.25) return { label: 'SHOT 2: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-black border-red-700' };
+          if (price >= ath) return { label: 'SHOT 1: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-black border-red-700' };
         }
 
-        if (dd <= -60) return { label: 'TIER 4 REBUY', msg: 'USE 30% P2', ui: 'bg-green-400 text-black', target: asset };
-        if (dd <= -50) return { label: 'TIER 3 REBUY', msg: 'USE 30% P2', ui: 'bg-green-400 text-black', target: asset };
-        if (dd <= -40) return { label: 'TIER 2 REBUY', msg: 'USE 20% P2', ui: 'bg-green-400 text-black', target: asset };
-        if (dd <= -30) return { label: 'TIER 1 REBUY', msg: 'USE 20% P2', ui: 'bg-green-400 text-black', target: asset };
-        return { label: 'DEFENDING', msg: 'HOLD & OBSERVE', ui: 'bg-gray-100 text-black', target: '' };
+        if (dd <= -60) return { label: 'TIER 4 REBUY', msg: 'USE 30% P2', ui: 'bg-emerald-500 text-black border-emerald-700', target: asset };
+        if (dd <= -50) return { label: 'TIER 3 REBUY', msg: 'USE 30% P2', ui: 'bg-emerald-500 text-black border-emerald-700', target: asset };
+        if (dd <= -40) return { label: 'TIER 2 REBUY', msg: 'USE 20% P2', ui: 'bg-emerald-500 text-black border-emerald-700', target: asset };
+        if (dd <= -30) return { label: 'TIER 1 REBUY', msg: 'USE 20% P2', ui: 'bg-emerald-500 text-black border-emerald-700', target: asset };
+        return { label: 'DEFENDING', msg: 'HOLD & OBSERVE', ui: 'bg-slate-800 text-slate-300 border-slate-600', target: '' };
       };
 
       const btcAction = getCryptoAction('BTC', currentBtc, formData.btcAth, btcDrawdown);
@@ -398,11 +416,11 @@
 
       const getMRZone = (mr) => {
         const val = parseFloat(mr);
-        if (val === 0) return { bg: 'bg-white', text: 'text-black', border: 'border-black', label: 'STANDBY' };
-        if (val >= 350) return { bg: 'bg-green-400', text: 'text-black', border: 'border-black', label: 'ZONE 1' };
-        if (val >= 330) return { bg: 'bg-yellow-400', text: 'text-black', border: 'border-black', label: 'ZONE 2' };
-        if (val >= 310) return { bg: 'bg-orange-500', text: 'text-black', border: 'border-black', label: 'ZONE 3' };
-        return { bg: 'bg-red-600', text: 'text-white', border: 'border-black', label: 'DANGER' };
+        if (val === 0) return { ui: 'c-panel-base', text: 'text-slate-500', label: 'STANDBY' };
+        if (val >= 350) return { ui: 'c-panel-emerald', text: 'neon-text-green text-emerald-400', label: 'ZONE 1' };
+        if (val >= 330) return { ui: 'c-panel-yellow', text: 'text-yellow-400', label: 'ZONE 2' };
+        if (val >= 310) return { ui: 'c-panel-red', text: 'text-orange-500', label: 'ZONE 3' };
+        return { ui: 'c-panel-red', text: 'neon-text-red text-red-500', label: 'DANGER' };
       };
 
       const qPrice = parseFloat(dualMaMatrix.qqqPrice); const qMa = parseFloat(dualMaMatrix.qqqMa);
@@ -410,76 +428,76 @@
       const qqqGap = (qPrice > 0 && qMa > 0) ? ((qPrice - qMa) / qMa) * 100 : 0;
       const tslaGap = (tPrice > 0 && tMa > 0) ? ((tPrice - tMa) / tMa) * 100 : 0;
 
-      let matrixStatus = { label: 'STANDBY', action: 'AWAITING...', bg: 'bg-white', color: 'text-black', target: 'NONE' };
+      let matrixStatus = { label: 'STANDBY', action: 'AWAITING...', ui: 'bg-slate-900 text-slate-500 border-slate-700', target: 'NONE' };
       if (!dualMaMatrix.isLoading && !dualMaMatrix.error && qPrice > 0) {
           if (qqqGap > 1) {
-              if (tslaGap > 1) matrixStatus = { label: 'DUAL IGNITION', action: '100% BUY TSLA', bg: 'bg-green-400', color: 'text-black', target: 'TSLA' };
-              else matrixStatus = { label: 'RIGHT SHIFT', action: '100% BUY TQQQ', bg: 'bg-yellow-400', color: 'text-black', target: 'TQQQ' };
-          } else matrixStatus = { label: 'FREEZE', action: '100% BUY QQQ', bg: 'bg-red-600', color: 'text-white', target: 'QQQ' };
-      } else if (dualMaMatrix.error) matrixStatus = { label: 'ERROR', action: dualMaMatrix.error, bg: 'bg-black', color: 'text-white', target: 'NONE' };
+              if (tslaGap > 1) matrixStatus = { label: 'DUAL IGNITION', action: '100% BUY TSLA', ui: 'bg-emerald-500 text-black border-emerald-600', target: 'TSLA' };
+              else matrixStatus = { label: 'RIGHT SHIFT', action: '100% BUY TQQQ', ui: 'bg-yellow-400 text-black border-yellow-600', target: 'TQQQ' };
+          } else matrixStatus = { label: 'FREEZE', action: '100% BUY QQQ', ui: 'bg-red-500 text-white border-red-700', target: 'QQQ' };
+      } else if (dualMaMatrix.error) matrixStatus = { label: 'ERROR', action: dualMaMatrix.error, ui: 'bg-black text-red-500 border-red-800', target: 'NONE' };
 
-      let consensusTarget = 'BTC'; let consensusColor = 'bg-white'; let consensusMsg = '...';
+      let consensusTarget = 'BTC'; let consensusColor = 'bg-slate-800 text-slate-400 border-slate-600'; let consensusMsg = '...';
       const ratioVal = parseFloat(ethBtcRatio);
-      if (ratioVal > 0.060) { consensusTarget = 'BTC'; consensusColor = 'bg-yellow-400'; consensusMsg = '> 0.060'; } 
-      else if (ratioVal >= 0.020 && ratioVal <= 0.060) { consensusTarget = 'ETH'; consensusColor = 'bg-blue-400 text-white'; consensusMsg = '0.020-0.060'; } 
-      else if (ratioVal > 0 && ratioVal < 0.020) { consensusTarget = 'BTC'; consensusColor = 'bg-black text-white'; consensusMsg = '< 0.020'; }
+      if (ratioVal > 0.060) { consensusTarget = 'BTC'; consensusColor = 'bg-yellow-500 text-black border-yellow-600'; consensusMsg = '> 0.060 (OVERHEATED)'; } 
+      else if (ratioVal >= 0.020 && ratioVal <= 0.060) { consensusTarget = 'ETH'; consensusColor = 'bg-cyan-500 text-black border-cyan-600'; consensusMsg = '0.020-0.060 (VALUE)'; } 
+      else if (ratioVal > 0 && ratioVal < 0.020) { consensusTarget = 'BTC'; consensusColor = 'bg-black text-cyan-400 border-cyan-800'; consensusMsg = '< 0.020 (FREEZE)'; }
 
       const escapeVal = parseFloat(escapeAmount) || 0;
       const stockInject = escapeVal * 0.8; const ethInject = escapeVal * 0.2; const mrVal = parseFloat(nominalMR);
 
       const handleCopyReport = () => {
         const report = `【A】\nMR: ${nominalMR}% | L: ${formatNumber(L)} | C: ${formatNumber(C)} | P1: ${p1Ratio}%\n【MATRIX】\nQQQ: ${dualMaMatrix.qqqPrice}/${dualMaMatrix.qqqMa}\nTSLA: ${dualMaMatrix.tslaPrice}/${dualMaMatrix.tslaMa}\nETH/BTC: ${ethBtcRatio}`;
-        navigator.clipboard.writeText(report).then(() => setTerminalMsg('>> COPIED.')).catch(() => setTerminalMsg('>> COPY FAILED.'));
+        navigator.clipboard.writeText(report).then(() => setTerminalMsg('>> REPORT COPIED.')).catch(() => setTerminalMsg('>> COPY FAILED.'));
       };
 
       return (
         <div className="max-w-[1800px] mx-auto px-4 md:px-10 space-y-12 pb-24">
           
-          <div className="marquee-container -mx-4 md:-mx-10 mb-8 border-t-[6px] border-b-[6px] border-black shadow-[0_8px_0_0_#000]">
-            <div className="marquee-content px-4">
-              [SYSTEM NOTIFICATION] // NEO-BRUTALISM ARCHITECTURE ACTIVE // AUTHORIZED BY CHANGSHENG LIU // FOS TERMINAL V13 // L/C BALANCE ENFORCED // 
-              [SYSTEM NOTIFICATION] // NEO-BRUTALISM ARCHITECTURE ACTIVE // AUTHORIZED BY CHANGSHENG LIU // FOS TERMINAL V13 // L/C BALANCE ENFORCED //
+          <div className="hazard-stripes -mx-4 md:-mx-10 mb-8 border-t-[4px] border-b-[4px] border-black shadow-[0_8px_0_0_#0ea5e9] text-black">
+            <div className="bg-yellow-400 px-4 py-2 font-black text-xl uppercase tracking-widest text-center border-y-4 border-black">
+              [SYSTEM NOTIFICATION] // CYBER-BRUTALISM ARCHITECTURE ACTIVE // AUTHORIZED BY CHANGSHENG LIU // FOS TERMINAL V14 //
             </div>
           </div>
 
           <div className="fixed bottom-8 right-8 z-[9999]">
-            <button onClick={handleCopyReport} className="brutal-btn w-20 h-20 bg-yellow-400 flex items-center justify-center text-4xl">📋</button>
+            <button onClick={handleCopyReport} className="c-btn c-btn-cyan w-20 h-20 flex items-center justify-center text-4xl shadow-[6px_6px_0_0_#000]">📋</button>
           </div>
 
-          <header className="brutal-panel p-8 md:p-12 mb-12 bg-white flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
-            <div>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-black uppercase border-b-8 border-black pb-4 mb-4">
-                FOS <span className="bg-black text-white px-4">V13</span>
+          <header className="c-panel-base c-panel-cyan p-8 md:p-12 mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 relative overflow-hidden">
+            <div className="absolute right-0 top-0 opacity-10 text-[15rem] font-black leading-none pointer-events-none -mt-16 -mr-8">V14</div>
+            <div className="relative z-10">
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase border-b-8 border-cyan-500 pb-4 mb-4 neon-text-cyan">
+                <ScrambleText text="FOS TERMINAL" />
               </h1>
-              <p className="text-xl font-bold text-black uppercase bg-yellow-400 inline-block px-4 py-1 border-2 border-black">{terminalMsg}</p>
+              <p className="text-xl font-bold uppercase bg-cyan-950 text-cyan-400 inline-block px-6 py-2 border-4 border-cyan-700">{terminalMsg}</p>
             </div>
             
-            <div className="flex flex-col items-end gap-6 w-full xl:w-auto">
+            <div className="flex flex-col items-end gap-6 w-full xl:w-auto relative z-10">
               <div className="flex flex-wrap items-center gap-6">
-                <button onClick={handleLangToggle} className="brutal-btn bg-white px-6 py-3 text-2xl font-black">{isEng ? 'EN' : '中'}</button>
-                <div className="flex items-center gap-4 bg-white border-4 border-black px-6 py-3 shadow-[4px_4px_0_0_#000]">
-                  <span className="text-2xl font-black uppercase">PART 9</span>
-                  <label className="cyber-toggle">
+                <button onClick={handleLangToggle} className="c-btn bg-slate-800 text-slate-100 border-slate-500 shadow-[6px_6px_0_0_#000] px-6 py-3 text-2xl font-black">{isEng ? 'EN' : '中'}</button>
+                <div className="flex items-center gap-4 bg-slate-900 border-4 border-cyan-500 px-6 py-3 shadow-[6px_6px_0_0_#000]">
+                  <span className="text-2xl font-black uppercase text-cyan-400">PART 9</span>
+                  <label className="c-toggle">
                     <input type="checkbox" checked={isPart9} onChange={() => { setIsPart9(!isPart9); safeSetStorage('fos_isPart9', (!isPart9).toString()); }} />
-                    <span className="cyber-slider"></span>
+                    <span className="c-slider"></span>
                   </label>
                 </div>
               </div>
               
               {isPart9 && (
-                <div className="w-full xl:w-[600px] brutal-panel p-8 bg-purple-200">
-                  <label className="text-3xl font-black uppercase mb-6 block border-b-4 border-black pb-2">80/20 INJECTION</label>
-                  <input type="number" value={escapeAmount} onChange={e => setEscapeAmount(e.target.value)} className="w-full brutal-input mb-6 text-center" placeholder="FIAT AMOUNT" />
+                <div className="w-full xl:w-[600px] c-panel-base c-panel-purple p-8 bg-slate-900">
+                  <label className="text-3xl font-black uppercase mb-6 block border-b-4 border-purple-500 pb-2 neon-text-purple"><ScrambleText text="80/20 INJECTION MATRIX" /></label>
+                  <input type="number" value={escapeAmount} onChange={e => setEscapeAmount(e.target.value)} className="w-full c-input mb-6 text-center text-3xl text-purple-400 focus:border-purple-400 focus:shadow-[4px_4px_0_0_#7e22ce]" placeholder="FIAT AMOUNT" />
                   
                   {escapeVal > 0 && (
                     <div className="grid grid-cols-2 gap-6">
-                      <div className="brutal-panel p-6 text-center bg-white">
-                        <div className="text-xl font-black mb-2 border-b-2 border-black pb-2">80% {matrixStatus.target === 'NONE' ? 'STOCK' : matrixStatus.target}</div>
-                        <div className="text-4xl font-black text-blue-600">{formatNumber(stockInject)}</div>
+                      <div className="border-4 border-slate-700 p-6 text-center bg-slate-950">
+                        <div className="text-xl font-black mb-2 border-b-2 border-slate-700 pb-2 text-slate-400">80% {matrixStatus.target === 'NONE' ? 'STOCK' : matrixStatus.target}</div>
+                        <div className="text-4xl font-black text-cyan-400 neon-text-cyan">{formatNumber(stockInject)}</div>
                       </div>
-                      <div className="brutal-panel p-6 text-center bg-white">
-                        <div className="text-xl font-black mb-2 border-b-2 border-black pb-2">20% {consensusTarget}</div>
-                        <div className="text-4xl font-black text-blue-600">{formatNumber(ethInject)}</div>
+                      <div className="border-4 border-slate-700 p-6 text-center bg-slate-950">
+                        <div className="text-xl font-black mb-2 border-b-2 border-slate-700 pb-2 text-slate-400">20% {consensusTarget}</div>
+                        <div className="text-4xl font-black text-purple-400 neon-text-purple">{formatNumber(ethInject)}</div>
                       </div>
                     </div>
                   )}
@@ -492,50 +510,51 @@
             <div className="xl:col-span-4 space-y-10">
               
               {/* === INPUT PANEL === */}
-              <div className="brutal-panel p-8 md:p-10 bg-white">
-                <div className="flex justify-between items-center mb-8 border-b-8 border-black pb-4">
-                  <h2 className="text-3xl font-black uppercase bg-black text-white px-4 py-1">{inputTab} INPUT</h2>
-                  <div className="flex border-4 border-black bg-white shadow-[4px_4px_0_0_#000]">
-                    <button onClick={() => setInputTab('A')} className={`px-6 py-2 text-2xl font-black ${inputTab === 'A' ? 'bg-black text-white' : 'hover:bg-gray-200'}`}>A</button>
-                    <button onClick={() => setInputTab('B')} className={`px-6 py-2 text-2xl font-black border-l-4 border-black ${inputTab === 'B' ? 'bg-black text-white' : 'hover:bg-gray-200'}`}>B</button>
+              <div className="c-panel-base border-cyan-500 shadow-[8px_8px_0_0_#0369a1] p-8 md:p-10">
+                <div className="flex justify-between items-center mb-8 border-b-4 border-slate-700 pb-6">
+                  <h2 className="text-3xl font-black uppercase text-cyan-400 neon-text-cyan">{inputTab} INPUT</h2>
+                  <div className="flex border-4 border-slate-700 bg-slate-950 shadow-[4px_4px_0_0_#000]">
+                    <button onClick={() => setInputTab('A')} className={`px-6 py-2 text-2xl font-black ${inputTab === 'A' ? 'bg-cyan-500 text-black' : 'text-slate-500 hover:text-cyan-400'}`}>A</button>
+                    <button onClick={() => setInputTab('B')} className={`px-6 py-2 text-2xl font-black border-l-4 border-slate-700 ${inputTab === 'B' ? 'bg-purple-500 text-black' : 'text-slate-500 hover:text-purple-400'}`}>B</button>
                   </div>
                 </div>
 
                 {inputTab === 'A' ? (
                   <div className="space-y-6">
-                    <div><label className="block text-xl font-black mb-2">L AMOUNT</label><input type="number" name="lAmount" value={formData.lAmount} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
+                    <div><label className="block text-xl font-black mb-2 text-slate-400">L AMOUNT</label><input type="number" name="lAmount" value={formData.lAmount} onChange={handleInputChange} className="w-full c-input" placeholder="0" /></div>
                     <div className="grid grid-cols-2 gap-6">
-                      <div><label className="block text-xl font-black mb-2">C 0050</label><input type="number" name="c0050" value={formData.c0050} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
-                      <div><label className="block text-xl font-black mb-2">C 00733</label><input type="number" name="c00733" value={formData.c00733} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-slate-400">C 0050</label><input type="number" name="c0050" value={formData.c0050} onChange={handleInputChange} className="w-full c-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-slate-400">C 00733</label><input type="number" name="c00733" value={formData.c00733} onChange={handleInputChange} className="w-full c-input" placeholder="0" /></div>
                     </div>
-                    <div><label className="block text-xl font-black mb-2">P1 (00675L)</label><input type="number" name="p1Value" value={formData.p1Value} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
-                    <button type="button" onClick={handleSave} className="w-full brutal-btn bg-red-500 text-white text-4xl py-6 mt-6">INJECT A</button>
+                    <div><label className="block text-xl font-black mb-2 text-purple-400">P1 (00675L)</label><input type="number" name="p1Value" value={formData.p1Value} onChange={handleInputChange} className="w-full c-input text-purple-400 focus:border-purple-400 focus:shadow-[4px_4px_0_0_#7e22ce]" placeholder="0" /></div>
+                    <button type="button" onClick={handleSave} className="w-full c-btn c-btn-red text-4xl py-6 mt-6">INJECT A</button>
                   </div>
                 ) : (
                   <div className="space-y-6">
-                    <div className="flex justify-between items-center bg-gray-200 p-4 border-4 border-black">
-                       <span className="font-black text-xl">RATE</span>
-                       <input type="number" name="usdRate" value={formDataB.usdRate} onChange={handleInputBChange} className="w-32 brutal-input p-2 text-center" />
+                    <div className="flex justify-between items-center bg-slate-900 p-4 border-4 border-slate-700">
+                       <span className="font-black text-xl text-slate-400">USD RATE</span>
+                       <input type="number" name="usdRate" value={formDataB.usdRate} onChange={handleInputBChange} className="w-32 c-input p-2 text-center" />
                     </div>
                     <div className="grid grid-cols-2 gap-6">
-                      <div><label className="block text-xl font-black mb-2">TSLA</label><input type="number" name="tsla" value={formDataB.tsla} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
-                      <div><label className="block text-xl font-black mb-2">QQQ</label><input type="number" name="qqq" value={formDataB.qqq} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
-                      <div><label className="block text-xl font-black mb-2">TQQQ</label><input type="number" name="tqqq" value={formDataB.tqqq} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
-                      <div><label className="block text-xl font-black mb-2">QLD</label><input type="number" name="qld" value={formDataB.qld} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
-                      <div><label className="block text-xl font-black mb-2">ETH</label><input type="number" name="eth" value={formDataB.eth} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
-                      <div><label className="block text-xl font-black mb-2">BTC</label><input type="number" name="btc" value={formDataB.btc} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-slate-400">TSLA</label><input type="number" name="tsla" value={formDataB.tsla} onChange={handleInputBChange} className="w-full c-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-slate-400">QQQ</label><input type="number" name="qqq" value={formDataB.qqq} onChange={handleInputBChange} className="w-full c-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-slate-400">TQQQ</label><input type="number" name="tqqq" value={formDataB.tqqq} onChange={handleInputBChange} className="w-full c-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-purple-400">QLD</label><input type="number" name="qld" value={formDataB.qld} onChange={handleInputBChange} className="w-full c-input text-purple-400 focus:border-purple-400" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-cyan-400">ETH</label><input type="number" name="eth" value={formDataB.eth} onChange={handleInputBChange} className="w-full c-input text-cyan-400 focus:border-cyan-400" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2 text-yellow-400">BTC</label><input type="number" name="btc" value={formDataB.btc} onChange={handleInputBChange} className="w-full c-input text-yellow-400 focus:border-yellow-400 focus:shadow-[4px_4px_0_0_#ca8a04]" placeholder="0" /></div>
                     </div>
-                    <button type="button" onClick={handleSaveB} className="w-full brutal-btn bg-blue-500 text-white text-4xl py-6 mt-6">INJECT B</button>
+                    <button type="button" onClick={handleSaveB} className="w-full c-btn c-btn-cyan text-4xl py-6 mt-6">INJECT B</button>
                   </div>
                 )}
               </div>
 
               {/* LIQUIDITY DEFENSE */}
-              <div className="brutal-panel p-8 md:p-10 bg-yellow-400">
-                <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-6">LIQUIDITY DEFENSE</h2>
-                <div className="mb-6"><label className="block text-2xl font-black mb-2">WITHDRAW (FIAT)</label><input type="number" name="emergencyWithdrawal" value={formData.emergencyWithdrawal} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
+              <div className="c-panel-base c-panel-red p-8 md:p-10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 hazard-stripes-red w-full h-4 opacity-50"></div>
+                <h2 className="text-3xl font-black uppercase border-b-4 border-red-500 pb-4 mb-6 neon-text-red pt-4"><ScrambleText text="LIQUIDITY DEFENSE" /></h2>
+                <div className="mb-6"><label className="block text-2xl font-black mb-2 text-red-200">WITHDRAW (FIAT)</label><input type="number" name="emergencyWithdrawal" value={formData.emergencyWithdrawal} onChange={handleInputChange} className="w-full c-input c-input-danger" placeholder="0" /></div>
                 {hdpResult && (
-                  <div className={`p-6 border-4 border-black font-black text-xl ${hdpResult.status === 'danger' ? 'bg-red-500 text-white' : 'bg-white text-black'}`}>
+                  <div className={`p-6 border-4 font-black text-xl ${hdpResult.status === 'danger' ? 'bg-red-950 border-red-500 text-red-400 neon-text-red shadow-[inset_0_0_20px_#ef4444]' : 'bg-slate-900 border-slate-600 text-slate-300'}`}>
                     {hdpResult.msg}
                   </div>
                 )}
@@ -547,168 +566,168 @@
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 {/* NOMINAL MR */}
-                <div className={`brutal-panel p-10 flex flex-col justify-between ${getMRZone(nominalMR).bg} ${getMRZone(nominalMR).text}`}>
-                  <h2 className="text-3xl font-black uppercase border-b-8 border-current pb-4">NOMINAL MR</h2>
-                  <div className="text-8xl md:text-9xl font-black tracking-tighter mt-12 mb-8">{nominalMR}%</div>
-                  <div className="text-4xl font-black uppercase bg-black text-white inline-block px-6 py-2 self-start border-4 border-white">{getMRZone(nominalMR).label}</div>
+                <div className={`c-panel-base p-10 flex flex-col justify-between ${getMRZone(nominalMR).ui}`}>
+                  <h2 className="text-3xl font-black uppercase border-b-4 border-current pb-4"><ScrambleText text="NOMINAL MR" /></h2>
+                  <div className={`text-8xl md:text-9xl font-black tracking-tighter mt-12 mb-8 ${getMRZone(nominalMR).text}`}>{nominalMR}%</div>
+                  <div className="text-4xl font-black uppercase bg-slate-950 text-white inline-block px-6 py-2 self-start border-4 border-current tracking-widest">{getMRZone(nominalMR).label}</div>
                 </div>
 
                 {/* CRASH RESISTANCE MATRIX */}
-                <div className={`brutal-panel p-10 bg-white`}>
-                  <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-8">CRASH RESISTANCE</h2>
+                <div className={`c-panel-base border-slate-600 shadow-[8px_8px_0_0_#1e293b] p-10`}>
+                  <h2 className="text-3xl font-black uppercase border-b-4 border-slate-600 pb-4 mb-8 text-slate-300"><ScrambleText text="CRASH RESISTANCE" /></h2>
                   <div className="grid grid-cols-3 gap-4 mb-8">
-                    <div className="border-4 border-black p-2 text-center bg-gray-100">
-                      <div className="font-black text-sm">0050 β</div>
-                      <input type="number" step="0.01" name="b0050" value={betaConfig.b0050} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none" />
+                    <div className="border-4 border-slate-600 p-2 text-center bg-slate-900">
+                      <div className="font-black text-sm text-slate-400">0050 β</div>
+                      <input type="number" step="0.01" name="b0050" value={betaConfig.b0050} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none text-emerald-400" />
                     </div>
-                    <div className="border-4 border-black p-2 text-center bg-gray-100">
-                      <div className="font-black text-sm">00733 β</div>
-                      <input type="number" step="0.01" name="b00733" value={betaConfig.b00733} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none" />
+                    <div className="border-4 border-slate-600 p-2 text-center bg-slate-900">
+                      <div className="font-black text-sm text-slate-400">00733 β</div>
+                      <input type="number" step="0.01" name="b00733" value={betaConfig.b00733} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none text-emerald-400" />
                     </div>
-                    <div className="border-4 border-black p-2 text-center bg-red-200">
-                      <div className="font-black text-sm text-red-600">LIMIT</div>
-                      <input type="number" name="mrLimit" value={betaConfig.mrLimit} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none text-red-600" />
+                    <div className="border-4 border-red-900 p-2 text-center bg-red-950/30">
+                      <div className="font-black text-sm text-red-500">LIMIT</div>
+                      <input type="number" name="mrLimit" value={betaConfig.mrLimit} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none text-red-500 neon-text-red" />
                     </div>
                   </div>
                   
-                  <div className={`border-8 border-black p-8 text-center ${isCrashSafe ? 'bg-green-400' : 'bg-red-500 text-white'}`}>
-                    <div className="text-2xl font-black mb-2 uppercase">MAX DROP</div>
+                  <div className={`border-4 p-8 text-center bg-slate-950 ${isCrashSafe ? 'border-emerald-500 shadow-[inset_0_0_20px_#10b981]' : 'border-red-500 shadow-[inset_0_0_30px_#ef4444]'}`}>
+                    <div className="text-2xl font-black mb-2 uppercase text-slate-400">MAX DROP</div>
                     {C > 0 && L > 0 ? (
-                      <div className="text-7xl font-black">
+                      <div className={`text-7xl font-black ${isCrashSafe ? 'text-emerald-400 neon-text-green' : 'text-red-500 neon-text-red'}`}>
                         {isCrashSafe ? `-${maxMarketDrop.toFixed(2)}%` : 'BREACHED'}
                       </div>
                     ) : (
-                      <div className="text-4xl font-black mt-4">N/A</div>
+                      <div className="text-4xl font-black mt-4 text-slate-600">N/A</div>
                     )}
                   </div>
                 </div>
               </div>
 
               {/* 1:1 BALANCE & P1 */}
-              <div className="brutal-panel p-10 bg-white">
+              <div className="c-panel-base border-slate-600 shadow-[8px_8px_0_0_#1e293b] p-10 bg-slate-900">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div>
-                    <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-6">1:1 BALANCE</h2>
-                    <div className="border-4 border-black p-6 bg-gray-100 flex justify-between items-center mb-4">
-                      <span className="text-2xl font-black">DIFF</span>
-                      <span className="text-3xl font-black">{formatNumber(diffValue)}</span>
+                    <h2 className="text-3xl font-black uppercase border-b-4 border-slate-600 pb-4 mb-6 text-slate-300">1:1 BALANCE</h2>
+                    <div className="border-4 border-slate-700 p-6 bg-slate-950 flex justify-between items-center mb-4">
+                      <span className="text-2xl font-black text-slate-500">DIFF</span>
+                      <span className="text-3xl font-black text-slate-200">{formatNumber(diffValue)}</span>
                     </div>
-                    <div className="border-4 border-black p-6 bg-blue-500 text-white flex justify-between items-center">
-                      <span className="text-2xl font-black">TARGET</span>
-                      <span className="text-4xl font-black">{targetInjection}</span>
+                    <div className="border-4 border-cyan-600 p-6 bg-cyan-950 flex justify-between items-center shadow-[inset_0_0_15px_#0891b2]">
+                      <span className="text-2xl font-black text-cyan-500">TARGET</span>
+                      <span className="text-4xl font-black text-cyan-300 neon-text-cyan">{targetInjection}</span>
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-6">P1 POOL</h2>
-                    <div className={`border-8 border-black p-8 text-center mb-4 ${parseFloat(p1Ratio) < 33.3 ? 'bg-red-500 text-white' : 'bg-purple-400 text-black'}`}>
+                    <h2 className="text-3xl font-black uppercase border-b-4 border-slate-600 pb-4 mb-6 text-slate-300">P1 POOL</h2>
+                    <div className={`border-4 p-8 text-center mb-4 shadow-[inset_0_0_20px_currentColor] bg-slate-950 ${parseFloat(p1Ratio) < 33.3 ? 'border-red-500 text-red-500 neon-text-red' : 'border-purple-500 text-purple-400 neon-text-purple'}`}>
                       <span className="text-7xl font-black">{p1Ratio}%</span>
                     </div>
-                    <div className="flex justify-between font-black text-xl px-2">
-                       <span>DEATH: {formatNumber(L*0.0606)}</span>
-                       <span>1/3: {formatNumber(L/3)}</span>
+                    <div className="flex justify-between font-black text-xl px-2 text-slate-400">
+                       <span className="text-red-500">DEATH: {formatNumber(L*0.0606)}</span>
+                       <span className="text-emerald-500">1/3: {formatNumber(L/3)}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* DUAL-MA MATRIX */}
-              <div className="brutal-panel bg-white p-0 overflow-hidden">
-                <div className="bg-black text-white p-6 md:p-8 flex justify-between items-center">
-                  <h2 className="text-3xl font-black uppercase">DUAL-MA MATRIX</h2>
-                  <button onClick={fetchDualMaMatrix} className="brutal-btn bg-white text-black px-4 py-2 text-xl">REFRESH</button>
+              <div className="c-panel-base border-blue-500 shadow-[8px_8px_0_0_#1e3a8a] p-0 overflow-hidden">
+                <div className="bg-slate-950 border-b-4 border-blue-900 p-6 md:p-8 flex justify-between items-center">
+                  <h2 className="text-3xl font-black uppercase text-blue-400 neon-text-blue"><ScrambleText text="DUAL-MA MATRIX" /></h2>
+                  <button onClick={fetchDualMaMatrix} className="c-btn border-blue-500 bg-slate-900 text-blue-400 px-4 py-2 text-xl shadow-[4px_4px_0_0_#1e3a8a]">REFRESH</button>
                 </div>
-                <div className="p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="border-4 border-black p-6 bg-gray-100">
-                    <div className="text-xl font-black mb-4 uppercase">QQQ MACRO</div>
-                    <div className="text-4xl font-black mb-2">{dualMaMatrix.qqqPrice} <span className="text-2xl">/ {dualMaMatrix.qqqMa}</span></div>
-                    <div className={`text-2xl font-black ${qqqGap > 1 ? 'text-green-600' : qqqGap < -1 ? 'text-red-600' : 'text-black'}`}>{qqqGap > 0 ? '+' : ''}{qqqGap.toFixed(2)}%</div>
+                <div className="p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-900">
+                  <div className="border-4 border-slate-700 p-6 bg-slate-950">
+                    <div className="text-xl font-black mb-4 uppercase text-slate-500">QQQ MACRO</div>
+                    <div className="text-4xl font-black mb-2 text-slate-200">{dualMaMatrix.qqqPrice} <span className="text-2xl text-slate-500">/ {dualMaMatrix.qqqMa}</span></div>
+                    <div className={`text-2xl font-black ${qqqGap > 1 ? 'text-emerald-400' : qqqGap < -1 ? 'text-red-500' : 'text-slate-400'}`}>{qqqGap > 0 ? '+' : ''}{qqqGap.toFixed(2)}%</div>
                   </div>
-                  <div className="border-4 border-black p-6 bg-gray-100">
-                    <div className="text-xl font-black mb-4 uppercase">TSLA MOMENTUM</div>
-                    <div className="text-4xl font-black mb-2">{dualMaMatrix.tslaPrice} <span className="text-2xl">/ {dualMaMatrix.tslaMa}</span></div>
-                    <div className={`text-2xl font-black ${tslaGap > 1 ? 'text-green-600' : tslaGap < -1 ? 'text-red-600' : 'text-black'}`}>{tslaGap > 0 ? '+' : ''}{tslaGap.toFixed(2)}%</div>
+                  <div className="border-4 border-slate-700 p-6 bg-slate-950">
+                    <div className="text-xl font-black mb-4 uppercase text-slate-500">TSLA MOMENTUM</div>
+                    <div className="text-4xl font-black mb-2 text-slate-200">{dualMaMatrix.tslaPrice} <span className="text-2xl text-slate-500">/ {dualMaMatrix.tslaMa}</span></div>
+                    <div className={`text-2xl font-black ${tslaGap > 1 ? 'text-emerald-400' : tslaGap < -1 ? 'text-red-500' : 'text-slate-400'}`}>{tslaGap > 0 ? '+' : ''}{tslaGap.toFixed(2)}%</div>
                   </div>
                 </div>
-                <div className={`p-8 border-t-8 border-black text-center ${matrixStatus.bg} ${matrixStatus.color}`}>
+                <div className={`p-8 border-t-4 text-center ${matrixStatus.ui}`}>
                   <div className="text-5xl font-black mb-4 uppercase">{matrixStatus.label}</div>
-                  <div className="text-3xl font-black bg-black text-white inline-block px-8 py-3 border-4 border-current">{matrixStatus.action}</div>
+                  <div className="text-3xl font-black bg-slate-950 text-white inline-block px-8 py-3 border-4 border-current tracking-widest">{matrixStatus.action}</div>
                 </div>
               </div>
 
               {/* CRYPTO MODULE */}
-              <div className="brutal-panel bg-white p-0 overflow-hidden">
-                <div className="bg-black text-white p-6 flex flex-wrap justify-between items-center gap-4">
-                  <h2 className="text-3xl font-black uppercase">CRYPTO 3-STATE</h2>
-                  <button onClick={handleSyncCrypto} className="brutal-btn bg-cyan-400 text-black px-6 py-2 text-xl">SYNC P2/ATH</button>
+              <div className="c-panel-base border-cyan-500 shadow-[8px_8px_0_0_#164e63] p-0 overflow-hidden">
+                <div className="bg-slate-950 border-b-4 border-cyan-900 p-6 flex flex-wrap justify-between items-center gap-4">
+                  <h2 className="text-3xl font-black uppercase text-cyan-400 neon-text-cyan"><ScrambleText text="CRYPTO 3-STATE" /></h2>
+                  <button onClick={handleSyncCrypto} className="c-btn border-cyan-500 bg-slate-900 text-cyan-400 px-6 py-2 text-xl shadow-[4px_4px_0_0_#164e63]">SYNC P2/ATH</button>
                 </div>
-                <div className={`p-6 border-b-8 border-black text-center text-3xl font-black uppercase ${consensusColor}`}>
+                <div className={`p-6 border-b-4 text-center text-3xl font-black uppercase ${consensusColor}`}>
                    CONSENSUS: {consensusTarget} ({consensusMsg})
                 </div>
-                <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="border-4 border-black p-6 bg-gray-50 flex flex-col">
-                    <div className="flex justify-between items-center mb-6 border-b-4 border-black pb-4">
-                      <span className="text-3xl font-black">BTC</span>
-                      <span className="text-xl font-black cursor-pointer bg-black text-white px-2" onClick={() => updateAth('BTC')}>ATH: {btcAth}</span>
+                <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8 bg-slate-900">
+                  <div className="border-4 border-slate-700 p-6 bg-slate-950 flex flex-col shadow-[inset_0_0_20px_rgba(0,0,0,1)]">
+                    <div className="flex justify-between items-center mb-6 border-b-4 border-slate-800 pb-4">
+                      <span className="text-3xl font-black text-yellow-500">BTC</span>
+                      <span className="text-xl font-black cursor-pointer bg-slate-800 text-slate-300 px-2 border-2 border-slate-600 hover:text-cyan-400" onClick={() => updateAth('BTC')}>ATH: {btcAth}</span>
                     </div>
-                    <div className="text-6xl font-black mb-4">${liveCrypto.BTC > 0 ? liveCrypto.BTC.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
-                    <div className="text-3xl font-black text-red-600 mb-8">{btcDrawdown}%</div>
-                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black ${btcAction.ui}`}>
+                    <div className="text-6xl font-black mb-4 text-slate-100">${liveCrypto.BTC > 0 ? liveCrypto.BTC.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
+                    <div className="text-3xl font-black text-red-500 neon-text-red mb-8">{btcDrawdown}%</div>
+                    <div className={`mt-auto p-4 border-4 text-center text-2xl font-black ${btcAction.ui}`}>
                       {btcAction.label}<br/><span className="text-xl mt-2 block">{btcAction.msg}</span>
                     </div>
                   </div>
-                  <div className="border-4 border-black p-6 bg-gray-50 flex flex-col">
-                    <div className="flex justify-between items-center mb-6 border-b-4 border-black pb-4">
-                      <span className="text-3xl font-black">ETH</span>
-                      <span className="text-xl font-black cursor-pointer bg-black text-white px-2" onClick={() => updateAth('ETH')}>ATH: {ethAth}</span>
+                  <div className="border-4 border-slate-700 p-6 bg-slate-950 flex flex-col shadow-[inset_0_0_20px_rgba(0,0,0,1)]">
+                    <div className="flex justify-between items-center mb-6 border-b-4 border-slate-800 pb-4">
+                      <span className="text-3xl font-black text-cyan-500">ETH</span>
+                      <span className="text-xl font-black cursor-pointer bg-slate-800 text-slate-300 px-2 border-2 border-slate-600 hover:text-cyan-400" onClick={() => updateAth('ETH')}>ATH: {ethAth}</span>
                     </div>
-                    <div className="text-6xl font-black mb-4">${liveCrypto.ETH > 0 ? liveCrypto.ETH.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
-                    <div className="text-3xl font-black text-red-600 mb-8">{ethDrawdown}%</div>
-                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black ${ethAction.ui}`}>
+                    <div className="text-6xl font-black mb-4 text-slate-100">${liveCrypto.ETH > 0 ? liveCrypto.ETH.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
+                    <div className="text-3xl font-black text-red-500 neon-text-red mb-8">{ethDrawdown}%</div>
+                    <div className={`mt-auto p-4 border-4 text-center text-2xl font-black ${ethAction.ui}`}>
                       {ethAction.label}<br/><span className="text-xl mt-2 block">{ethAction.msg}</span>
                     </div>
                   </div>
                 </div>
-                <div className="bg-gray-200 p-8 border-t-8 border-black flex justify-between items-center">
-                  <span className="text-3xl font-black uppercase">P2 (USDT)</span>
-                  <input type="number" name="p2Usdt" value={formData.p2Usdt} onChange={handleInputChange} className="w-64 brutal-input text-right" />
+                <div className="bg-slate-950 p-8 border-t-4 border-cyan-900 flex justify-between items-center">
+                  <span className="text-3xl font-black uppercase text-cyan-500">P2 (USDT)</span>
+                  <input type="number" name="p2Usdt" value={formData.p2Usdt} onChange={handleInputChange} className="w-64 c-input text-right text-cyan-300" />
                 </div>
               </div>
 
               {/* RADAR CHART */}
-              <div className="brutal-panel p-10 bg-white h-[600px] flex flex-col">
-                <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-8">RADAR (LAST 10)</h2>
+              <div className="c-panel-base border-slate-600 shadow-[8px_8px_0_0_#1e293b] p-10 bg-slate-900 h-[600px] flex flex-col">
+                <h2 className="text-3xl font-black uppercase border-b-4 border-slate-700 pb-4 mb-8 text-slate-300"><ScrambleText text="RADAR (LAST 10)" /></h2>
                 <div className="w-full flex-1 relative"><canvas ref={chartRef}></canvas></div>
               </div>
 
               {/* HISTORY MATRIX */}
-              <div className="brutal-panel p-0 bg-white overflow-hidden">
-                <h2 className="text-3xl font-black uppercase bg-black text-white p-6">HISTORY MATRIX</h2>
+              <div className="c-panel-base border-slate-600 shadow-[8px_8px_0_0_#1e293b] p-0 bg-slate-900 overflow-hidden">
+                <h2 className="text-3xl font-black uppercase bg-slate-950 border-b-4 border-slate-800 text-slate-300 p-6"><ScrambleText text="HISTORY MATRIX" /></h2>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left whitespace-nowrap text-xl font-black">
                     <thead>
-                      <tr className="bg-gray-200 border-b-4 border-black uppercase">
-                        <th className="p-4 border-r-2 border-black">TIME</th>
-                        <th className="p-4 border-r-2 border-black text-right">L</th>
-                        <th className="p-4 border-r-2 border-black text-right">C50</th>
-                        <th className="p-4 border-r-2 border-black text-right">C733</th>
-                        <th className="p-4 border-r-2 border-black text-right">P1</th>
-                        <th className="p-4 border-r-2 border-black text-right">MR%</th>
-                        <th className="p-4 border-r-2 border-black text-right">P1%</th>
+                      <tr className="bg-slate-800 border-b-4 border-slate-950 uppercase text-slate-400">
+                        <th className="p-4 border-r-4 border-slate-950">TIME</th>
+                        <th className="p-4 border-r-4 border-slate-950 text-right">L</th>
+                        <th className="p-4 border-r-4 border-slate-950 text-right">C50</th>
+                        <th className="p-4 border-r-4 border-slate-950 text-right">C733</th>
+                        <th className="p-4 border-r-4 border-slate-950 text-right">P1</th>
+                        <th className="p-4 border-r-4 border-slate-950 text-right">MR%</th>
+                        <th className="p-4 border-r-4 border-slate-950 text-right">P1%</th>
                         <th className="p-4 text-center">ACT</th>
                       </tr>
                     </thead>
                     <tbody>
                       {history.map((item, idx) => (
-                        <tr key={idx} className="border-b-2 border-gray-300 hover:bg-yellow-200 transition-colors">
-                          <td className="p-4 border-r-2 border-black">{item.dateId}</td>
-                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.lAmount)}</td>
-                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.c0050)}</td>
-                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.c00733)}</td>
-                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.p1Value)}</td>
-                          <td className="p-4 border-r-2 border-black text-right">{item.nominalMR}%</td>
-                          <td className="p-4 border-r-2 border-black text-right text-purple-600">{item.p1Ratio}%</td>
+                        <tr key={idx} className="border-b-4 border-slate-950 hover:bg-slate-800 transition-colors text-slate-300">
+                          <td className="p-4 border-r-4 border-slate-950 text-cyan-400">{item.dateId}</td>
+                          <td className="p-4 border-r-4 border-slate-950 text-right">{formatNumber(item.lAmount)}</td>
+                          <td className="p-4 border-r-4 border-slate-950 text-right">{formatNumber(item.c0050)}</td>
+                          <td className="p-4 border-r-4 border-slate-950 text-right">{formatNumber(item.c00733)}</td>
+                          <td className="p-4 border-r-4 border-slate-950 text-right">{formatNumber(item.p1Value)}</td>
+                          <td className="p-4 border-r-4 border-slate-950 text-right text-emerald-400">{item.nominalMR}%</td>
+                          <td className="p-4 border-r-4 border-slate-950 text-right text-purple-400">{item.p1Ratio}%</td>
                           <td className="p-4 text-center">
-                            <button onClick={() => handleDelete(item.dateId)} className="bg-red-500 text-white px-4 py-2 border-2 border-black hover:bg-black hover:text-white transition-colors">DEL</button>
+                            <button onClick={() => handleDelete(item.dateId)} className="bg-slate-950 text-red-500 px-4 py-2 border-2 border-red-900 hover:bg-red-500 hover:text-black transition-colors">DEL</button>
                           </td>
                         </tr>
                       ))}
@@ -721,7 +740,7 @@
           </div>
           
           <div className="text-center mt-20">
-            <div className="inline-block bg-black text-white text-3xl font-black uppercase tracking-widest px-12 py-6 shadow-[8px_8px_0_0_#facc15] border-4 border-black hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all">
+            <div className="inline-block bg-slate-950 text-slate-500 text-3xl font-black uppercase tracking-widest px-12 py-6 shadow-[8px_8px_0_0_#0ea5e9] border-4 border-sky-500 hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all">
               AUTHORIZED BY CHANGSHENG LIU
             </div>
           </div>
