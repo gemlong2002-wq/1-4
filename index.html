@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
-  <title>FOS Boss Terminal v13.0 (Neo-Brutalism Architecture)</title>
+  <title>FOS Boss Terminal v13.0.1 (Neo-Brutalism Hotfix)</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -167,11 +167,10 @@
       const [isSyncing, setIsSyncing] = useState(false);
       
       const isGasEnvironment = typeof google !== 'undefined' && google.script && google.script.run;
-      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - BRUTALISM V13`);
+      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - BRUTALISM V13.0.1`);
       
       const [isPart9, setIsPart9] = useState(safeGetStorage('fos_isPart9', 'false') === 'true');
       const [escapeAmount, setEscapeAmount] = useState('');
-      const [showHelp, setShowHelp] = useState(false); 
       
       const [liveCrypto, setLiveCrypto] = useState({ BTC: 0, ETH: 0 });
       const [dualMaMatrix, setDualMaMatrix] = useState({ qqqPrice: '0.00', qqqMa: '0.00', tslaPrice: '0.00', tslaMa: '0.00', isLoading: true, error: null });
@@ -296,7 +295,7 @@
         setIsSyncing(true); setTerminalMsg('>> SYNCING DATA...');
         try {
           const res = await gasAPI('saveCryptoMatrix', formData.p2Usdt, formData.btcAth, formData.ethAth);
-          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. BRUTALISM V13`), 3000); } 
+          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. BRUTALISM V13.0.1`), 3000); } 
           else throw new Error();
         } catch (e) { setTerminalMsg('>> SYNC FAILED.'); setIsSyncing(false); }
       };
@@ -325,6 +324,28 @@
       const currentBtc = liveCrypto.BTC || 0; const currentEth = liveCrypto.ETH || 0;
       const ethBtcRatio = currentBtc > 0 ? (currentEth / currentBtc).toFixed(4) : '0.0000';
       
+      // CRASH RECOVERY: CRYPTO ACTIONS RESTORED
+      const getCryptoAction = (asset, currentPrice, athPrice, drawdown) => {
+        const dd = parseFloat(drawdown);
+        const price = parseFloat(currentPrice);
+        const ath = parseFloat(athPrice);
+        
+        if (price > 0 && ath > 0) {
+          if (price >= ath * 1.5) return { label: 'SHOT 3: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-white' };
+          if (price >= ath * 1.25) return { label: 'SHOT 2: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-white' };
+          if (price >= ath) return { label: 'SHOT 1: LOCK', msg: 'SELL 10% → P2', ui: 'bg-red-500 text-white' };
+        }
+
+        if (dd <= -60) return { label: 'TIER 4 REBUY', msg: 'USE 30% P2', ui: 'bg-green-400 text-black', target: asset };
+        if (dd <= -50) return { label: 'TIER 3 REBUY', msg: 'USE 30% P2', ui: 'bg-green-400 text-black', target: asset };
+        if (dd <= -40) return { label: 'TIER 2 REBUY', msg: 'USE 20% P2', ui: 'bg-green-400 text-black', target: asset };
+        if (dd <= -30) return { label: 'TIER 1 REBUY', msg: 'USE 20% P2', ui: 'bg-green-400 text-black', target: asset };
+        return { label: 'DEFENDING', msg: 'HOLD & OBSERVE', ui: 'bg-gray-100 text-black', target: '' };
+      };
+
+      const btcAction = getCryptoAction('BTC', currentBtc, formData.btcAth, btcDrawdown);
+      const ethAction = getCryptoAction('ETH', currentEth, formData.ethAth, ethDrawdown);
+
       const diffValue = Math.abs(c0050 - c00733);
       let targetInjection = t('已平衡', 'BALANCED');
       if (c0050 > 0 || c00733 > 0) { if (c0050 < c00733) targetInjection = '0050'; else if (c00733 < c0050) targetInjection = '00733'; }
@@ -390,10 +411,6 @@
               else matrixStatus = { label: 'RIGHT SHIFT', action: '100% BUY TQQQ', bg: 'bg-yellow-400', color: 'text-black', target: 'TQQQ' };
           } else matrixStatus = { label: 'FREEZE', action: '100% BUY QQQ', bg: 'bg-red-600', color: 'text-white', target: 'QQQ' };
       } else if (dualMaMatrix.error) matrixStatus = { label: 'ERROR', action: dualMaMatrix.error, bg: 'bg-black', color: 'text-white', target: 'NONE' };
-
-      const btcAth = parseFloat(formData.btcAth) || 1; const ethAth = parseFloat(formData.ethAth) || 1;
-      const btcDrawdown = (currentBtc > 0 && btcAth > 0) ? (((currentBtc - btcAth) / btcAth) * 100).toFixed(2) : '0.00';
-      const ethDrawdown = (currentEth > 0 && ethAth > 0) ? (((currentEth - ethAth) / ethAth) * 100).toFixed(2) : '0.00';
 
       let consensusTarget = 'BTC'; let consensusColor = 'bg-white'; let consensusMsg = '...';
       const ratioVal = parseFloat(ethBtcRatio);
@@ -629,7 +646,7 @@
                     </div>
                     <div className="text-6xl font-black mb-4">${liveCrypto.BTC > 0 ? liveCrypto.BTC.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
                     <div className="text-3xl font-black text-red-600 mb-8">{btcDrawdown}%</div>
-                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black bg-white`}>
+                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black ${btcAction.ui}`}>
                       {btcAction.label}<br/><span className="text-xl mt-2 block">{btcAction.msg}</span>
                     </div>
                   </div>
@@ -640,7 +657,7 @@
                     </div>
                     <div className="text-6xl font-black mb-4">${liveCrypto.ETH > 0 ? liveCrypto.ETH.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
                     <div className="text-3xl font-black text-red-600 mb-8">{ethDrawdown}%</div>
-                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black bg-white`}>
+                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black ${ethAction.ui}`}>
                       {ethAction.label}<br/><span className="text-xl mt-2 block">{ethAction.msg}</span>
                     </div>
                   </div>
