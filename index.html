@@ -1,0 +1,1426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-TW" translate="no"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="google" content="notranslate"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;FOS Boss Terminal v12.1.1 (Dual-Node Overdrive)&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>tailwind.config = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>theme: {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>extend: {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>fontFamily: { mono: ['Consolas', 'Monaco', 'Courier New', 'monospace'] },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>animation: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'danger-flash': 'dangerFlash 1.2s infinite ease-in-out',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'action-pulse': 'actionPulse 1.5s infinite alternate',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'matrix-glow': 'matrixGlow 2s infinite alternate',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'blob': 'blob 15s infinite alternate ease-in-out',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'text-shimmer': 'textShimmer 3s ease-in-out infinite alternate',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>'spin-slow': 'spin 3s linear infinite',</p>
+<p class="p1"><span class="Apple-converted-space">          </span>},</p>
+<p class="p1"><span class="Apple-converted-space">          </span>keyframes: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>dangerFlash: { '0%, 100%': { opacity: '1', backgroundColor: 'rgba(185,28,28,0.95)', textShadow: '0 0 10px rgba(255,255,255,0.5)' }, '50%': { opacity: '0.85', backgroundColor: 'rgba(220,38,38,1)', textShadow: 'none' } },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>actionPulse: { '0%': { opacity: '1', transform: 'scale(1)' }, '100%': { opacity: '0.9', transform: 'scale(0.98)' } },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>matrixGlow: { '0%': { boxShadow: '0 0 10px rgba(168,85,247,0.2)' }, '100%': { boxShadow: '0 0 30px rgba(168,85,247,0.8)' } },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '100%': { transform: 'translate(40px, -40px) scale(1.15)' } },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>textShimmer: { '0%': { backgroundPosition: '0% 50%' }, '100%': { backgroundPosition: '100% 50%' } }</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar { width: 16px; height: 16px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar-track { background: #020617; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; border: 3px solid #020617; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>::-webkit-scrollbar-thumb:hover { background: #475569; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.solid-panel {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>background-color: rgba(15, 23, 42, 0.85);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>backdrop-filter: blur(25px);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>-webkit-backdrop-filter: blur(25px);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 1px solid rgba(51, 65, 85, 0.8);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 12px 40px -5px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.glass-input {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(2, 6, 23, 0.8);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid rgba(71, 85, 105, 0.8);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>padding: 1.25rem 1.5rem;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transition: all 0.3s ease;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #f8fafc;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.glass-input:focus {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(2, 6, 23, 1);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-color: rgba(168, 85, 247, 0.9);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>outline: none;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.neon-text-emerald { text-shadow: 0 0 20px rgba(16, 185, 129, 0.8), 0 0 40px rgba(16, 185, 129, 0.4); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.neon-text-amber { text-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 0 40px rgba(245, 158, 11, 0.4); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.neon-text-purple { text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.4); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.neon-text-cyan { text-shadow: 0 0 20px rgba(34, 211, 238, 0.8), 0 0 40px rgba(34, 211, 238, 0.4); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.neon-text-red { text-shadow: 0 0 25px rgba(239, 68, 68, 0.9), 0 0 50px rgba(239, 68, 68, 0.6); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.neon-text-blue { text-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.4); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.cyber-toggle { position: relative; display: inline-block; width: 80px; height: 40px; flex-shrink: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.cyber-toggle input { opacity: 0; width: 0; height: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.cyber-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.8); border: 2px solid #334155; border-radius: 40px; transition: .4s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.cyber-slider:before { position: absolute; content: ""; height: 32px; width: 32px; left: 2px; bottom: 2px; background-color: #64748b; border-radius: 50%; transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 2px 5px rgba(0,0,0,0.5); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input:checked + .cyber-slider { background-color: rgba(168, 85, 247, 0.2); border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), inset 0 0 10px rgba(168, 85, 247, 0.2); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>input:checked + .cyber-slider:before { transform: translateX(40px); background-color: #d8b4fe; box-shadow: 0 0 20px #c084fc, 0 0 30px #a855f7; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.scanlines { background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.15)); background-size: 100% 4px; pointer-events: none; z-index: 5; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.custom-scrollbar::-webkit-scrollbar { height: 10px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.custom-scrollbar::-webkit-scrollbar-track { background: rgba(2, 6, 23, 0.5); border-radius: 5px; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 5px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.glitch-effect { animation: glitchAnim 0.3s infinite; pointer-events: none; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>@keyframes glitchAnim {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>0% { transform: translate(3px, 3px); filter: hue-rotate(90deg) contrast(150%); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>25% { transform: translate(-3px, -3px); filter: invert(0.8); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>50% { transform: translate(3px, -3px); opacity: 0.7; }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>75% { transform: translate(-3px, 3px); filter: blur(3px); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>100% { transform: translate(0); }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>#fos-webgl-bg { display: block; width: 100%; height: 100%; outline: none; }</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-slate-950 text-slate-100 font-mono min-h-screen relative overflow-x-hidden pt-12 pb-20 selection:bg-emerald-500/30 text-lg md:text-xl"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;canvas id="fos-webgl-bg" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"&gt;&lt;/canvas&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="pointer-events-none fixed inset-0 z-[2] overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] animate-blob"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="absolute bottom-[-10%] right-[-10%] w-[45%] h-[45%] bg-emerald-900/15 rounded-full blur-[120px] animate-blob" style="animation-delay: 2s; animation-direction: reverse;"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.04),rgba(0,255,0,0.01),rgba(0,0,255,0.04))] bg-[length:100%_4px,3px_100%]"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="fixed inset-0 scanlines"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="root" class="relative z-10"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://unpkg.com/three@0.160.0/build/three.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1">(function () {</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var canvas = document.getElementById('fos-webgl-bg');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (!canvas || typeof THREE === 'undefined') return;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var scene = new THREE.Scene();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var camera = new THREE.PerspectiveCamera(55, window.innerWidth / Math.max(window.innerHeight, 1), 0.1, 200);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>camera.position.set(0, 1.2, 5.8);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>camera.lookAt(0, 0.2, 0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderer.setSize(window.innerWidth, window.innerHeight, false);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>renderer.setClearColor(0x000000, 0);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var count = 4200;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var positions = new Float32Array(count * 3);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var depths = new Float32Array(count);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>for (var i = 0; i &lt; count; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>var ix = i * 3;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>positions[ix] = (Math.random() - 0.5) * 22;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>positions[ix + 1] = (Math.random() - 0.5) * 14;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>positions[ix + 2] = (Math.random() - 0.5) * 18;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>depths[i] = Math.random();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var particlesGeo = new THREE.BufferGeometry();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>particlesGeo.setAttribute('aDepth', new THREE.BufferAttribute(depths, 1));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var particleMat = new THREE.ShaderMaterial({</p>
+<p class="p1"><span class="Apple-converted-space">    </span>transparent: true,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>depthWrite: false,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>blending: THREE.AdditiveBlending,</p>
+<p class="p1"><span class="Apple-converted-space">    </span>uniforms: {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>uTime: { value: 0 },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>uColorA: { value: new THREE.Color(0x34d399) },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>uColorB: { value: new THREE.Color(0xa855f7) }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>},</p>
+<p class="p1"><span class="Apple-converted-space">    </span>vertexShader: [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'attribute float aDepth;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'uniform float uTime;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'varying float vDepth;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'void main() {',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>vDepth = aDepth;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>vec3 p = position;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>p.y += sin(uTime * 0.35 + position.x * 0.4) * 0.08;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>p.x += cos(uTime * 0.28 + position.z * 0.35) * 0.06;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>vec4 mv = modelViewMatrix * vec4(p, 1.0);',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>gl_Position = projectionMatrix * mv;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>float s = mix(1.4, 3.2, aDepth);',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>gl_PointSize = s * (220.0 / max(-mv.z, 0.5));',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'}'</p>
+<p class="p1"><span class="Apple-converted-space">    </span>].join('\n'),</p>
+<p class="p1"><span class="Apple-converted-space">    </span>fragmentShader: [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'uniform vec3 uColorA;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'uniform vec3 uColorB;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'varying float vDepth;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'void main() {',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>vec2 c = gl_PointCoord - 0.5;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>float r = length(c);',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>if (r &gt; 0.5) discard;',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>float glow = smoothstep(0.5, 0.0, r);',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>vec3 col = mix(uColorA, uColorB, vDepth);',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'<span class="Apple-converted-space">  </span>gl_FragColor = vec4(col, glow * mix(0.12, 0.38, vDepth));',</p>
+<p class="p1"><span class="Apple-converted-space">      </span>'}'</p>
+<p class="p1"><span class="Apple-converted-space">    </span>].join('\n')</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var particles = new THREE.Points(particlesGeo, particleMat);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>scene.add(particles);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var grid = new THREE.GridHelper(28, 56, 0x64748b, 0x1e293b);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grid.position.y = -2.1;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if (grid.material &amp;&amp; grid.material.length) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid.material[0].transparent = true;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid.material[0].opacity = 0.22;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid.material[1].transparent = true;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid.material[1].opacity = 0.12;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>scene.add(grid);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var wireGeo = new THREE.IcosahedronGeometry(1.15, 1);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var wireMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.08 });</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var wireOrb = new THREE.Mesh(wireGeo, wireMat);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>wireOrb.position.set(-5.5, 0.45, -3);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>scene.add(wireOrb);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>var paused = reduced;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>document.addEventListener('visibilitychange', function () {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>paused = reduced || document.hidden;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>var t = 0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function animate() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>requestAnimationFrame(animate);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (paused) return;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>t += 0.0012;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>particleMat.uniforms.uTime.value = t * 1000 * 0.001;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>particles.rotation.y = t * 0.18;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>particles.rotation.x = Math.sin(t * 0.5) * 0.06;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>grid.rotation.y = t * 0.035;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>wireOrb.rotation.x = t * 0.22;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>wireOrb.rotation.y = t * 0.31;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderer.render(scene, camera);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>animate();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>window.addEventListener('resize', function () {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>var w = window.innerWidth;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>var h = Math.max(window.innerHeight, 1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>camera.aspect = w / h;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>camera.updateProjectionMatrix();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderer.setSize(w, h, false);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>});</p>
+<p class="p1">})();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script type="text/babel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const { useState, useEffect, useRef, useMemo } = React;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const safeGetStorage = (key, defVal) =&gt; { try { return localStorage.getItem(key) || defVal; } catch(e) { return defVal; } };</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const safeSetStorage = (key, val) =&gt; { try { localStorage.setItem(key, val); } catch(e) {} };</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// === SMART DUAL-NODE API ROUTER (雙軌智能路由) ===</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const GAS_URL = 'https://script.google.com/macros/s/AKfycbxWnT6COS2NuL5LmtRZql5UmvEHcFDEtdha2SY5-NI3RBjHxV5xz0oUWlQL1M7P-0GN/exec';</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const gasAPI = (serverFunction, ...args) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return new Promise((resolve, reject) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// [節點 A] 偵測為 GAS 原生環境：啟動原生光速 RPC 引擎，免 CORS 防阻擋</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (typeof google !== 'undefined' &amp;&amp; google.script &amp;&amp; google.script.run) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>google.script.run</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.withSuccessHandler(resolve)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>.withFailureHandler(reject)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>[serverFunction](...args);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// [節點 B] 偵測為 GitHub / Local 外部環境：啟動 Fetch POST 跨域打擊</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>fetch(GAS_URL, {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>headers: { 'Content-Type': 'text/plain;charset=utf-8' },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>redirect: 'follow',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>body: JSON.stringify({ action: serverFunction, args: args })</p>
+<p class="p1"><span class="Apple-converted-space">          </span>})</p>
+<p class="p1"><span class="Apple-converted-space">          </span>.then(res =&gt; res.json())</p>
+<p class="p1"><span class="Apple-converted-space">          </span>.then(data =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (data.error) reject(new Error(data.message));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>else resolve(data);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>})</p>
+<p class="p1"><span class="Apple-converted-space">          </span>.catch(err =&gt; reject(err));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const ScrambleText = ({ text }) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [display, setDisplay] = useState(text);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>useEffect(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (!text || text === '0') { setDisplay(text); return; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let iteration = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&amp;*";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const strText = String(text);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const interval = setInterval(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setDisplay(strText.split("").map((letter, index) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(index &lt; iteration) return strText[index];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return chars[Math.floor(Math.random() * chars.length)];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}).join(""));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if(iteration &gt;= strText.length) clearInterval(interval);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>iteration += 1/2;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}, 35);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return () =&gt; clearInterval(interval);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}, [text]);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>return &lt;span&gt;{display}&lt;/span&gt;;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function App() {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [isEng, setIsEng] = useState(safeGetStorage('fos_lang', 'false') === 'true');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleLangToggle = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const next = !isEng;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setIsEng(next);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>safeSetStorage('fos_lang', next.toString());</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTerminalMsg(next ? '&gt;&gt; LANGUAGE OVERRIDE: ENGLISH ENGAGED.' : '&gt;&gt; 系統重構：中文模式啟動。');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const t = (zh, en) =&gt; isEng ? en : zh;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [inputTab, setInputTab] = useState('A');<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [formDataB, setFormDataB] = useState({<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>tsla: '', qqq: '', tqqq: '', qld: '', eth: '', btc: '',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>usdRate: safeGetStorage('fos_usdRate', '32.5')</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [formData, setFormData] = useState({<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>lAmount: '', c0050: '', c00733: '', p1Value: '',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>p2Usdt: '0', btcAth: '73906.00', ethAth: '4956.62',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>emergencyWithdrawal: ''<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [simData, setSimData] = useState({ lChange: '', cChange: '' });</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [history, setHistory] = useState([]);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [isGlitching, setIsGlitching] = useState(false);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [isSyncing, setIsSyncing] = useState(false);</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const isGasEnvironment = typeof google !== 'undefined' &amp;&amp; google.script &amp;&amp; google.script.run;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED ENGINE]'} ENGAGED.`);</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [isPart9, setIsPart9] = useState(safeGetStorage('fos_isPart9', 'false') === 'true');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [escapeAmount, setEscapeAmount] = useState('');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [showHelp, setShowHelp] = useState(false);<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [liveCrypto, setLiveCrypto] = useState({ BTC: 0, ETH: 0 });</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [dualMaMatrix, setDualMaMatrix] = useState({ qqqPrice: '0.00', qqqMa: '0.00', tslaPrice: '0.00', tslaMa: '0.00', isLoading: true, error: null });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// === CRASH RESISTANCE MATRIX (抗跌裝甲核心) ===</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const [betaConfig, setBetaConfig] = useState({ b0050: '1.0', b00733: '1.35', mrLimit: '130' });</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleBetaChange = (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { name, value } = e.target;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setBetaConfig(prev =&gt; ({ ...prev, [name]: value }));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const chartRef = useRef(null);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const chartInstance = useRef(null);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>useEffect(() =&gt; {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetchHistory();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetchHistoryB();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetchDualMaMatrix();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetchCryptoConfig();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}, []);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const fetchCryptoConfig = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('getCryptoMatrix');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setFormData(p =&gt; ({ ...p, p2Usdt: res.p2Usdt, btcAth: res.btcAth, ethAth: res.ethAth }));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (e) {}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const fetchDualMaMatrix = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setDualMaMatrix(prev =&gt; ({ ...prev, isLoading: true, error: null }));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('getDualMaMatrix');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setDualMaMatrix({ qqqPrice: res.qqqPrice, qqqMa: res.qqqMa, tslaPrice: res.tslaPrice, tslaMa: res.tslaMa, isLoading: false, error: null });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTerminalMsg('&gt;&gt; DUAL-MA ENGINE SYNCHRONIZED.');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setDualMaMatrix(prev =&gt; ({ ...prev, isLoading: false, error: res.message }));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setDualMaMatrix(prev =&gt; ({ ...prev, isLoading: false, error: '後端連線失敗，請檢查跨域權限' }));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>useEffect(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fetchCrypto = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [btcRes, ethRes] = await Promise.all([</p>
+<p class="p1"><span class="Apple-converted-space">              </span>fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),</p>
+<p class="p1"><span class="Apple-converted-space">              </span>fetch('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT')</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const btcData = await btcRes.json();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const ethData = await ethRes.json();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setLiveCrypto({ BTC: parseFloat(btcData.price), ETH: parseFloat(ethData.price) });</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} catch (e) {}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>fetchCrypto();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const interval = setInterval(fetchCrypto, 10000);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>return () =&gt; clearInterval(interval);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}, []);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>useEffect(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (!chartRef.current || history.length === 0) return;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const chartData = [...history].reverse();</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const labels = chartData.map(item =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const rawDate = String(item.dateId || '');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const cleanStr = rawDate.replace('(同步中) ', '').replace('(SYNCING) ', '');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const parts = cleanStr.split(' ')[0].split('/');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if(parts.length &gt;= 2) return parts.slice(-2).join('/');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return cleanStr.substring(0, 5);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} catch(e) { return 'N/A'; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const mrData = chartData.map(item =&gt; parseFloat(item.nominalMR || 0));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const p1Data = chartData.map(item =&gt; parseFloat(item.p1Ratio || 0));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (chartInstance.current) chartInstance.current.destroy();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ctx = chartRef.current.getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const gradientMR = ctx.createLinearGradient(0, 0, 0, 300);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>gradientMR.addColorStop(0, 'rgba(52, 211, 153, 0.4)');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>gradientMR.addColorStop(1, 'rgba(52, 211, 153, 0)');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>Chart.defaults.font.size = 18;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>Chart.defaults.color = '#94a3b8';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>chartInstance.current = new Chart(ctx, {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>type: 'line',</p>
+<p class="p1"><span class="Apple-converted-space">          </span>data: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>labels: labels,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>datasets: [</p>
+<p class="p1"><span class="Apple-converted-space">              </span>{ label: t('維持率 (MR %)', 'MR %'), data: mrData, borderColor: '#34d399', backgroundColor: gradientMR, borderWidth: 4, tension: 0.4, fill: true, yAxisID: 'y', pointBackgroundColor: '#020617', pointBorderColor: '#34d399', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 },</p>
+<p class="p1"><span class="Apple-converted-space">              </span>{ label: t('資金池 (P1 %)', 'P1 %'), data: p1Data, borderColor: '#a855f7', borderWidth: 4, borderDash: [6, 6], tension: 0.4, fill: false, yAxisID: 'y1', pointBackgroundColor: '#020617', pointBorderColor: '#a855f7', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]</p>
+<p class="p1"><span class="Apple-converted-space">          </span>},</p>
+<p class="p1"><span class="Apple-converted-space">          </span>options: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>responsive: true, maintainAspectRatio: false,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>interaction: { mode: 'index', intersect: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>scales: {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { font: { size: 16, family: 'monospace' }, color: '#64748b' } },</p>
+<p class="p1"><span class="Apple-converted-space">              </span>y: { position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: 'MR %', color: '#34d399', font: { size: 20, weight: 'bold' } }, ticks: { font: { size: 18, family: 'monospace' }, color: '#34d399' } },</p>
+<p class="p1"><span class="Apple-converted-space">              </span>y1: { position: 'right', grid: { display: false }, title: { display: true, text: 'P1 %', color: '#a855f7', font: { size: 20, weight: 'bold' } }, ticks: { font: { size: 18, family: 'monospace' }, color: '#a855f7' } }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>plugins: {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">              </span>legend: { position: 'top', labels: { color: '#cbd5e1', font: { size: 20, weight: 'bold' }, usePointStyle: true, boxWidth: 16 } },</p>
+<p class="p1"><span class="Apple-converted-space">              </span>tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.95)', titleColor: '#f8fafc', bodyColor: '#cbd5e1', borderColor: 'rgba(52, 211, 153, 0.5)', borderWidth: 3, padding: 20, titleFont: { size: 20 }, bodyFont: { size: 18 } }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}, [history, isEng]);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const fetchHistory = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('getHistoryData');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success &amp;&amp; res.data.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setHistory(res.data);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const latest = res.data[0];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setFormData(prev =&gt; ({</p>
+<p class="p1"><span class="Apple-converted-space">              </span>...prev,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>lAmount: prev.lAmount || latest.lAmount,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>c0050: prev.c0050 || latest.c0050,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>c00733: prev.c00733 || latest.c00733,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>p1Value: prev.p1Value || latest.p1Value</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (err) { console.error('History Fetch Failed', err); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const fetchHistoryB = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('getHistoryDataB');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success &amp;&amp; res.data &amp;&amp; Object.keys(res.data).length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setFormDataB(prev =&gt; ({</p>
+<p class="p1"><span class="Apple-converted-space">              </span>...prev,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>tsla: res.data.tsla ?? prev.tsla,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>qqq: res.data.qqq ?? prev.qqq,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>tqqq: res.data.tqqq ?? prev.tqqq,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>qld: res.data.qld ?? prev.qld,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>eth: res.data.eth ?? prev.eth,</p>
+<p class="p1"><span class="Apple-converted-space">              </span>btc: res.data.btc ?? prev.btc</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (err) {}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleInputChange = (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { name, value } = e.target;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setFormData(prev =&gt; ({ ...prev, [name]: value }));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleInputBChange = (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { name, value } = e.target;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setFormDataB(prev =&gt; ({ ...prev, [name]: value }));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (name === 'usdRate') safeSetStorage('fos_usdRate', value);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleSimChange = (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { name, value } = e.target;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setSimData(prev =&gt; ({ ...prev, [name]: value }));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const updateAth = (coin) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const currentAth = coin === 'BTC' ? formData.btcAth : formData.ethAth;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const newVal = window.prompt(`[SYS.ADMIN] Override ${coin} ATH:`, currentAth);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if(newVal &amp;&amp; !isNaN(newVal) &amp;&amp; newVal.trim() !== '') {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>setFormData(p =&gt; ({...p, [coin === 'BTC' ? 'btcAth' : 'ethAth']: newVal}));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const triggerGlitch = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setIsGlitching(true);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTimeout(() =&gt; setIsGlitching(false), 800);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleSyncCrypto = async () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setIsSyncing(true);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTerminalMsg('&gt;&gt; UPLOADING CRYPTO MATRIX CONFIG TO CLOUD...');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('saveCryptoMatrix', formData.p2Usdt, formData.btcAth, formData.ethAth);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setIsSyncing(false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTerminalMsg('&gt;&gt; CRYPTO MATRIX SYNCHRONIZED ACROSS DEVICES 🔒.');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; setTerminalMsg(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED ENGINE]'} ENGAGED.`), 4000);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} else throw new Error();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>triggerGlitch();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTerminalMsg('&gt;&gt; [SYSTEM ERROR] CLOUD SYNC FAILED.');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setIsSyncing(false);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// ==== 核心運算變數 ====</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const L = parseFloat(formData.lAmount) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const c0050 = parseFloat(formData.c0050) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const c00733 = parseFloat(formData.c00733) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const C = c0050 + c00733;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const P1 = parseFloat(formData.p1Value) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const nominalMR = L &gt; 0 ? ((C / L) * 100).toFixed(2) : '0.00';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const p1Ratio = L &gt; 0 ? ((P1 / L) * 100).toFixed(2) : '0.00';</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>// CRASH RESISTANCE MATRIX COMPUTATION</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const b0050Val = parseFloat(betaConfig.b0050) || 1.0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const b00733Val = parseFloat(betaConfig.b00733) || 1.35;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const limitMRVal = parseFloat(betaConfig.mrLimit) || 130;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let portfolioBeta = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let maxMarketDrop = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (C &gt; 0 &amp;&amp; L &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>portfolioBeta = ((c0050 * b0050Val) + (c00733 * b00733Val)) / C;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const maxCollateralDrop = (C - (limitMRVal / 100) * L) / C;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>maxMarketDrop = (maxCollateralDrop / portfolioBeta) * 100;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const isCrashSafe = maxMarketDrop &gt; 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const currentBtc = liveCrypto.BTC || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const currentEth = liveCrypto.ETH || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ethBtcRatio = currentBtc &gt; 0 ? (currentEth / currentBtc).toFixed(4) : '0.0000';</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const diffValue = Math.abs(c0050 - c00733);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let targetInjection = t('已平衡', 'BALANCED');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (c0050 &gt; 0 || c00733 &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (c0050 &lt; c00733) targetInjection = '0050';</p>
+<p class="p1"><span class="Apple-converted-space">          </span>else if (c00733 &lt; c0050) targetInjection = '00733';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const L_Sim = Math.max(0, L + (parseFloat(simData.lChange) || 0));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const C_Sim = Math.max(0, C + (parseFloat(simData.cChange) || 0));</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const simMR = L_Sim &gt; 0 ? ((C_Sim / L_Sim) * 100).toFixed(2) : '0.00';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const withdrawE = parseFloat(formData.emergencyWithdrawal) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let hdpResult = null;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (withdrawE &gt; 0 &amp;&amp; L &gt; 0 &amp;&amp; C &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const psac = L - (C - withdrawE) / 3.3;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const newL = L - psac;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const newP1 = P1 - psac;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const finalDeathLine = newL * 0.0606;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (psac &lt;= 0) hdpResult = { status: 'safe', msg: t('維持率極高，無須犧牲 P1 即可退券變現。', 'MR is extremely high. Safe to cash out without sacrificing P1.'), psac: 0 };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if (newP1 &lt; finalDeathLine) hdpResult = { status: 'danger', msg: t(`💀 代價過高！執行後 P1 擊穿 6.06% 死亡線。禁止執行！`, `💀 Cost too high! P1 drops below 6.06% deathline. ABORT!`), psac };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else hdpResult = { status: 'ok', msg: t(`✅ 請犧牲 P1 還款 ${psac.toLocaleString('en-US', {maximumFractionDigits:0})}，即可安全退券。`, `✅ Sacrifice P1 by ${psac.toLocaleString('en-US', {maximumFractionDigits:0})} to safely withdraw.`), psac };</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const formatNumber = (num) =&gt; isNaN(parseFloat(num)) ? '0' : parseFloat(num).toLocaleString('en-US', {maximumFractionDigits: 0});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleSave = async (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (L &lt;= 0 || C &lt;= 0) { setTerminalMsg('BOSS 警告：L 與 C 不可為 0。'); return; }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const previousHistory = [...history];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const timezoneOffset = (new Date()).getTimezoneOffset() * 60000;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const localISOTime = (new Date(Date.now() - timezoneOffset)).toISOString().replace('T', ' ').slice(0, 19).replace(/-/g, '/');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const payload = {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>lAmount: L, c0050, c00733, p1Value: P1,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>btcPrice: currentBtc, ethPrice: currentEth, p2Usdt: formData.p2Usdt,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>nominalMR, p1Ratio, ethBtcRatio: ethBtcRatio</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const optimisticRecord = { dateId: `(${isEng ? 'SYNCING' : '同步中'}) ${localISOTime}`, ...payload };</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>setHistory([optimisticRecord, ...history].slice(0, 10));<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTerminalMsg('&gt;&gt; LOCAL STATE UPDATED. SILENT SYNC ENGAGED...');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('saveFOSData', payload);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success) {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>fetchHistory();<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">             </span>setTerminalMsg('&gt;&gt; MAINFRAME SYNC COMPLETE.');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} else throw new Error();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setHistory(previousHistory);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>triggerGlitch();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTerminalMsg('&gt;&gt; [SYSTEM ERROR] DATA SYNC FAILED. STATE ROLLBACK.');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleSaveB = async (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTerminalMsg('&gt;&gt; SAVING B ACCOUNT DATA...');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('saveFOSDataB', formDataB);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success) {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>fetchHistoryB();</p>
+<p class="p1"><span class="Apple-converted-space">             </span>setTerminalMsg('&gt;&gt; B ACCOUNT O(1) SYNC COMPLETE.');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} else throw new Error();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>triggerGlitch();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTerminalMsg('&gt;&gt; [SYSTEM ERROR] B ACCOUNT SYNC FAILED.');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleDelete = async (dateId) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (!window.confirm(t(`BOSS 抹除確認: ${dateId}`, `CONFIRM ERASE: ${dateId}`))) return;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const previousHistory = [...history];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>setHistory(history.filter(item =&gt; item.dateId !== dateId));<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>setTerminalMsg('&gt;&gt; RECORD ERASED LOCALLY. SILENT SYNC...');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const res = await gasAPI('deleteFOSData', dateId);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (res.success) setTerminalMsg('&gt;&gt; MAINFRAME ERASE COMPLETE.');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>else throw new Error();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setHistory(previousHistory);<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>triggerGlitch();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTerminalMsg('&gt;&gt; [SYSTEM ERROR] ERASE FAILED. STATE ROLLBACK.');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const getMRZone = (mr) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const val = parseFloat(mr);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (val === 0) return { border: 'border-slate-800', text: 'text-slate-500', bg: 'bg-slate-900', title: t('待命中', 'STANDBY') };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (val &gt;= 350) return { border: 'border-emerald-500/80 shadow-[0_0_30px_rgba(16,185,129,0.3)]', text: 'text-emerald-400 neon-text-emerald', bg: 'bg-emerald-950/40', title: t('🟢 第一區 (≥350%)', '🟢 ZONE 1 (≥350%)') };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (val &gt;= 330) return { border: 'border-yellow-500/80 shadow-[0_0_30px_rgba(234,179,8,0.3)]', text: 'text-yellow-400 neon-text-amber', bg: 'bg-yellow-900/20', title: t('🟡 第二區 (330%-349%)', '🟡 ZONE 2 (330-349%)') };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (val &gt;= 310) return { border: 'border-orange-500/80 shadow-[0_0_30px_rgba(249,115,22,0.3)]', text: 'text-orange-500 neon-text-amber', bg: 'bg-orange-950/40', title: t('🟠 第三區 (310%-329%)', '🟠 ZONE 3 (310-329%)') };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return { border: 'border-red-600 shadow-[0_0_40px_rgba(220,38,38,0.5)]', text: 'text-red-500 neon-text-red', bg: 'bg-red-950/60', title: t('🔴 危險區 (&lt;310%)', '🔴 DANGER (&lt;310%)') };</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const qPrice = parseFloat(dualMaMatrix.qqqPrice);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const qMa = parseFloat(dualMaMatrix.qqqMa);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const tPrice = parseFloat(dualMaMatrix.tslaPrice);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const tMa = parseFloat(dualMaMatrix.tslaMa);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const qqqGap = (qPrice &gt; 0 &amp;&amp; qMa &gt; 0) ? ((qPrice - qMa) / qMa) * 100 : 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const tslaGap = (tPrice &gt; 0 &amp;&amp; tMa &gt; 0) ? ((tPrice - tMa) / tMa) * 100 : 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let matrixStatus = { label: t('待命中', 'STANDBY'), action: t('等待引擎連線...', 'AWAITING CONNECTION...'), bg: 'bg-slate-900/50', color: 'text-slate-500', target: 'NONE' };</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (!dualMaMatrix.isLoading &amp;&amp; !dualMaMatrix.error &amp;&amp; qPrice &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (qqqGap &gt; 1) {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>if (tslaGap &gt; 1) {</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>matrixStatus = { label: t('🟢 雙引擎點火', '🟢 DUAL IGNITION'), action: t('大盤個股皆強勢突破。100% 買入 TSLA', 'Both index and stock broke out. 100% BUY TSLA'), bg: 'bg-emerald-950/40 border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.3)]', color: 'text-emerald-400 neon-text-emerald', target: 'TSLA' };</p>
+<p class="p1"><span class="Apple-converted-space">              </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>matrixStatus = { label: t('🟡 右側代班', '🟡 RIGHT SIDE SHIFT'), action: t('大盤強勢，但個股偏弱或盤整。100% 買入 TQQQ', 'Index strong, stock weak/ranging. 100% BUY TQQQ'), bg: 'bg-yellow-950/40 border-yellow-500/50 shadow-[0_0_30px_rgba(234,179,8,0.3)]', color: 'text-yellow-400 neon-text-amber', target: 'TQQQ' };</p>
+<p class="p1"><span class="Apple-converted-space">              </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>matrixStatus = { label: t('🔴 絕對冰凍', '🔴 ABSOLUTE FREEZE'), action: t('大盤跌破均線或進入盤整。強制 100% 買入 QQQ', 'Index below MA or ranging. 100% BUY QQQ'), bg: 'bg-red-950/40 border-red-500/50 shadow-[0_0_30px_rgba(220,38,38,0.3)]', color: 'text-red-400 neon-text-red', target: 'QQQ' };</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else if (dualMaMatrix.error) {</p>
+<p class="p1"><span class="Apple-converted-space">           </span>matrixStatus = { label: '⚠️ ERROR', action: dualMaMatrix.error, bg: 'bg-red-950/30 border-red-800', color: 'text-red-400 neon-text-red', target: 'NONE' };</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const renderRadar = (title, price, ma, gap) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let textCol = 'text-slate-400';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let arrow = '➖';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(gap &gt; 1) { textCol = 'text-emerald-400 neon-text-emerald'; arrow = '▲'; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if(gap &lt; -1) { textCol = 'text-red-400 neon-text-red'; arrow = '▼'; }</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div className={`bg-slate-900/80 p-6 md:p-8 rounded-2xl border-2 ${gap &gt; 1 ? 'border-emerald-900/50' : 'border-red-900/50'} flex flex-col justify-center items-center w-full relative z-10 shadow-[0_0_15px_rgba(51,65,85,0.5)]`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span className="text-xl text-slate-500 font-bold uppercase mb-4 tracking-widest"&gt;{title} {t('雷達', 'RADAR')}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="flex items-end gap-3 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span className="text-5xl font-mono font-black text-white"&gt;{price}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span className="text-xl font-bold text-slate-500 mb-1"&gt;/ {ma}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className={`text-2xl font-black tracking-widest mt-2 flex items-center gap-2 ${textCol}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;span&gt;{arrow} {gap &gt; 0 ? '+' : ''}{gap.toFixed(2)}%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>{Math.abs(gap) &lt;= 1 &amp;&amp; &lt;div className="absolute top-2 right-4 text-xs font-black text-yellow-500 tracking-widest border border-yellow-600/50 bg-yellow-950/30 px-2 py-1 rounded-md"&gt;±1% BUFFER&lt;/div&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const btcAth = parseFloat(formData.btcAth) || 1;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ethAth = parseFloat(formData.ethAth) || 1;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const btcDrawdown = (currentBtc &gt; 0 &amp;&amp; btcAth &gt; 0) ? (((currentBtc - btcAth) / btcAth) * 100).toFixed(2) : '0.00';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ethDrawdown = (currentEth &gt; 0 &amp;&amp; ethAth &gt; 0) ? (((currentEth - ethAth) / ethAth) * 100).toFixed(2) : '0.00';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>let consensusTarget = 'BTC';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let consensusColor = 'text-slate-400';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>let consensusMsg = 'CALCULATING...';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ratioVal = parseFloat(ethBtcRatio);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (ratioVal &gt; 0.060) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusTarget = 'BTC';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusColor = 'text-yellow-400 neon-text-amber';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusMsg = t('ETH 過熱區 (&gt;0.060)', 'ETH OVERHEATED (&gt;0.060)');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else if (ratioVal &gt;= 0.020 &amp;&amp; ratioVal &lt;= 0.060) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusTarget = 'ETH';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusColor = 'text-cyan-400 neon-text-cyan';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusMsg = t('ETH 價值區 (0.020~0.060)', 'ETH VALUE ZONE (0.020-0.060)');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else if (ratioVal &gt; 0 &amp;&amp; ratioVal &lt; 0.020) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusTarget = 'BTC';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusColor = 'text-blue-500 drop-shadow-[0_0_8px_currentColor]';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>consensusMsg = t('⚫ ETH 冰凍協議生效 (&lt;0.020)', '⚫ ETH FREEZE PROTOCOL ENGAGED (&lt;0.020)');</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const getCryptoAction = (asset, currentPrice, athPrice, drawdown) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const dd = parseFloat(drawdown);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const price = parseFloat(currentPrice);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ath = parseFloat(athPrice);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (price &gt; 0 &amp;&amp; ath &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (price &gt;= ath * 1.5) return { label: t('🎯 第3槍鎖利', '🎯 SHOT 3: LOCK PROFIT'), msg: t('賣出 10% → P2', 'SELL 10% → P2'), ui: 'text-red-400 border-red-900 bg-red-950/30' };</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (price &gt;= ath * 1.25) return { label: t('🎯 第2槍鎖利', '🎯 SHOT 2: LOCK PROFIT'), msg: t('賣出 10% → P2', 'SELL 10% → P2'), ui: 'text-red-400 border-red-900 bg-red-950/30' };</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (price &gt;= ath) return { label: t('🎯 第1槍鎖利', '🎯 SHOT 1: LOCK PROFIT'), msg: t('賣出 10% → P2', 'SELL 10% → P2'), ui: 'text-red-400 border-red-900 bg-red-950/30' };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (dd &lt;= -60) return { label: t('🟢 第4段回補', '🟢 TIER 4 REBUY'), msg: t('動用 P2 總額 30%', 'DEPLOY 30% OF P2'), ui: 'text-emerald-300 border-emerald-400 bg-emerald-950/50 shadow-[0_0_30px_rgba(16,185,129,0.4)]', target: asset };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (dd &lt;= -50) return { label: t('🟢 第3段回補', '🟢 TIER 3 REBUY'), msg: t('動用 P2 總額 30%', 'DEPLOY 30% OF P2'), ui: 'text-emerald-400 border-emerald-500 bg-emerald-950/40 shadow-[0_0_20px_rgba(16,185,129,0.3)]', target: asset };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (dd &lt;= -40) return { label: t('🟢 第2段回補', '🟢 TIER 2 REBUY'), msg: t('動用 P2 總額 20%', 'DEPLOY 20% OF P2'), ui: 'text-emerald-500 border-emerald-700 bg-emerald-950/30', target: asset };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (dd &lt;= -30) return { label: t('🟢 第1段回補', '🟢 TIER 1 REBUY'), msg: t('動用 P2 總額 20%', 'DEPLOY 20% OF P2'), ui: 'text-emerald-600 border-emerald-800 bg-emerald-950/20', target: asset };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>return { label: t('🛡️ 守備中', '🛡️ DEFENDING'), msg: t('持有觀察', 'HOLD &amp; OBSERVE'), ui: 'text-slate-400 border-slate-700 bg-slate-900/50', target: '' };</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const btcAction = getCryptoAction('BTC', currentBtc, btcAth, btcDrawdown);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ethAction = getCryptoAction('ETH', currentEth, ethAth, ethDrawdown);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const escapeVal = parseFloat(escapeAmount) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const stockInject = escapeVal * 0.8;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const ethInject = escapeVal * 0.2;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>const mrVal = parseFloat(nominalMR);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>const handleCopyReport = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const rate = parseFloat(formDataB.usdRate) || 32.5;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tslaTwd = (parseFloat(formDataB.tsla) || 0) * rate;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const qqqTwd = (parseFloat(formDataB.qqq) || 0) * rate;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tqqqTwd = (parseFloat(formDataB.tqqq) || 0) * rate;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const qldTwd = (parseFloat(formDataB.qld) || 0) * rate;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ethTwd = parseFloat(formDataB.eth) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const btcTwd = parseFloat(formDataB.btc) || 0;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const p2UsdtVal = parseFloat(formData.p2Usdt) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const bAth = parseFloat(formData.btcAth) || 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const eAth = parseFloat(formData.ethAth) || 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const report = `【${isEng ? 'A ACCOUNT' : 'A帳戶'}】\nMR: ${nominalMR}% | L: ${formatNumber(L)} | C(0050+00733): ${formatNumber(C)} | P1: ${p1Ratio}%\n\n【${isEng ? 'B ACCOUNT' : 'B帳戶'} (TWD)】\nTSLA: ${formatNumber(tslaTwd)} | QQQ: ${formatNumber(qqqTwd)}\nTQQQ: ${formatNumber(tqqqTwd)} | QLD: ${formatNumber(qldTwd)}\nETH: ${formatNumber(ethTwd)} | BTC: ${formatNumber(btcTwd)}\n\n【${isEng ? 'MARKET MATRIX' : '市場矩陣'}】\nQQQ Price/10MA: ${dualMaMatrix.qqqPrice} / ${dualMaMatrix.qqqMa}\nTSLA Price/10MA: ${dualMaMatrix.tslaPrice} / ${dualMaMatrix.tslaMa}\nETH/BTC: ${ethBtcRatio}\n\n【${isEng ? 'DEFENSE &amp; ATH' : '防禦與高點'}】\nP2: ${p2UsdtVal.toLocaleString('en-US')} USDT\nBTC ATH: $${bAth.toLocaleString('en-US')}\nETH ATH: $${eAth.toLocaleString('en-US')}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>navigator.clipboard.writeText(report).then(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTerminalMsg(t('&gt;&gt; 戰報已淨化並包含 QLD！', '&gt;&gt; REPORT PURIFIED AND COPIED!'));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTimeout(() =&gt; setTerminalMsg(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED ENGINE]'} ENGAGED.`), 4000);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}).catch(err =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>setTerminalMsg(t('&gt;&gt; 複製失敗，請手動圈選畫面數據。', '&gt;&gt; COPY FAILED. SELECT MANUALLY.'));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p1"><span class="Apple-converted-space">      </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div className={`max-w-[1800px] mx-auto p-6 md:p-10 space-y-14 relative tracking-wide transition-all ${isGlitching ? 'glitch-effect' : ''}`}&gt;</p>
+<p class="p2"><span class="Apple-converted-space">          </span></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div className="fixed bottom-8 right-8 z-[9999]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button onClick={handleCopyReport} className="pointer-events-auto w-24 h-24 rounded-full bg-slate-900 border-4 border-cyan-500 flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.6)] hover:scale-110 hover:bg-cyan-950 transition-all duration-300 relative group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span className="text-4xl group-hover:scale-110 transition-transform"&gt;📋&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span className="absolute -top-3 right-0 bg-cyan-500 text-slate-950 font-black text-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md pointer-events-none whitespace-nowrap"&gt;{t('複製戰報', 'COPY REPORT')}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;header className="border-b-2 border-slate-800/80 pb-8 animate-fade-in-up mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-slate-100 flex items-center gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-red-500 animate-text-shimmer bg-[length:200%_auto] drop-shadow-[0_0_25px_rgba(239,68,68,0.6)]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ScrambleText text="Financial Optimization System" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/span&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span className="opacity-90 font-bold text-4xl lg:text-6xl"&gt;v12.1&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p className="text-slate-400 text-xl mt-6 font-mono font-bold text-emerald-500/80 uppercase tracking-widest transition-colors duration-300"&gt;{terminalMsg}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">              </span></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="flex flex-col items-end gap-4 w-full md:w-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="flex flex-wrap items-center gap-6 md:gap-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;button onClick={handleLangToggle} className="bg-slate-800 border-2 border-slate-600 text-slate-300 px-6 py-4 rounded-2xl flex items-center gap-3 text-xl font-black transition-all hover:bg-slate-700 hover:border-slate-500 shadow-[0_0_15px_rgba(0,0,0,0.5)]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="text-2xl"&gt;🌐&lt;/span&gt; {isEng ? 'EN' : '中'}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;button onClick={() =&gt; setShowHelp(true)} className="bg-blue-900/40 hover:bg-blue-800/60 border-2 border-blue-500/50 text-blue-300 px-8 py-5 rounded-2xl flex items-center gap-3 text-2xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] backdrop-blur-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>❓ {t('HELP 系統說明', 'HELP &amp; PROTOCOLS')}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="flex items-center gap-6 px-8 py-5 rounded-2xl border-2 border-slate-700/80 bg-slate-900/60 backdrop-blur-md"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className={`text-2xl font-black transition-colors ${isPart9 ? 'text-purple-400 neon-text-purple' : 'text-slate-500'}`}&gt;🌌 {t('逃逸速度 (Part 9)', 'ESCAPE VELOCITY')}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label className="cyber-toggle"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;input type="checkbox" checked={isPart9} onChange={() =&gt; { setIsPart9(!isPart9); safeSetStorage('fos_isPart9', (!isPart9).toString()); }} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span className="cyber-slider"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{isPart9 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="w-full md:w-[600px] mt-4 bg-slate-900/90 border-2 border-purple-500/60 rounded-[2rem] p-8 shadow-[0_0_40px_rgba(168,85,247,0.25)] animate-fade-in-up backdrop-blur-xl relative z-20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="flex justify-between items-center mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;label className="text-2xl font-black text-purple-400 neon-text-purple tracking-widest"&gt;&lt;ScrambleText text={t("80/20 萃取注資矩陣", "80/20 INJECTION MATRIX")} /&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="number" value={escapeAmount} onChange={e =&gt; setEscapeAmount(e.target.value)} className="w-full glass-input rounded-2xl mb-8 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 text-3xl font-black text-center" placeholder={t("輸入法幣金額...", "Input Fiat Amount...")} /&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{escapeVal &gt; 0 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{mrVal &gt; 0 &amp;&amp; mrVal &lt; 330 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md z-10 flex flex-col items-center justify-center rounded-2xl border-2 border-red-500/80 shadow-[0_0_30px_rgba(220,38,38,0.3)]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                              </span>&lt;span className="text-5xl animate-pulse mb-3"&gt;⛔&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                              </span>&lt;span className="text-xl font-black text-red-400 tracking-widest"&gt;{mrVal &lt; 310 ? t('🔴 系統鎖死：強制賣出 P1', '🔴 LOCKED: FORCE LIQUIDATE P1') : t('🟠 系統鎖死：維持率過低', '🟠 LOCKED: MR TOO LOW')}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="grid grid-cols-2 gap-6 animate-fade-in-up"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className={`p-6 rounded-2xl text-center border-2 transition-colors duration-300 ${matrixStatus.target === 'NONE' ? 'bg-slate-900/80 border-slate-600' : 'bg-emerald-950/40 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.3)]'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className={`text-xl font-bold mb-3 tracking-widest transition-colors duration-300 ${matrixStatus.target === 'NONE' ? 'text-slate-400' : 'text-emerald-400'}`}&gt;80% {t('買入', 'BUY')} {matrixStatus.target === 'NONE' ? t('原標的', 'ORIGINAL') : matrixStatus.target}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className={`text-4xl font-black transition-colors duration-300 ${matrixStatus.target === 'NONE' ? 'text-slate-300' : 'text-emerald-300 neon-text-emerald'}`}&gt;{formatNumber(stockInject)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className={`p-6 rounded-2xl text-center border-2 transition-colors duration-300 ${consensusTarget === 'ETH' ? 'bg-cyan-950/50 border-cyan-500/60 shadow-[0_0_20px_rgba(34,211,238,0.2)]' : 'bg-yellow-950/50 border-yellow-500/60 shadow-[0_0_20px_rgba(234,179,8,0.2)]'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className={`text-xl font-bold mb-3 tracking-widest ${consensusTarget === 'ETH' ? 'text-cyan-400' : 'text-yellow-400'}`}&gt;20% {t('買入', 'BUY')} {consensusTarget}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className={`text-4xl font-black ${consensusTarget === 'ETH' ? 'text-cyan-300 neon-text-cyan' : 'text-yellow-300 neon-text-amber'}`}&gt;{formatNumber(ethInject)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{mrVal &gt;= 330 &amp;&amp; mrVal &lt; 350 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>&lt;div className="mt-6 text-center text-yellow-400 font-bold tracking-widest animate-pulse border-t-2 border-yellow-900/50 pt-4"&gt;⚠️ 🟡 {t('降頻注頻：當前僅限使用純淨股息', 'THROTTLED: USE PURE DIVIDENDS ONLY')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div className="grid grid-cols-1 xl:grid-cols-12 gap-12 relative z-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div className="xl:col-span-4 space-y-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}&gt;</p>
+<p class="p2"><span class="Apple-converted-space">              </span></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* === A/B Toggle Input Panel === */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2rem] p-8 md:p-10 border-t-4 border-t-slate-500/50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="flex justify-between items-center mb-8 border-b-2 border-slate-700/80 pb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className={`w-5 h-5 rounded-full animate-pulse ${inputTab === 'A' ? 'bg-emerald-400' : 'bg-blue-400'}`}&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ScrambleText text={inputTab === 'A' ? t("TW A 帳戶輸入", "ACCOUNT A INPUT") : t("TW B 帳戶輸入", "ACCOUNT B INPUT")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="flex bg-slate-900 rounded-xl border border-slate-700 overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button onClick={() =&gt; setInputTab('A')} className={`px-4 py-2 font-bold transition-colors ${inputTab === 'A' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}&gt;A&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button onClick={() =&gt; setInputTab('B')} className={`px-4 py-2 font-bold transition-colors ${inputTab === 'B' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}&gt;B&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{inputTab === 'A' ? (</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="space-y-8 animate-fade-in-up"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-red-400"&gt;{t('L 借款總額', 'L Amount (Loan)')}&lt;/label&gt;&lt;input type="number" name="lAmount" value={formData.lAmount} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 gap-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-emerald-400"&gt;{t('C 0050 市值', 'C 0050 Value')}&lt;/label&gt;&lt;input type="number" name="c0050" value={formData.c0050} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-emerald-400"&gt;{t('C 00733 市值', 'C 00733 Value')}&lt;/label&gt;&lt;input type="number" name="c00733" value={formData.c00733} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-purple-400"&gt;{t('P1 資金池 (00675L)', 'P1 Tactical Pool')}&lt;/label&gt;&lt;input type="number" name="p1Value" value={formData.p1Value} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button type="button" onClick={handleSave} className="w-full bg-gradient-to-r from-red-800 to-red-950 hover:from-red-700 hover:to-red-900 border-2 border-red-600/50 text-slate-100 text-4xl font-black py-6 rounded-[2rem] transition-all duration-300 shadow-[0_8px_30px_rgba(185,28,28,0.6)] hover:shadow-[0_15px_50px_rgba(185,28,28,0.8)] tracking-widest neon-text-red"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>🚀 {t('寫入防禦', 'INJECT DEFENSE')}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>) : (</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="space-y-6 animate-fade-in-up"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="flex justify-between items-center mb-4 border-b-2 border-slate-700 pb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;span className="text-slate-400 font-bold"&gt;{t('美股(USD) • 加密(TWD)', 'Stocks(USD) • Crypto(TWD)')}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;div className="flex items-center gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;label className="text-blue-400 font-bold"&gt;USD/TWD&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;input type="number" name="usdRate" value={formDataB.usdRate} onChange={handleInputBChange} className="w-24 glass-input rounded-xl py-2 px-3 text-xl focus:border-blue-500 text-center" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-blue-400 mb-2"&gt;TSLA &lt;span className="text-sm opacity-70"&gt;(USD)&lt;/span&gt;&lt;/label&gt;&lt;input type="number" name="tsla" value={formDataB.tsla} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-blue-500" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-blue-400 mb-2"&gt;QQQ &lt;span className="text-sm opacity-70"&gt;(USD)&lt;/span&gt;&lt;/label&gt;&lt;input type="number" name="qqq" value={formDataB.qqq} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-blue-500" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-blue-400 mb-2"&gt;TQQQ &lt;span className="text-sm opacity-70"&gt;(USD)&lt;/span&gt;&lt;/label&gt;&lt;input type="number" name="tqqq" value={formDataB.tqqq} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-blue-500" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-purple-400 mb-2"&gt;QLD &lt;span className="text-sm opacity-70"&gt;(USD)&lt;/span&gt;&lt;/label&gt;&lt;input type="number" name="qld" value={formDataB.qld} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-purple-500" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t-2 border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-cyan-400 mb-2"&gt;ETH &lt;span className="text-sm opacity-70"&gt;(TWD)&lt;/span&gt;&lt;/label&gt;&lt;input type="number" name="eth" value={formDataB.eth} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-cyan-500" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-yellow-500 mb-2"&gt;BTC &lt;span className="text-sm opacity-70"&gt;(TWD)&lt;/span&gt;&lt;/label&gt;&lt;input type="number" name="btc" value={formDataB.btc} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-yellow-500" placeholder="0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button type="button" onClick={handleSaveB} className="w-full bg-gradient-to-r from-blue-800 to-blue-950 hover:from-blue-700 hover:to-blue-900 border-2 border-blue-600/50 text-slate-100 text-4xl font-black py-6 rounded-[2rem] transition-all duration-300 shadow-[0_8px_30px_rgba(37,99,235,0.6)] hover:shadow-[0_15px_50px_rgba(37,99,235,0.8)] tracking-widest neon-text-blue mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>⚔️ {t('寫入突擊', 'INJECT ASSAULT')}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* 極端流動性防禦 */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2rem] p-10 border-l-8 border-l-red-500/70 bg-gradient-to-r from-red-950/20 to-transparent"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 className="text-2xl font-black text-red-400 mb-6 uppercase tracking-widest flex items-center gap-4 neon-text-red"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span className="text-3xl"&gt;🩸&lt;/span&gt; &lt;ScrambleText text={t("極端流動性防禦", "EXTREME LIQUIDITY DEFENSE")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="text-lg text-red-300/80 mb-8 border-b-2 border-red-900/50 pb-5 font-bold tracking-wide leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>{t('9.6 實體提現 SOP', '9.6 Physical Withdrawal SOP')}&lt;br/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>{t('第一順位：A 帳戶股息 (純淨活水)', 'Tier 1: Account A Dividends')}&lt;br/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>{t('第二順位：4.5 防禦性混合解質 (精算如下)', 'Tier 2: Defensive Liquidation (Calculated)')}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="group mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;label className="block text-xl font-bold text-slate-400 mb-4 group-focus-within:text-red-400"&gt;{t('請輸入急需變現之法幣金額 (抽出)', 'Input required fiat amount to withdraw')}&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;input type="number" name="emergencyWithdrawal" value={formData.emergencyWithdrawal} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100 bg-slate-900 focus:border-red-500 focus:ring-2 focus:ring-red-500/50" placeholder="e.g. 150000" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{hdpResult &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className={`p-6 rounded-2xl border-2 backdrop-blur-md transition-all duration-300 ${hdpResult.status === 'danger' ? 'bg-red-950/60 border-red-800 text-red-200' : 'bg-yellow-950/60 border-yellow-800 text-yellow-100'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p className="text-xl font-bold mb-4"&gt;{hdpResult.msg}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{hdpResult.status === 'ok' &amp;&amp; &lt;div className="text-lg font-mono bg-black/60 p-4 rounded-xl text-yellow-400 font-bold tracking-wider"&gt;Psac ({t('P1 犧牲額', 'P1 Sacrifice')}): {formatNumber(hdpResult.psac)}&lt;/div&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* 戰術模擬器 */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2rem] p-10 border-l-8 border-l-cyan-500/70 bg-gradient-to-r from-cyan-950/20 to-transparent"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 className="text-2xl font-black text-cyan-400 mb-8 uppercase tracking-widest flex items-center gap-4 neon-text-cyan"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span className="text-3xl"&gt;🔮&lt;/span&gt; &lt;ScrambleText text={t("戰術模擬器", "TACTICAL SIMULATOR")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="space-y-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 gap-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-slate-400 mb-4 group-focus-within:text-cyan-400"&gt;{t('L 增減模擬', 'L Simulation (+/-)')}&lt;/label&gt;&lt;input type="number" name="lChange" value={simData.lChange} onChange={handleSimChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="+/- 0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="group"&gt;&lt;label className="block text-xl font-bold text-slate-400 mb-4 group-focus-within:text-cyan-400"&gt;{t('C 增減模擬', 'C Simulation (+/-)')}&lt;/label&gt;&lt;input type="number" name="cChange" value={simData.cChange} onChange={handleSimChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="+/- 0" /&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="p-6 bg-slate-900/90 rounded-2xl border-2 border-slate-700 flex justify-between items-center shadow-inner mt-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="text-xl font-bold text-slate-400 uppercase tracking-widest"&gt;{t('模擬維持率', 'SIMULATED MR')}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className={`font-black text-5xl tracking-tight ${getMRZone(simMR).text}`}&gt;{simMR}%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div className="xl:col-span-8 space-y-12 animate-fade-in-up" style={{ animationDelay: '0.2s' }}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="grid grid-cols-1 xl:grid-cols-2 gap-12 relative z-20"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{/* === A帳戶 名目維持率 === */}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className={`solid-panel border-4 rounded-[2.5rem] p-10 transition-all duration-500 relative group flex flex-col justify-between h-full ${getMRZone(nominalMR).border} ${getMRZone(nominalMR).bg} hover:z-[60]`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="absolute top-0 right-0 w-56 h-56 bg-white/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none transition-opacity duration-500 opacity-50 group-hover:opacity-100"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest drop-shadow-md whitespace-nowrap shrink-0 relative z-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ScrambleText text={t("A帳戶 名目維持率", "ACCOUNT A NOMINAL MR")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="relative w-full flex-1 flex justify-end items-end mt-8 cursor-pointer group/hologram z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className={`text-6xl md:text-8xl font-black tracking-tighter transition-all duration-300 group-hover/hologram:opacity-0 group-hover/hologram:blur-md flex items-center gap-4 ${getMRZone(nominalMR).text}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span className="text-4xl md:text-5xl animate-pulse drop-shadow-lg"&gt;🔒&lt;/span&gt; {nominalMR}%<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className={`absolute right-0 bottom-0 opacity-0 scale-[0.8] blur-lg pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/hologram:opacity-100 group-hover/hologram:scale-100 group-hover/hologram:blur-0 group-hover/hologram:pointer-events-auto z-[999] origin-bottom-right ${getMRZone(nominalMR).text}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="bg-slate-950/95 backdrop-blur-3xl border-2 border-current p-10 rounded-3xl shadow-[0_0_80px_currentColor] flex flex-col items-end min-w-[400px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="text-sm font-bold tracking-widest text-current/70 mb-2 uppercase animate-pulse"&gt;Decrypting Mainframe...&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span className="text-[7rem] md:text-[9rem] font-black tracking-tighter whitespace-nowrap drop-shadow-[0_0_30px_currentColor] leading-none"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>{nominalMR}%</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="mt-8 pt-8 border-t-2 border-slate-700/50 relative z-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className={`text-4xl md:text-5xl font-black tracking-widest ${getMRZone(nominalMR).text}`}&gt;{getMRZone(nominalMR).title}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>{/* === 1:1 市值天平 === */}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="solid-panel rounded-[2.5rem] p-10 flex flex-col justify-between group relative z-10 hover:z-[60]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="border-b-2 border-slate-700/50 pb-10 mb-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;h2 className="text-2xl font-black text-yellow-400 uppercase tracking-widest flex items-center gap-4 neon-text-amber"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span className="text-yellow-500 text-3xl drop-shadow-none"&gt;⚖️&lt;/span&gt; &lt;ScrambleText text={t("1:1 市值天平", "1:1 MARKET BALANCE")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span className="text-xl font-mono text-slate-400 font-bold bg-slate-900/60 px-5 py-3 rounded-xl border border-slate-700"&gt;{t('差額:', 'DIFF:')} {formatNumber(diffValue)}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-slate-900/90 p-8 rounded-2xl border-2 border-slate-700 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span className="text-2xl font-bold text-slate-400"&gt;{t('本次注資目標：', 'TARGET INJECTION:')}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span className={`text-6xl font-black tracking-widest ${targetInjection !== t('已平衡', 'BALANCED') ? 'text-blue-400 neon-text-cyan animate-pulse' : 'text-emerald-500 neon-text-emerald'}`}&gt;{targetInjection}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="flex justify-between items-end mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;h2 className="text-2xl font-black text-purple-400 tracking-wider neon-text-purple"&gt;&lt;ScrambleText text={t("P1 戰備資金池", "P1 TACTICAL POOL")} /&gt;&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;span className={`text-4xl px-6 py-3 rounded-2xl border-2 font-black ${parseFloat(p1Ratio) &lt; 33.3 ? 'text-red-400 border-red-500/50 bg-red-950/40 neon-text-red shadow-[0_0_20px_rgba(248,113,113,0.4)]' : 'text-purple-400 border-purple-500/50 bg-purple-950/40 neon-text-purple'}`}&gt;{p1Ratio}%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="h-10 bg-slate-900 rounded-full overflow-hidden border-2 border-slate-700 relative shadow-inner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className={`absolute top-0 left-0 h-full transition-all duration-1000 ease-out shadow-[0_0_25px_currentColor] ${parseFloat(p1Ratio) &lt; 33.3 ? 'bg-gradient-to-r from-red-600 to-red-400' : 'bg-gradient-to-r from-purple-700 to-purple-400'}`} style={{width: `${Math.min(100, parseFloat(p1Ratio))}%`}}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;div className="w-full h-full absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.15)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.15)_50%,rgba(255,255,255,0.15)_75%,transparent_75%,transparent)] bg-[length:2rem_2rem] animate-[textShimmer_1s_linear_infinite]"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="absolute top-0 w-[4px] h-full bg-red-500 shadow-[0_0_15px_red] z-10" style={{left: '6.06%'}}&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="absolute top-0 w-[4px] h-full bg-emerald-500 shadow-[0_0_15px_green] z-10" style={{left: '33.33%'}}&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="grid grid-cols-2 gap-8 mt-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;div className="bg-slate-900/70 p-6 rounded-2xl border-2 border-slate-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-lg text-slate-500 font-bold mb-3 tracking-widest"&gt;{t('目標 1/3 線', 'TARGET 1/3 LINE')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-3xl font-black text-emerald-400"&gt;{formatNumber(L/3)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;div className="bg-red-950/30 p-6 rounded-2xl border-2 border-red-900/60"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-lg text-red-500 font-bold mb-3 flex items-center gap-3 tracking-widest"&gt;&lt;span className="w-4 h-4 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_red]"&gt;&lt;/span&gt;{t('死亡線 6.06%', 'DEATHLINE 6.06%')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-3xl font-black text-red-400"&gt;{formatNumber(L*0.0606)}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* === 抗跌裝甲測算矩陣 (CRASH RESISTANCE MATRIX) === */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className={`solid-panel rounded-[2.5rem] p-10 relative group overflow-hidden border-2 transition-colors duration-500 ${isCrashSafe ? 'border-emerald-900/50 shadow-[0_0_40px_rgba(16,185,129,0.1)]' : 'border-red-900/80 shadow-[0_0_50px_rgba(220,38,38,0.3)]'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none transition-opacity opacity-40 group-hover:opacity-80"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b-2 border-slate-700/50 pb-6 relative z-10 gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="text-3xl animate-pulse"&gt;🛡️&lt;/span&gt;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ScrambleText text={t("抗跌裝甲測算矩陣", "CRASH RESISTANCE MATRIX")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="flex items-center gap-3 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="text-sm font-bold text-slate-400"&gt;P-BETA:&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="text-xl font-black text-blue-400 neon-text-blue"&gt;{portfolioBeta &gt; 0 ? portfolioBeta.toFixed(3) : '0.000'}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="grid grid-cols-1 xl:grid-cols-3 gap-8 relative z-10 items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="xl:col-span-1 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-700 flex justify-between items-center group/input"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;label className="text-slate-400 font-bold group-focus-within/input:text-emerald-400 transition-colors"&gt;0050 &lt;span className="font-mono text-sm"&gt;β&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;input type="number" step="0.01" name="b0050" value={betaConfig.b0050} onChange={handleBetaChange} className="w-24 bg-transparent text-right text-xl font-black text-slate-100 focus:outline-none" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-700 flex justify-between items-center group/input"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;label className="text-slate-400 font-bold group-focus-within/input:text-emerald-400 transition-colors"&gt;00733 &lt;span className="font-mono text-sm"&gt;β&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;input type="number" step="0.01" name="b00733" value={betaConfig.b00733} onChange={handleBetaChange} className="w-24 bg-transparent text-right text-xl font-black text-slate-100 focus:outline-none" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-700 flex justify-between items-center group/input"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;label className="text-slate-400 font-bold group-focus-within/input:text-red-400 transition-colors"&gt;{t('死亡線', 'DEATHLINE')} %&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;input type="number" name="mrLimit" value={betaConfig.mrLimit} onChange={handleBetaChange} className="w-24 bg-transparent text-right text-xl font-black text-red-400 focus:outline-none" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="xl:col-span-2 bg-slate-950/80 p-8 rounded-3xl border-2 border-slate-800 flex flex-col justify-center items-center relative overflow-hidden shadow-inner h-full min-h-[160px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="absolute inset-0 scanlines opacity-50 pointer-events-none"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="text-lg font-bold text-slate-400 uppercase tracking-widest mb-2 z-10 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>{t('大盤最大容許跌幅 (至斷頭線)', 'MAX INDEX DROP BEFORE LIQUIDATION')}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{C &gt; 0 &amp;&amp; L &gt; 0 ? (</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>isCrashSafe ? (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="flex items-baseline gap-2 z-10 mt-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;span className="text-6xl md:text-8xl font-black text-emerald-400 neon-text-emerald tracking-tighter"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>-{maxMarketDrop.toFixed(2)}</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;span className="text-4xl font-bold text-emerald-500/80"&gt;%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>) : (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="z-10 mt-4 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;span className="text-4xl md:text-5xl font-black text-red-500 neon-text-red tracking-widest block mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>🔴 {t('系統已穿倉', 'SYSTEM BREACHED')}</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;span className="text-xl text-red-400/80 font-bold"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{t('目前維持率已低於設定之死亡線', 'Current MR is below the set deathline.')}</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>)</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>) : (</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="text-4xl font-black text-slate-600 tracking-widest z-10 mt-4"&gt;AWAITING DATA&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* 雙軌動能矩陣儀表板 */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2.5rem] mb-12 border-2 border-blue-900/50 shadow-[0_0_50px_rgba(59,130,246,0.15)] relative z-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="bg-slate-900/95 backdrop-blur-xl px-8 md:px-12 py-8 border-b-2 border-slate-800 rounded-t-[2.5rem] flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;h2 className="text-3xl font-black text-blue-400 tracking-widest flex items-center gap-5 whitespace-nowrap neon-text-cyan"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="w-5 h-5 rounded-full bg-blue-500 animate-ping shadow-[0_0_15px_blue]"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ScrambleText text={t("雙軌動能矩陣", "DUAL-MA MATRIX")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="flex flex-wrap items-center gap-4 w-full xl:w-auto mt-4 xl:mt-0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{!dualMaMatrix.isLoading &amp;&amp; !dualMaMatrix.error &amp;&amp; matrixStatus.target !== 'NONE' &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className={`px-6 py-3 border-2 rounded-xl text-xl font-black tracking-widest flex items-center gap-3 shadow-[0_0_15px_currentColor] animate-pulse ${matrixStatus.target === 'TSLA' ? 'text-emerald-400 border-emerald-500/50 bg-emerald-950/40' : matrixStatus.target === 'TQQQ' ? 'text-yellow-400 border-yellow-500/50 bg-yellow-950/40' : 'text-red-400 border-red-500/50 bg-red-950/40'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>🎯 {t('行動指令：買入', 'ACTION: BUY')} {matrixStatus.target}</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{dualMaMatrix.isLoading ? (</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="px-6 py-4 bg-slate-950 border-2 border-slate-700 rounded-2xl text-2xl font-mono text-slate-400 flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                         </span>&lt;svg className="animate-spin-slow h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"&gt;&lt;circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"&gt;&lt;/circle&gt;&lt;path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>) : (</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;button onClick={fetchDualMaMatrix} className="p-4 bg-slate-900 hover:bg-slate-800 border-2 border-slate-700 rounded-2xl transition-colors" title="REFRESH"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="p-8 md:p-12 grid grid-cols-1 gap-10 bg-slate-950/50 border-b-2 border-cyan-900/50 rounded-b-[2.5rem]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="bg-slate-900/90 p-8 md:p-10 rounded-[2rem] border-2 border-slate-700 shadow-inner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{renderRadar(t('大盤宏觀', 'MACRO') + ' (QQQ)', dualMaMatrix.qqqPrice, dualMaMatrix.qqqMa, qqqGap)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{renderRadar(t('個股動能', 'MOMENTUM') + ' (TSLA)', dualMaMatrix.tslaPrice, dualMaMatrix.tslaMa, tslaGap)}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className={`p-10 rounded-3xl border-2 transition-all duration-300 flex flex-col xl:flex-row items-center justify-between gap-8 ${matrixStatus.bg}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className={`text-4xl font-black tracking-widest ${matrixStatus.color}`}&gt;{matrixStatus.label}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="text-2xl font-bold tracking-wider text-white bg-black/50 px-8 py-5 rounded-2xl border border-white/10 text-center xl:text-left"&gt;{matrixStatus.action}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* 加密資產模組 */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2.5rem] relative z-10 hover:z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="bg-slate-900/95 backdrop-blur-xl px-8 md:px-12 py-8 border-b-2 border-slate-800 rounded-t-[2.5rem] flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;h2 className="text-3xl font-black text-cyan-400 tracking-widest flex items-center gap-5 whitespace-nowrap neon-text-cyan"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="w-5 h-5 rounded-full bg-cyan-500 animate-ping shadow-[0_0_15px_cyan]"&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ScrambleText text={t("加密資產 (3態冰凍協議)", "CRYPTO (3-STATE PROTOCOL)")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/h2&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="flex flex-wrap items-center gap-5 w-full lg:w-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="px-5 py-4 bg-slate-950 border-2 border-slate-700 rounded-2xl text-xl font-mono text-slate-400 whitespace-nowrap tracking-wider flex-1 lg:flex-none text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>ETH/BTC: &lt;span className="text-white font-black ml-2"&gt;{ethBtcRatio}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button onClick={handleSyncCrypto} className={`flex-1 lg:flex-none bg-cyan-950/80 hover:bg-cyan-900 border-2 border-cyan-500/80 text-cyan-400 px-6 py-4 rounded-2xl text-xl font-black tracking-widest transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.6)] neon-text-cyan whitespace-nowrap flex items-center justify-center gap-3 ${isSyncing ? 'animate-danger-flash' : ''}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z" /&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>{isSyncing ? 'SYNCING...' : t('🔒 雲端定錨 (SYNC)', '🔒 CLOUD SYNC')}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="bg-slate-950/60 p-6 px-8 md:px-12 border-b-2 border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className={`px-6 py-4 border-2 border-slate-700 rounded-2xl text-xl font-bold tracking-wider w-full ${consensusColor} ${consensusTarget === 'ETH' ? 'bg-cyan-950/30 border-cyan-900/50' : (consensusTarget === 'BTC' ? 'bg-yellow-950/30 border-yellow-900/50' : 'bg-slate-900/50')}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>{t('行動共識:', 'CONSENSUS:')} &lt;span className="text-white ml-3 text-2xl font-black"&gt;{consensusTarget}&lt;/span&gt; &lt;span className="text-lg ml-3 opacity-80"&gt;({consensusMsg})&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 bg-slate-950/50 rounded-b-[2.5rem]"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className={`border-4 rounded-[2.5rem] p-10 transition-all duration-500 relative group flex flex-col justify-between h-full bg-slate-900/80 ${btcDrawdown &lt; -30 ? 'border-cyan-500/50 shadow-[inset_0_0_30px_rgba(6,182,212,0.15)]' : 'border-slate-800'} hover:z-[60]`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="absolute top-0 right-0 w-56 h-56 bg-white/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none transition-opacity duration-500 opacity-50 group-hover:opacity-100"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="flex flex-col mb-6 relative z-10 w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest drop-shadow-md whitespace-nowrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ScrambleText text={t("BTC 主權資產", "BTC SOVEREIGN ASSET")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="text-slate-500 font-bold mt-2 tracking-widest cursor-pointer hover:text-cyan-400 transition-colors" onClick={() =&gt; updateAth('BTC')} title="SET ATH"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ATH: ${parseFloat(formData.btcAth).toLocaleString()}</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="relative w-full flex justify-start items-start mt-4 cursor-pointer group/hologram z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className={`text-5xl md:text-7xl font-mono font-black tracking-tighter transition-all duration-300 group-hover/hologram:opacity-0 group-hover/hologram:blur-md flex items-center gap-4 ${btcDrawdown &lt; -30 ? 'text-cyan-400 drop-shadow-[0_0_10px_currentColor]' : 'text-slate-300'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span className="text-3xl md:text-5xl animate-pulse drop-shadow-lg"&gt;🔒&lt;/span&gt; ${liveCrypto.BTC &gt; 0 ? liveCrypto.BTC.toLocaleString('en-US', {maximumFractionDigits:0}) : '---'}</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                      </span></p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className={`absolute left-0 bottom-0 opacity-0 scale-[0.8] blur-lg pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/hologram:opacity-100 group-hover/hologram:scale-100 group-hover/hologram:blur-0 group-hover/hologram:pointer-events-auto z-[999] origin-bottom-left ${btcDrawdown &lt; -30 ? 'text-cyan-400' : 'text-slate-100'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-slate-950/95 backdrop-blur-3xl border-2 border-current p-10 rounded-3xl shadow-[0_0_80px_currentColor] flex flex-col items-start min-w-[350px] md:min-w-[450px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-sm font-bold tracking-widest text-current/70 mb-4 uppercase animate-pulse"&gt;Decrypting Live Feed...&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-xl text-slate-400 font-bold tracking-widest mb-1 text-left w-full"&gt;{t('即時現價', 'LIVE PRICE')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-[4rem] md:text-[5rem] font-mono font-black tracking-tighter whitespace-nowrap drop-shadow-[0_0_30px_currentColor] leading-none mb-6 text-left w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>${liveCrypto.BTC &gt; 0 ? liveCrypto.BTC.toLocaleString('en-US', {maximumFractionDigits:2}) : '0.00'}</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-xl text-slate-400 font-bold tracking-widest border-t-2 border-current/30 pt-6 w-full text-left mb-1"&gt;{t('回撤幅度', 'DRAWDOWN')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className={`text-[6rem] md:text-[8rem] font-mono font-black tracking-tighter whitespace-nowrap leading-none drop-shadow-[0_0_30px_currentColor] text-left w-full`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{btcDrawdown}%</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className={`mt-auto pt-8 relative z-10 flex flex-col items-center justify-center rounded-3xl transition-all duration-300`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;div className={`w-full p-6 rounded-2xl border-2 ${btcAction.ui} text-center`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>&lt;div className="text-xl font-bold mb-2 tracking-widest"&gt;{btcAction.label}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>&lt;div className="text-2xl md:text-3xl font-black tracking-wide"&gt;{btcAction.msg}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>{(btcAction.target &amp;&amp; consensusTarget === 'BTC') &amp;&amp; &lt;div className="mt-4 text-lg text-emerald-300/90 font-bold tracking-wider"&gt;👉 {t('3 態協議：核准買入', '3-STATE: BUY APPROVED')}&lt;/div&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>{(btcAction.target &amp;&amp; consensusTarget !== 'BTC') &amp;&amp; &lt;div className="mt-4 text-lg text-red-400/90 font-bold tracking-wider"&gt;⚠️ {t(`協議擋下：應買入 ${consensusTarget}`, `PROTOCOL DENIED: BUY ${consensusTarget}`)}&lt;/div&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className={`border-4 rounded-[2.5rem] p-10 transition-all duration-500 relative group flex flex-col justify-between h-full bg-slate-900/80 ${ethDrawdown &lt; -30 ? 'border-cyan-500/50 shadow-[inset_0_0_30px_rgba(6,182,212,0.15)]' : 'border-slate-800'} hover:z-[60]`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="absolute top-0 right-0 w-56 h-56 bg-white/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none transition-opacity duration-500 opacity-50 group-hover:opacity-100"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="flex flex-col mb-6 relative z-10 w-full text-right items-end"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest drop-shadow-md whitespace-nowrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ScrambleText text={t("ETH 主權資產", "ETH SOVEREIGN ASSET")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="text-slate-500 font-bold mt-2 tracking-widest cursor-pointer hover:text-cyan-400 transition-colors" onClick={() =&gt; updateAth('ETH')} title="SET ATH"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>ATH: ${parseFloat(formData.ethAth).toLocaleString()}</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="relative w-full flex justify-end items-end mt-4 cursor-pointer group/hologram z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className={`text-5xl md:text-7xl font-mono font-black tracking-tighter transition-all duration-300 group-hover/hologram:opacity-0 group-hover/hologram:blur-md flex items-center gap-4 ${ethDrawdown &lt; -30 ? 'text-cyan-400 drop-shadow-[0_0_10px_currentColor]' : 'text-slate-300'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span className="text-3xl md:text-5xl animate-pulse drop-shadow-lg"&gt;🔒&lt;/span&gt; ${liveCrypto.ETH &gt; 0 ? liveCrypto.ETH.toLocaleString('en-US', {maximumFractionDigits:0}) : '---'}</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                      </span></p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className={`absolute right-0 bottom-0 opacity-0 scale-[0.8] blur-lg pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/hologram:opacity-100 group-hover/hologram:scale-100 group-hover/hologram:blur-0 group-hover/hologram:pointer-events-auto z-[999] origin-bottom-right ${ethDrawdown &lt; -30 ? 'text-cyan-400' : 'text-slate-100'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-slate-950/95 backdrop-blur-3xl border-2 border-current p-10 rounded-3xl shadow-[0_0_80px_currentColor] flex flex-col items-end min-w-[350px] md:min-w-[450px]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-sm font-bold tracking-widest text-current/70 mb-4 uppercase animate-pulse"&gt;Decrypting Live Feed...&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-xl text-slate-400 font-bold tracking-widest mb-1 text-right w-full"&gt;{t('即時現價', 'LIVE PRICE')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-[4rem] md:text-[5rem] font-mono font-black tracking-tighter whitespace-nowrap drop-shadow-[0_0_30px_currentColor] leading-none mb-6 text-right w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>${liveCrypto.ETH &gt; 0 ? liveCrypto.ETH.toLocaleString('en-US', {maximumFractionDigits:2}) : '0.00'}</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className="text-xl text-slate-400 font-bold tracking-widest border-t-2 border-current/30 pt-6 w-full text-right mb-1"&gt;{t('回撤幅度', 'DRAWDOWN')}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;div className={`text-[6rem] md:text-[8rem] font-mono font-black tracking-tighter whitespace-nowrap leading-none drop-shadow-[0_0_30px_currentColor] text-right w-full`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{ethDrawdown}%</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                    </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className={`mt-auto pt-8 relative z-10 flex flex-col items-center justify-center rounded-3xl transition-all duration-300`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;div className={`w-full p-6 rounded-2xl border-2 ${ethAction.ui} text-center`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>&lt;div className="text-xl font-bold mb-2 tracking-widest"&gt;{ethAction.label}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>&lt;div className="text-2xl md:text-3xl font-black tracking-wide"&gt;{ethAction.msg}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>{(ethAction.target &amp;&amp; consensusTarget === 'ETH') &amp;&amp; &lt;div className="mt-4 text-lg text-emerald-300/90 font-bold tracking-wider"&gt;👉 {t('3 態協議：核准買入', '3-STATE: BUY APPROVED')}&lt;/div&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">                           </span>{(ethAction.target &amp;&amp; consensusTarget !== 'ETH') &amp;&amp; &lt;div className="mt-4 text-lg text-red-400/90 font-bold tracking-wider"&gt;⚠️ {t(`協議擋下：應買入 ${consensusTarget}`, `PROTOCOL DENIED: BUY ${consensusTarget}`)}&lt;/div&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">                       </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="md:col-span-2 bg-slate-950/80 p-8 md:p-10 rounded-[2rem] border-4 border-slate-800 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10 relative overflow-hidden group shadow-[inset_0_0_30px_rgba(0,0,0,0.8)]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="absolute inset-0 scanlines opacity-50 pointer-events-none"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="text-2xl md:text-3xl font-bold text-slate-400 whitespace-nowrap tracking-widest z-10"&gt;&lt;ScrambleText text={t("目前 P2 總庫存 (USDT):", "CURRENT P2 (USDT):")} /&gt;&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="number" name="p2Usdt" value={formData.p2Usdt} onChange={handleInputChange} className="w-full md:w-[400px] glass-input rounded-2xl text-center text-5xl font-black text-cyan-400 focus:ring-2 focus:ring-cyan-500/60 min-w-0 py-6 z-10" placeholder="0" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* 戰情雷達 */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2.5rem] p-12 h-[600px] relative group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 className="text-2xl font-black text-slate-300 mb-8 uppercase tracking-widest flex items-center gap-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;svg className="w-8 h-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;ScrambleText text={t("戰情雷達 (近 10 次防禦趨勢)", "TACTICAL RADAR (LAST 10 TRENDS)")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="w-full h-[450px] relative z-0"&gt;&lt;canvas ref={chartRef}&gt;&lt;/canvas&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>{/* 歷史矩陣 */}</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2.5rem] p-8 md:p-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 className="text-3xl font-black text-slate-300 mb-10 border-b-2 border-slate-700/80 pb-6 uppercase tracking-widest flex items-center gap-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;svg className="w-10 h-10 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;ScrambleText text={t("A帳戶 歷史斷點 (HISTORY MATRIX)", "ACCOUNT A HISTORY MATRIX")} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="overflow-x-auto custom-scrollbar rounded-3xl border-2 border-slate-800/60 relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;table className="w-full text-left whitespace-nowrap text-2xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;tr className="text-slate-400 border-b-2 border-slate-700 bg-slate-900/90 uppercase tracking-widest font-black"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8"&gt;{t('記錄時間', 'TIMESTAMP')}&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8 text-right text-blue-300/90"&gt;{t('L 借款', 'L LOAN')}&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8 text-right text-emerald-400/90"&gt;C(0050)&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8 text-right text-emerald-400/90"&gt;C(00733)&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8 text-right text-purple-400/90"&gt;{t('P1 資金池', 'P1 POOL')}&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8 text-right"&gt;MR %&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8 text-right"&gt;P1 %&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;th className="p-6 md:p-8 text-center"&gt;{t('操作', 'ACTION')}&lt;/th&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/thead&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;tbody className="bg-slate-950/30"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>{history.map((item, idx) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr key={idx} className={`border-b border-slate-800/50 hover:bg-slate-800/80 hover:border-l-8 hover:border-l-emerald-500 transition-all duration-200 ${(item.dateId.includes('同步中') || item.dateId.includes('SYNCING')) ? 'opacity-50 animate-pulse bg-emerald-950/20' : ''}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className="p-6 md:p-8 text-slate-300 font-mono opacity-90 tracking-wider"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{(item.dateId.includes('同步中') || item.dateId.includes('SYNCING')) ? &lt;span className="text-emerald-400 font-black"&gt;{item.dateId}&lt;/span&gt; : item.dateId}</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl"&gt;{formatNumber(item.lAmount)}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl"&gt;{formatNumber(item.c0050)}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl"&gt;{formatNumber(item.c00733)}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl"&gt;{formatNumber(item.p1Value)}&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className={`p-6 md:p-8 text-right font-black tracking-widest md:text-3xl ${getMRZone(item.nominalMR).text}`}&gt;{item.nominalMR}%&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className={`p-6 md:p-8 text-right font-black tracking-widest md:text-3xl ${parseFloat(item.p1Ratio) &lt; 33.3 ? 'text-red-400' : 'text-purple-400'}`}&gt;{item.p1Ratio}%&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;td className="p-6 md:p-8 text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onClick={() =&gt; handleDelete(item.dateId)} disabled={item.dateId.includes('同步中') || item.dateId.includes('SYNCING')} className="text-slate-500 hover:text-red-400 bg-slate-900 hover:bg-red-950/60 p-4 rounded-2xl transition-all border-2 border-transparent hover:border-red-900/60 disabled:opacity-50 disabled:cursor-not-allowed" title={t("抹除此筆紀錄", "ERASE RECORD")}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                              </span>&lt;svg className="w-10 h-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/td&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>{history.length === 0 &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;tr&gt;&lt;td colSpan="8" className="p-12 text-center text-slate-500 font-black tracking-widest text-3xl"&gt;{t('目前沒有任何歷史紀錄', 'NO HISTORY RECORDS FOUND')}&lt;/td&gt;&lt;/tr&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/tbody&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/table&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>{/* AUTHOR SIGNATURE */}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div className="text-center pt-8 pb-12 opacity-80 hover:opacity-100 transition-opacity"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div className="inline-block border-4 border-slate-700 bg-black px-8 py-3 font-mono font-black tracking-[0.5em] text-slate-500 uppercase shadow-[0_0_20px_rgba(0,0,0,0.8)] relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="absolute top-0 left-0 w-2 h-full bg-slate-500 animate-pulse"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>AUTHORIZED BY CHANGSHENG LIU</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>{showHelp &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-10 bg-slate-950/90 backdrop-blur-xl animate-fade-in-up"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div className="solid-panel rounded-[2.5rem] max-w-6xl w-full max-h-[85vh] overflow-y-auto custom-scrollbar border-2 border-blue-500/40 shadow-[0_0_80px_rgba(0,0,0,0.9)]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="sticky top-0 bg-slate-900/95 backdrop-blur-xl p-10 border-b-2 border-slate-800 flex justify-between items-center z-10 rounded-t-[2.5rem]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;h3 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 flex items-center gap-5 tracking-widest"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>📖 FOS 系統戰略說明書 (v12.1.1 絕對指令版)</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;button onClick={() =&gt; setShowHelp(false)} className="text-slate-500 hover:text-red-400 text-5xl font-black w-16 h-16 flex items-center justify-center rounded-full hover:bg-red-500/20 transition-colors"&gt;&amp;times;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="p-12 space-y-12 text-slate-300 leading-relaxed text-2xl"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div className="bg-red-950/40 p-8 border-2 border-red-900/60 rounded-3xl relative overflow-hidden group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="absolute top-0 left-0 w-3 h-full bg-red-500 shadow-[0_0_20px_rgba(239,68,68,0.9)]"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;strong className="text-red-400 block mb-4 flex items-center gap-4 tracking-widest uppercase text-2xl"&gt;&lt;span className="w-4 h-4 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_red]"&gt;&lt;/span&gt; 核心鐵律&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className="font-bold tracking-wide"&gt;存活永遠優先於報酬。任何操作前須確認防禦燈號。嚴禁為了追求短期的法幣帳面富貴，而犧牲 A 帳戶防禦縱深。&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 className="text-blue-400 font-black border-b-2 border-blue-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span className="text-4xl"&gt;🚀&lt;/span&gt; Part 10 雙軌動能矩陣 (The Dual-MA Matrix)</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p className="text-slate-400 mb-6 text-xl font-bold"&gt;導入大盤 10MA 絕對防禦濾網，並配合 1% 防洗盤緩衝 (Whipsaw Buffer)，徹底斬斷左側接刀風險。&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ul className="list-none space-y-6 bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800 text-xl font-bold tracking-wide"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-4 items-start"&gt;&lt;span className="text-emerald-500 mt-1 text-2xl"&gt;🟢&lt;/span&gt; &lt;div&gt;&lt;strong className="text-emerald-400"&gt;雙引擎點火 (QQQ &amp;gt; 10MA &amp;amp; TSLA &amp;gt; 10MA)：&lt;/strong&gt;順風局，全力灌注高 β 個股。當月新資金 &lt;strong className="text-emerald-300"&gt;100% 買入 TSLA&lt;/strong&gt;。&lt;/div&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-4 items-start"&gt;&lt;span className="text-yellow-500 mt-1 text-2xl"&gt;🟡&lt;/span&gt; &lt;div&gt;&lt;strong className="text-yellow-400"&gt;右側代班 (QQQ &amp;gt; 10MA &amp;amp; TSLA &amp;lt; 10MA)：&lt;/strong&gt;大盤狂飆但個股盤整。吸收 3x 大盤紅利，當月新資金 &lt;strong className="text-yellow-300"&gt;100% 買入 TQQQ / QLD&lt;/strong&gt;。&lt;/div&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-4 items-start"&gt;&lt;span className="text-red-500 mt-1 text-2xl"&gt;🔴&lt;/span&gt; &lt;div&gt;&lt;strong className="text-red-400"&gt;絕對冰凍 (QQQ &amp;lt; 10MA)：&lt;/strong&gt;宏觀趨勢破裂。嚴禁買入 TSLA/TQQQ 拒絕接刀，當月新資金 &lt;strong className="text-red-300"&gt;100% 買入 QQQ 避險&lt;/strong&gt;。&lt;/div&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-4 items-start"&gt;&lt;span className="text-slate-500 mt-1 text-2xl"&gt;🛡️&lt;/span&gt; &lt;div&gt;&lt;strong className="text-slate-300"&gt;1% 緩衝區 (Whipsaw Buffer)：&lt;/strong&gt;當乖離率介於 ±1% 之間，視為未突破。在資金動用決策上，採取防禦性降級。&lt;/div&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 className="text-orange-400 font-black border-b-2 border-orange-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;span className="text-4xl"&gt;💵&lt;/span&gt; 9.6 實體提現 SOP (The Physical Cash-Out)</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p className="text-slate-400 mb-6 text-xl font-bold"&gt;當 TRP (外部現金流) 枯竭，急需法幣生活費時，強迫遵循以下提款順位：&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ul className="list-none space-y-6 bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800 text-xl font-bold tracking-wide"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-4 items-start"&gt;&lt;span className="text-orange-500 mt-1 text-2xl"&gt;1️⃣&lt;/span&gt; &lt;strong className="text-orange-300 whitespace-nowrap"&gt;第一順位 (純淨活水)：&lt;/strong&gt;直接提領 A 帳戶發放的現金股息。&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-4 items-start"&gt;&lt;span className="text-orange-500 mt-1 text-2xl"&gt;2️⃣&lt;/span&gt; &lt;div&gt;&lt;strong className="text-orange-300"&gt;第二順位 (防禦性解質)：&lt;/strong&gt;啟動 4.5 協議精算。賣出 P1 -&amp;gt; 償還借款降 L -&amp;gt; 提領現金。&lt;strong className="text-yellow-400 drop-shadow-md"&gt;前提：精算後 MR 必須 ≥ 330%，且殘存 P1 必須 ≥ 6.06% 死亡線。&lt;/strong&gt;&lt;/div&gt;&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-4 items-start"&gt;&lt;span className="text-red-500 mt-1 text-2xl"&gt;🚫&lt;/span&gt; &lt;strong className="text-red-400"&gt;絕對禁區：&lt;/strong&gt;嚴禁賣出 B 帳戶主權資產換生活費；嚴禁賣出 A 帳戶核心擔保品破壞 1:1 天平。&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 className="text-cyan-400 font-black border-b-2 border-cyan-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" /&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>加密反週期模組 &amp;amp; 3 態冰凍協議</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="space-y-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;strong className="text-cyan-300 block mb-5 text-2xl tracking-widest"&gt;【3 態冰凍協議】(決定買什麼)&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;ul className="text-xl space-y-4 text-slate-400 font-bold"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;li&gt;&lt;span className="text-yellow-400"&gt;🔴 ETH/BTC &amp;gt; 0.060 (ETH 過熱)：&lt;/span&gt;新資金全投 BTC。&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;li&gt;&lt;span className="text-emerald-400"&gt;🟢 0.020 ≤ ETH/BTC ≤ 0.060 (ETH 價值區)：&lt;/span&gt;新資金全投 ETH。&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;li&gt;&lt;span className="text-blue-500"&gt;⚫ ETH/BTC &amp;lt; 0.020 (冰凍協議)：&lt;/span&gt;停止買入 ETH，強制全投 BTC。舊有 ETH 鎖死，嚴禁攤平。&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                      </span></p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 gap-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;strong className="text-red-400 block mb-5 text-2xl tracking-widest"&gt;【3 槍鎖利法則】(賣出換 USDT)&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;ul className="text-xl space-y-3 text-slate-400 font-bold"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;🎯 價格突破 ATH -&amp;gt; 賣出 10%&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;🎯 價格達 ATH 1.25 倍 -&amp;gt; 再賣 10%&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;🎯 價格達 ATH 1.5 倍 -&amp;gt; 再賣 10%&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;strong className="text-emerald-400 block mb-5 text-2xl tracking-widest"&gt;【4 段回補法則】(動用 P2)&lt;/strong&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;ul className="text-xl space-y-3 text-slate-400 font-bold"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;📉 回撤 -30% -&amp;gt; 動用 20%&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;📉 回撤 -40% -&amp;gt; 動用 20%&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;📉 回撤 -50% -&amp;gt; 動用 30%&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;li&gt;📉 回撤 -60% -&amp;gt; 動用 30%&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                          </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/section&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                  </span></p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h4 className="text-purple-400 font-black border-b-2 border-purple-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>Part 9 逃逸速度與全自立循環</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ul className="list-none space-y-6 text-xl font-bold bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800 tracking-wide"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-5 items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span className="text-purple-500 mt-1 text-3xl"&gt;▸&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;&lt;strong className="text-purple-300 block mb-3 text-2xl"&gt;觸發條件：&lt;/strong&gt;總資產達標 3,000 萬，或外部現金流永久歸零。&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-5 items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span className="text-purple-500 mt-1 text-3xl"&gt;▸&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;&lt;strong className="text-purple-300 block mb-3 text-2xl"&gt;80/20 萃取矩陣：&lt;/strong&gt;當開啟右上角開關且處於綠燈區時，系統進入自立循環。A 帳戶萃取之活水，強制執行 &lt;strong className="text-emerald-400 bg-emerald-950/60 px-4 py-1.5 rounded-lg border border-emerald-900"&gt;80% 美股&lt;/strong&gt; / &lt;strong className="text-cyan-400 bg-cyan-950/60 px-4 py-1.5 rounded-lg border border-cyan-900"&gt;20% 加密&lt;/strong&gt; 注資。&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;li className="flex gap-5 items-start"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span className="text-purple-500 mt-1 text-3xl"&gt;▸&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div&gt;&lt;strong className="text-red-400 block mb-3 text-2xl"&gt;防禦綁定：&lt;/strong&gt;上述注資受 MR 嚴格限制。🟢 ≥350% (全功率注資)；🟡 330~350% (暫停增貸，僅股息注資)；🟠 310~330% (凍結注資)；🔴 &amp;lt;310% (強制賣出 P1 償債)。&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>&lt;/li&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/ul&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const root = ReactDOM.createRoot(document.getElementById('root'));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>root.render(&lt;App /&gt;);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
