@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
-  <title>FOS Boss Terminal v14.0 (Cyber-Brutalism Overdrive)</title>
+  <title>FOS Boss Terminal v14.1 (Cyber-Brutalism Interactive)</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -46,18 +46,32 @@
       background-size: 100% 4px; pointer-events: none; z-index: 5;
     }
 
-    /* 賽博粗野裝甲板 */
+    /* 賽博粗野裝甲板 + 懸浮反重力矩陣 */
     .c-panel-base {
       background: #0f172a; /* slate-900 */
       border: 4px solid #000;
       box-shadow: 8px 8px 0px 0px #000;
-      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .c-panel-base:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 12px 12px 0px 0px #000;
+      z-index: 50;
     }
     .c-panel-cyan { border-color: #06b6d4; box-shadow: 8px 8px 0px 0px #0891b2; color: #cffafe; }
+    .c-panel-cyan:hover { box-shadow: 12px 12px 0px 0px #0891b2; }
+    
     .c-panel-emerald { border-color: #10b981; box-shadow: 8px 8px 0px 0px #059669; color: #d1fae5; }
+    .c-panel-emerald:hover { box-shadow: 12px 12px 0px 0px #059669; }
+    
     .c-panel-yellow { border-color: #eab308; box-shadow: 8px 8px 0px 0px #ca8a04; color: #fef08a; }
+    .c-panel-yellow:hover { box-shadow: 12px 12px 0px 0px #ca8a04; }
+    
     .c-panel-red { border-color: #ef4444; box-shadow: 8px 8px 0px 0px #b91c1c; color: #fee2e2; }
+    .c-panel-red:hover { box-shadow: 12px 12px 0px 0px #b91c1c; }
+    
     .c-panel-purple { border-color: #a855f7; box-shadow: 8px 8px 0px 0px #7e22ce; color: #f3e8ff; }
+    .c-panel-purple:hover { box-shadow: 12px 12px 0px 0px #7e22ce; }
 
     /* 高壓輸入框 */
     .c-input {
@@ -187,7 +201,7 @@
       const [isSyncing, setIsSyncing] = useState(false);
       
       const isGasEnvironment = typeof google !== 'undefined' && google.script && google.script.run;
-      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - CYBER-BRUTALISM V14.0`);
+      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - V14.1`);
       
       const [isPart9, setIsPart9] = useState(safeGetStorage('fos_isPart9', 'false') === 'true');
       const [escapeAmount, setEscapeAmount] = useState('');
@@ -315,7 +329,7 @@
         setIsSyncing(true); setTerminalMsg('>> SYNCING DATA...');
         try {
           const res = await gasAPI('saveCryptoMatrix', formData.p2Usdt, formData.btcAth, formData.ethAth);
-          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. CYBER-BRUTALISM V14.0`), 3000); } 
+          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. CYBER-BRUTALISM V14.1`), 3000); } 
           else throw new Error();
         } catch (e) { setTerminalMsg('>> SYNC FAILED.'); setIsSyncing(false); }
       };
@@ -455,7 +469,7 @@
           
           <div className="hazard-stripes -mx-4 md:-mx-10 mb-8 border-t-[4px] border-b-[4px] border-black shadow-[0_8px_0_0_#0ea5e9] text-black">
             <div className="bg-yellow-400 px-4 py-2 font-black text-xl uppercase tracking-widest text-center border-y-4 border-black">
-              [SYSTEM NOTIFICATION] // CYBER-BRUTALISM ARCHITECTURE ACTIVE // AUTHORIZED BY CHANGSHENG LIU // FOS TERMINAL V14 //
+              [SYSTEM NOTIFICATION] // CYBER-BRUTALISM ARCHITECTURE ACTIVE // AUTHORIZED BY CHANGSHENG LIU // FOS TERMINAL V14.1 //
             </div>
           </div>
 
@@ -485,7 +499,7 @@
               </div>
               
               {isPart9 && (
-                <div className="w-full xl:w-[600px] c-panel-base c-panel-purple p-8 bg-slate-900">
+                <div className="w-full xl:w-[600px] c-panel-base c-panel-purple p-8 bg-slate-900 mt-4">
                   <label className="text-3xl font-black uppercase mb-6 block border-b-4 border-purple-500 pb-2 neon-text-purple"><ScrambleText text="80/20 INJECTION MATRIX" /></label>
                   <input type="number" value={escapeAmount} onChange={e => setEscapeAmount(e.target.value)} className="w-full c-input mb-6 text-center text-3xl text-purple-400 focus:border-purple-400 focus:shadow-[4px_4px_0_0_#7e22ce]" placeholder="FIAT AMOUNT" />
                   
@@ -565,10 +579,10 @@
             <div className="xl:col-span-8 space-y-10">
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {/* NOMINAL MR */}
+                {/* NOMINAL MR - FIXED RESPONSIVE TEXT OVERFLOW */}
                 <div className={`c-panel-base p-10 flex flex-col justify-between ${getMRZone(nominalMR).ui}`}>
                   <h2 className="text-3xl font-black uppercase border-b-4 border-current pb-4"><ScrambleText text="NOMINAL MR" /></h2>
-                  <div className={`text-8xl md:text-9xl font-black tracking-tighter mt-12 mb-8 ${getMRZone(nominalMR).text}`}>{nominalMR}%</div>
+                  <div className={`text-6xl sm:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tighter mt-12 mb-8 break-words ${getMRZone(nominalMR).text}`}>{nominalMR}%</div>
                   <div className="text-4xl font-black uppercase bg-slate-950 text-white inline-block px-6 py-2 self-start border-4 border-current tracking-widest">{getMRZone(nominalMR).label}</div>
                 </div>
 
@@ -593,7 +607,7 @@
                   <div className={`border-4 p-8 text-center bg-slate-950 ${isCrashSafe ? 'border-emerald-500 shadow-[inset_0_0_20px_#10b981]' : 'border-red-500 shadow-[inset_0_0_30px_#ef4444]'}`}>
                     <div className="text-2xl font-black mb-2 uppercase text-slate-400">MAX DROP</div>
                     {C > 0 && L > 0 ? (
-                      <div className={`text-7xl font-black ${isCrashSafe ? 'text-emerald-400 neon-text-green' : 'text-red-500 neon-text-red'}`}>
+                      <div className={`text-6xl md:text-7xl font-black break-words ${isCrashSafe ? 'text-emerald-400 neon-text-green' : 'text-red-500 neon-text-red'}`}>
                         {isCrashSafe ? `-${maxMarketDrop.toFixed(2)}%` : 'BREACHED'}
                       </div>
                     ) : (
@@ -654,7 +668,7 @@
                 </div>
               </div>
 
-              {/* CRYPTO MODULE */}
+              {/* CRYPTO MODULE - ADDED ACTION BILLBOARD */}
               <div className="c-panel-base border-cyan-500 shadow-[8px_8px_0_0_#164e63] p-0 overflow-hidden">
                 <div className="bg-slate-950 border-b-4 border-cyan-900 p-6 flex flex-wrap justify-between items-center gap-4">
                   <h2 className="text-3xl font-black uppercase text-cyan-400 neon-text-cyan"><ScrambleText text="CRYPTO 3-STATE" /></h2>
@@ -690,6 +704,12 @@
                 <div className="bg-slate-950 p-8 border-t-4 border-cyan-900 flex justify-between items-center">
                   <span className="text-3xl font-black uppercase text-cyan-500">P2 (USDT)</span>
                   <input type="number" name="p2Usdt" value={formData.p2Usdt} onChange={handleInputChange} className="w-64 c-input text-right text-cyan-300" />
+                </div>
+                
+                {/* CRYPTO BILLBOARD ADDED */}
+                <div className={`p-8 border-t-4 text-center ${consensusColor}`}>
+                  <div className="text-5xl font-black mb-4 uppercase">PROTOCOL ENGAGED</div>
+                  <div className="text-3xl font-black bg-slate-950 text-white inline-block px-8 py-3 border-4 border-current tracking-widest">100% BUY {consensusTarget}</div>
                 </div>
               </div>
 
@@ -739,8 +759,8 @@
             </div>
           </div>
           
-          <div className="text-center mt-20">
-            <div className="inline-block bg-slate-950 text-slate-500 text-3xl font-black uppercase tracking-widest px-12 py-6 shadow-[8px_8px_0_0_#0ea5e9] border-4 border-sky-500 hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all">
+          <div className="text-center mt-20 relative z-20">
+            <div className="inline-block bg-slate-950 text-slate-500 text-3xl font-black uppercase tracking-widest px-12 py-6 shadow-[8px_8px_0_0_#0ea5e9] border-4 border-sky-500 hover:shadow-[12px_12px_0_0_#0ea5e9] hover:-translate-x-1 hover:-translate-y-1 transition-all cursor-crosshair">
               AUTHORIZED BY CHANGSHENG LIU
             </div>
           </div>
