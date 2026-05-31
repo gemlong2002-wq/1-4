@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
-  <title>FOS Boss Terminal v12.1.1 (Dual-Node Overdrive)</title>
+  <title>FOS Boss Terminal v12.2.0 (Neural Grid Overdrive)</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -95,139 +95,119 @@
       100% { transform: translate(0); }
     }
 
-    #fos-webgl-bg { display: block; width: 100%; height: 100%; outline: none; }
+    #fos-cyber-bg { display: block; width: 100%; height: 100%; outline: none; }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-mono min-h-screen relative overflow-x-hidden pt-12 pb-20 selection:bg-emerald-500/30 text-lg md:text-xl">
 
-  <canvas id="fos-webgl-bg" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
+  <!-- THE NEURAL GRID ENGINE -->
+  <canvas id="fos-cyber-bg" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
 
   <div class="pointer-events-none fixed inset-0 z-[2] overflow-hidden">
-    <div class="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] animate-blob"></div>
-    <div class="absolute bottom-[-10%] right-[-10%] w-[45%] h-[45%] bg-emerald-900/15 rounded-full blur-[120px] animate-blob" style="animation-delay: 2s; animation-direction: reverse;"></div>
-    <div class="absolute inset-0 opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.04),rgba(0,255,0,0.01),rgba(0,0,255,0.04))] bg-[length:100%_4px,3px_100%]"></div>
+    <div class="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950/80 to-slate-950"></div>
   </div>
-  <div class="fixed inset-0 scanlines"></div>
+  <div class="fixed inset-0 scanlines z-[3]"></div>
 
   <div id="root" class="relative z-10"></div>
 
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <!-- NATIVE HTML5 CANVAS NEURAL GRID SCRIPT -->
   <script>
-(function () {
-  var canvas = document.getElementById('fos-webgl-bg');
-  if (!canvas || typeof THREE === 'undefined') return;
+    (function() {
+      const canvas = document.getElementById('fos-cyber-bg');
+      if (!canvas || !canvas.getContext) return;
+      const ctx = canvas.getContext('2d');
+      
+      let width, height;
+      let nodes = [];
+      const connectionDistance = 180;
+      const nodeCount = 80;
 
-  var scene = new THREE.Scene();
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
 
-  var camera = new THREE.PerspectiveCamera(55, window.innerWidth / Math.max(window.innerHeight, 1), 0.1, 200);
-  camera.position.set(0, 1.2, 5.8);
-  camera.lookAt(0, 0.2, 0);
+      class Node {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.4;
+          this.vy = (Math.random() - 0.5) * 0.4;
+          this.radius = Math.random() * 2 + 1;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(52, 211, 153, 0.6)'; // Emerald
+          ctx.fill();
+        }
+      }
 
-  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  renderer.setSize(window.innerWidth, window.innerHeight, false);
-  renderer.setClearColor(0x000000, 0);
+      for (let i = 0; i < nodeCount; i++) {
+        nodes.push(new Node());
+      }
 
-  var count = 4200;
-  var positions = new Float32Array(count * 3);
-  var depths = new Float32Array(count);
-  for (var i = 0; i < count; i++) {
-    var ix = i * 3;
-    positions[ix] = (Math.random() - 0.5) * 22;
-    positions[ix + 1] = (Math.random() - 0.5) * 14;
-    positions[ix + 2] = (Math.random() - 0.5) * 18;
-    depths[i] = Math.random();
-  }
-  var particlesGeo = new THREE.BufferGeometry();
-  particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particlesGeo.setAttribute('aDepth', new THREE.BufferAttribute(depths, 1));
+      let time = 0;
 
-  var particleMat = new THREE.ShaderMaterial({
-    transparent: true,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    uniforms: {
-      uTime: { value: 0 },
-      uColorA: { value: new THREE.Color(0x34d399) },
-      uColorB: { value: new THREE.Color(0xa855f7) }
-    },
-    vertexShader: [
-      'attribute float aDepth;',
-      'uniform float uTime;',
-      'varying float vDepth;',
-      'void main() {',
-      '  vDepth = aDepth;',
-      '  vec3 p = position;',
-      '  p.y += sin(uTime * 0.35 + position.x * 0.4) * 0.08;',
-      '  p.x += cos(uTime * 0.28 + position.z * 0.35) * 0.06;',
-      '  vec4 mv = modelViewMatrix * vec4(p, 1.0);',
-      '  gl_Position = projectionMatrix * mv;',
-      '  float s = mix(1.4, 3.2, aDepth);',
-      '  gl_PointSize = s * (220.0 / max(-mv.z, 0.5));',
-      '}'
-    ].join('\n'),
-    fragmentShader: [
-      'uniform vec3 uColorA;',
-      'uniform vec3 uColorB;',
-      'varying float vDepth;',
-      'void main() {',
-      '  vec2 c = gl_PointCoord - 0.5;',
-      '  float r = length(c);',
-      '  if (r > 0.5) discard;',
-      '  float glow = smoothstep(0.5, 0.0, r);',
-      '  vec3 col = mix(uColorA, uColorB, vDepth);',
-      '  gl_FragColor = vec4(col, glow * mix(0.12, 0.38, vDepth));',
-      '}'
-    ].join('\n')
-  });
-  var particles = new THREE.Points(particlesGeo, particleMat);
-  scene.add(particles);
+      function animate() {
+        ctx.fillStyle = '#020617'; // slate-950 background
+        ctx.fillRect(0, 0, width, height);
 
-  var grid = new THREE.GridHelper(28, 56, 0x64748b, 0x1e293b);
-  grid.position.y = -2.1;
-  if (grid.material && grid.material.length) {
-    grid.material[0].transparent = true;
-    grid.material[0].opacity = 0.22;
-    grid.material[1].transparent = true;
-    grid.material[1].opacity = 0.12;
-  }
-  scene.add(grid);
+        time += 0.5;
 
-  var wireGeo = new THREE.IcosahedronGeometry(1.15, 1);
-  var wireMat = new THREE.MeshBasicMaterial({ color: 0x22d3ee, wireframe: true, transparent: true, opacity: 0.08 });
-  var wireOrb = new THREE.Mesh(wireGeo, wireMat);
-  wireOrb.position.set(-5.5, 0.45, -3);
-  scene.add(wireOrb);
+        // Draw shifting geometric grid
+        ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)'; // slate-800
+        ctx.lineWidth = 1;
+        const gridSize = 80;
+        const offsetX = time % gridSize;
+        const offsetY = (time * 0.5) % gridSize;
+        
+        ctx.beginPath();
+        for (let x = -offsetX; x < width; x += gridSize) {
+          ctx.moveTo(x, 0); ctx.lineTo(x, height);
+        }
+        for (let y = -offsetY; y < height; y += gridSize) {
+          ctx.moveTo(0, y); ctx.lineTo(width, y);
+        }
+        ctx.stroke();
 
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var paused = reduced;
-  document.addEventListener('visibilitychange', function () {
-    paused = reduced || document.hidden;
-  });
+        // Update and draw nodes
+        nodes.forEach(node => {
+          node.update();
+          node.draw();
+        });
 
-  var t = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    if (paused) return;
-    t += 0.0012;
-    particleMat.uniforms.uTime.value = t * 1000 * 0.001;
-    particles.rotation.y = t * 0.18;
-    particles.rotation.x = Math.sin(t * 0.5) * 0.06;
-    grid.rotation.y = t * 0.035;
-    wireOrb.rotation.x = t * 0.22;
-    wireOrb.rotation.y = t * 0.31;
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  window.addEventListener('resize', function () {
-    var w = window.innerWidth;
-    var h = Math.max(window.innerHeight, 1);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h, false);
-  });
-})();
+        // Draw neural connections
+        for (let i = 0; i < nodes.length; i++) {
+          for (let j = i + 1; j < nodes.length; j++) {
+            const dx = nodes[i].x - nodes[j].x;
+            const dy = nodes[i].y - nodes[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist < connectionDistance) {
+              ctx.beginPath();
+              ctx.moveTo(nodes[i].x, nodes[i].y);
+              ctx.lineTo(nodes[j].x, nodes[j].y);
+              // Opacity scales with distance
+              const alpha = 1 - (dist / connectionDistance);
+              ctx.strokeStyle = `rgba(56, 189, 248, ${alpha * 0.5})`; // sky-400
+              ctx.lineWidth = alpha * 1.5;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
   </script>
 
   <script type="text/babel">
@@ -774,7 +754,7 @@
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-red-500 animate-text-shimmer bg-[length:200%_auto] drop-shadow-[0_0_25px_rgba(239,68,68,0.6)]">
                     <ScrambleText text="Financial Optimization System" />
                   </span> 
-                  <span className="opacity-90 font-bold text-4xl lg:text-6xl">v12.1</span>
+                  <span className="opacity-90 font-bold text-4xl lg:text-6xl">v12.2</span>
                 </h1>
                 <p className="text-slate-400 text-xl mt-6 font-mono font-bold text-emerald-500/80 uppercase tracking-widest transition-colors duration-300">{terminalMsg}</p>
               </div>
@@ -1301,7 +1281,7 @@
               <div className="solid-panel rounded-[2.5rem] max-w-6xl w-full max-h-[85vh] overflow-y-auto custom-scrollbar border-2 border-blue-500/40 shadow-[0_0_80px_rgba(0,0,0,0.9)]">
                 <div className="sticky top-0 bg-slate-900/95 backdrop-blur-xl p-10 border-b-2 border-slate-800 flex justify-between items-center z-10 rounded-t-[2.5rem]">
                   <h3 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 flex items-center gap-5 tracking-widest">
-                    📖 FOS 系統戰略說明書 (v12.1.1 絕對指令版)
+                    📖 FOS 系統戰略說明書 (v12.2.0 絕對指令版)
                   </h3>
                   <button onClick={() => setShowHelp(false)} className="text-slate-500 hover:text-red-400 text-5xl font-black w-16 h-16 flex items-center justify-center rounded-full hover:bg-red-500/20 transition-colors">&times;</button>
                 </div>
@@ -1387,7 +1367,7 @@
                       </li>
                       <li className="flex gap-5 items-start">
                         <span className="text-purple-500 mt-1 text-3xl">▸</span>
-                        <div><strong className="text-purple-300 block mb-3 text-2xl">80/20 萃取矩陣：</strong>當開啟右上角開關且處於綠燈區時，系統進入自立循環。A 帳戶萃取之活水，強制執行 <strong className="text-emerald-400 bg-emerald-950/60 px-4 py-1.5 rounded-lg border border-emerald-900">80% 美股</strong> / <strong className="text-cyan-400 bg-cyan-950/60 px-4 py-1.5 rounded-lg border border-cyan-900">20% 加密</strong> 注資。</div>
+                        <div><strong className="text-purple-300 block mb-3 text-2xl">80/20 萃取矩陣：</strong>當開啟右上角開關且處於綠燈區時，系統進入自立循環。A 帳戶萃取之活水，強制執行 <strong className="text-emerald-400 bg-emerald-950/60 px-4 py-1.5 rounded-lg border border-emerald-900">80% 美股</strong> / <strong className="text-cyan-400 bg-cyan-950/60 px-4 py-1.5 rounded-lg border border-cyan-900">20% 加密</strong> 注頻。</div>
                       </li>
                       <li className="flex gap-5 items-start">
                         <span className="text-purple-500 mt-1 text-3xl">▸</span>
