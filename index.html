@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
-  <title>FOS Boss Terminal v12.2.0 (Neural Grid Overdrive)</title>
+  <title>FOS Boss Terminal v13.0 (Neo-Brutalism Architecture)</title>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -14,22 +14,22 @@
       theme: { 
         extend: { 
           fontFamily: { mono: ['Consolas', 'Monaco', 'Courier New', 'monospace'] },
-          animation: {
-            'fade-in-up': 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            'danger-flash': 'dangerFlash 1.2s infinite ease-in-out',
-            'action-pulse': 'actionPulse 1.5s infinite alternate',
-            'matrix-glow': 'matrixGlow 2s infinite alternate',
-            'blob': 'blob 15s infinite alternate ease-in-out',
-            'text-shimmer': 'textShimmer 3s ease-in-out infinite alternate',
-            'spin-slow': 'spin 3s linear infinite',
+          colors: {
+            brutal: {
+              white: '#ffffff',
+              black: '#000000',
+              gray: '#d6d3d1', // stone-300
+              yellow: '#facc15', // yellow-400
+              red: '#ef4444', // red-500
+              blue: '#3b82f6', // blue-500
+              green: '#22c55e', // green-500
+              purple: '#a855f7' // purple-500
+            }
           },
-          keyframes: {
-            fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-            dangerFlash: { '0%, 100%': { opacity: '1', backgroundColor: 'rgba(185,28,28,0.95)', textShadow: '0 0 10px rgba(255,255,255,0.5)' }, '50%': { opacity: '0.85', backgroundColor: 'rgba(220,38,38,1)', textShadow: 'none' } },
-            actionPulse: { '0%': { opacity: '1', transform: 'scale(1)' }, '100%': { opacity: '0.9', transform: 'scale(0.98)' } },
-            matrixGlow: { '0%': { boxShadow: '0 0 10px rgba(168,85,247,0.2)' }, '100%': { boxShadow: '0 0 30px rgba(168,85,247,0.8)' } },
-            blob: { '0%': { transform: 'translate(0px, 0px) scale(1)' }, '100%': { transform: 'translate(40px, -40px) scale(1.15)' } },
-            textShimmer: { '0%': { backgroundPosition: '0% 50%' }, '100%': { backgroundPosition: '100% 50%' } }
+          boxShadow: {
+            'brutal': '8px 8px 0px 0px rgba(0,0,0,1)',
+            'brutal-sm': '4px 4px 0px 0px rgba(0,0,0,1)',
+            'brutal-hover': '12px 12px 0px 0px rgba(0,0,0,1)',
           }
         } 
       }
@@ -37,178 +37,87 @@
   </script>
   <style>
     input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    ::-webkit-scrollbar { width: 16px; height: 16px; }
-    ::-webkit-scrollbar-track { background: #020617; }
-    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; border: 3px solid #020617; }
-    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    ::-webkit-scrollbar { width: 16px; height: 16px; border-left: 4px solid #000; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #000; border: 2px solid #f8fafc; }
     
-    .solid-panel { 
-      background-color: rgba(15, 23, 42, 0.85); 
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(51, 65, 85, 0.8); 
-      box-shadow: 0 12px 40px -5px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.05); 
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .glass-input {
-      background: rgba(2, 6, 23, 0.8);
-      border: 2px solid rgba(71, 85, 105, 0.8);
-      font-size: 1.5rem;
-      padding: 1.25rem 1.5rem;
-      transition: all 0.3s ease;
-      color: #f8fafc;
-    }
-    .glass-input:focus {
-      background: rgba(2, 6, 23, 1);
-      box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
-      border-color: rgba(168, 85, 247, 0.9);
-      outline: none;
+    /* 粗野主義工程網格 */
+    .brutal-grid {
+      background-color: #f8fafc;
+      background-image: 
+        linear-gradient(to right, #e2e8f0 2px, transparent 2px),
+        linear-gradient(to bottom, #e2e8f0 2px, transparent 2px);
+      background-size: 60px 60px;
     }
 
-    .neon-text-emerald { text-shadow: 0 0 20px rgba(16, 185, 129, 0.8), 0 0 40px rgba(16, 185, 129, 0.4); }
-    .neon-text-amber { text-shadow: 0 0 20px rgba(245, 158, 11, 0.8), 0 0 40px rgba(245, 158, 11, 0.4); }
-    .neon-text-purple { text-shadow: 0 0 20px rgba(168, 85, 247, 0.8), 0 0 40px rgba(168, 85, 247, 0.4); }
-    .neon-text-cyan { text-shadow: 0 0 20px rgba(34, 211, 238, 0.8), 0 0 40px rgba(34, 211, 238, 0.4); }
-    .neon-text-red { text-shadow: 0 0 25px rgba(239, 68, 68, 0.9), 0 0 50px rgba(239, 68, 68, 0.6); }
-    .neon-text-blue { text-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.4); }
+    .brutal-panel {
+      background: #ffffff;
+      border: 4px solid #000000;
+      box-shadow: 8px 8px 0px 0px #000000;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .brutal-input {
+      background: #ffffff;
+      border: 4px solid #000000;
+      box-shadow: 4px 4px 0px 0px #000000;
+      font-size: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      color: #000000;
+      font-weight: 900;
+      transition: all 0.1s ease;
+      outline: none;
+    }
+    .brutal-input:focus {
+      background: #fef08a; /* yellow-200 */
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px 0px #000000;
+    }
+
+    .brutal-btn {
+      border: 4px solid #000000;
+      box-shadow: 6px 6px 0px 0px #000000;
+      transition: all 0.1s ease;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+    .brutal-btn:active {
+      transform: translate(6px, 6px);
+      box-shadow: 0px 0px 0px 0px #000000;
+    }
 
     .cyber-toggle { position: relative; display: inline-block; width: 80px; height: 40px; flex-shrink: 0; }
     .cyber-toggle input { opacity: 0; width: 0; height: 0; }
-    .cyber-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(15, 23, 42, 0.8); border: 2px solid #334155; border-radius: 40px; transition: .4s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
-    .cyber-slider:before { position: absolute; content: ""; height: 32px; width: 32px; left: 2px; bottom: 2px; background-color: #64748b; border-radius: 50%; transition: .4s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
-    input:checked + .cyber-slider { background-color: rgba(168, 85, 247, 0.2); border-color: #a855f7; box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), inset 0 0 10px rgba(168, 85, 247, 0.2); }
-    input:checked + .cyber-slider:before { transform: translateX(40px); background-color: #d8b4fe; box-shadow: 0 0 20px #c084fc, 0 0 30px #a855f7; }
+    .cyber-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e2e8f0; border: 4px solid #000; transition: .2s; box-shadow: 4px 4px 0px 0px #000; }
+    .cyber-slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 4px; bottom: 4px; background-color: #000; transition: .2s; }
+    input:checked + .cyber-slider { background-color: #a855f7; }
+    input:checked + .cyber-slider:before { transform: translateX(40px); background-color: #fff; border: 2px solid #000; }
 
-    .scanlines { background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0.15)); background-size: 100% 4px; pointer-events: none; z-index: 5; }
-    
-    .custom-scrollbar::-webkit-scrollbar { height: 10px; }
-    .custom-scrollbar::-webkit-scrollbar-track { background: rgba(2, 6, 23, 0.5); border-radius: 5px; }
-    .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(51, 65, 85, 0.8); border-radius: 5px; }
-
-    .glitch-effect { animation: glitchAnim 0.3s infinite; pointer-events: none; }
-    @keyframes glitchAnim {
-      0% { transform: translate(3px, 3px); filter: hue-rotate(90deg) contrast(150%); }
-      25% { transform: translate(-3px, -3px); filter: invert(0.8); }
-      50% { transform: translate(3px, -3px); opacity: 0.7; }
-      75% { transform: translate(-3px, 3px); filter: blur(3px); }
-      100% { transform: translate(0); }
+    .marquee-container {
+      overflow: hidden;
+      white-space: nowrap;
+      border-top: 4px solid #000;
+      border-bottom: 4px solid #000;
+      background: #facc15;
+      padding: 0.5rem 0;
     }
-
-    #fos-cyber-bg { display: block; width: 100%; height: 100%; outline: none; }
+    .marquee-content {
+      display: inline-block;
+      animation: marquee 15s linear infinite;
+      font-weight: 900;
+      font-size: 1.25rem;
+      color: #000;
+      text-transform: uppercase;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-mono min-h-screen relative overflow-x-hidden pt-12 pb-20 selection:bg-emerald-500/30 text-lg md:text-xl">
-
-  <!-- THE NEURAL GRID ENGINE -->
-  <canvas id="fos-cyber-bg" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
-
-  <div class="pointer-events-none fixed inset-0 z-[2] overflow-hidden">
-    <div class="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950/80 to-slate-950"></div>
-  </div>
-  <div class="fixed inset-0 scanlines z-[3]"></div>
+<body class="brutal-grid text-black font-mono min-h-screen relative overflow-x-hidden pt-8 pb-20 selection:bg-yellow-400 text-lg md:text-xl">
 
   <div id="root" class="relative z-10"></div>
-
-  <!-- NATIVE HTML5 CANVAS NEURAL GRID SCRIPT -->
-  <script>
-    (function() {
-      const canvas = document.getElementById('fos-cyber-bg');
-      if (!canvas || !canvas.getContext) return;
-      const ctx = canvas.getContext('2d');
-      
-      let width, height;
-      let nodes = [];
-      const connectionDistance = 180;
-      const nodeCount = 80;
-
-      function resize() {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-      }
-      window.addEventListener('resize', resize);
-      resize();
-
-      class Node {
-        constructor() {
-          this.x = Math.random() * width;
-          this.y = Math.random() * height;
-          this.vx = (Math.random() - 0.5) * 0.4;
-          this.vy = (Math.random() - 0.5) * 0.4;
-          this.radius = Math.random() * 2 + 1;
-        }
-        update() {
-          this.x += this.vx;
-          this.y += this.vy;
-          if (this.x < 0 || this.x > width) this.vx *= -1;
-          if (this.y < 0 || this.y > height) this.vy *= -1;
-        }
-        draw() {
-          ctx.beginPath();
-          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(52, 211, 153, 0.6)'; // Emerald
-          ctx.fill();
-        }
-      }
-
-      for (let i = 0; i < nodeCount; i++) {
-        nodes.push(new Node());
-      }
-
-      let time = 0;
-
-      function animate() {
-        ctx.fillStyle = '#020617'; // slate-950 background
-        ctx.fillRect(0, 0, width, height);
-
-        time += 0.5;
-
-        // Draw shifting geometric grid
-        ctx.strokeStyle = 'rgba(30, 41, 59, 0.4)'; // slate-800
-        ctx.lineWidth = 1;
-        const gridSize = 80;
-        const offsetX = time % gridSize;
-        const offsetY = (time * 0.5) % gridSize;
-        
-        ctx.beginPath();
-        for (let x = -offsetX; x < width; x += gridSize) {
-          ctx.moveTo(x, 0); ctx.lineTo(x, height);
-        }
-        for (let y = -offsetY; y < height; y += gridSize) {
-          ctx.moveTo(0, y); ctx.lineTo(width, y);
-        }
-        ctx.stroke();
-
-        // Update and draw nodes
-        nodes.forEach(node => {
-          node.update();
-          node.draw();
-        });
-
-        // Draw neural connections
-        for (let i = 0; i < nodes.length; i++) {
-          for (let j = i + 1; j < nodes.length; j++) {
-            const dx = nodes[i].x - nodes[j].x;
-            const dy = nodes[i].y - nodes[j].y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            
-            if (dist < connectionDistance) {
-              ctx.beginPath();
-              ctx.moveTo(nodes[i].x, nodes[i].y);
-              ctx.lineTo(nodes[j].x, nodes[j].y);
-              // Opacity scales with distance
-              const alpha = 1 - (dist / connectionDistance);
-              ctx.strokeStyle = `rgba(56, 189, 248, ${alpha * 0.5})`; // sky-400
-              ctx.lineWidth = alpha * 1.5;
-              ctx.stroke();
-            }
-          }
-        }
-        requestAnimationFrame(animate);
-      }
-      animate();
-    })();
-  </script>
 
   <script type="text/babel">
     const { useState, useEffect, useRef, useMemo } = React;
@@ -216,54 +125,28 @@
     const safeGetStorage = (key, defVal) => { try { return localStorage.getItem(key) || defVal; } catch(e) { return defVal; } };
     const safeSetStorage = (key, val) => { try { localStorage.setItem(key, val); } catch(e) {} };
 
-    // === SMART DUAL-NODE API ROUTER (雙軌智能路由) ===
+    // === SMART DUAL-NODE API ROUTER ===
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbxWnT6COS2NuL5LmtRZql5UmvEHcFDEtdha2SY5-NI3RBjHxV5xz0oUWlQL1M7P-0GN/exec';
     
     const gasAPI = (serverFunction, ...args) => {
       return new Promise((resolve, reject) => {
-        // [節點 A] 偵測為 GAS 原生環境：啟動原生光速 RPC 引擎，免 CORS 防阻擋
         if (typeof google !== 'undefined' && google.script && google.script.run) {
-          google.script.run
-            .withSuccessHandler(resolve)
-            .withFailureHandler(reject)
-            [serverFunction](...args);
-        } 
-        // [節點 B] 偵測為 GitHub / Local 外部環境：啟動 Fetch POST 跨域打擊
-        else {
+          google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[serverFunction](...args);
+        } else {
           fetch(GAS_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             redirect: 'follow',
             body: JSON.stringify({ action: serverFunction, args: args })
-          })
-          .then(res => res.json())
-          .then(data => {
-            if (data.error) reject(new Error(data.message));
-            else resolve(data);
-          })
-          .catch(err => reject(err));
+          }).then(res => res.json()).then(data => {
+            if (data.error) reject(new Error(data.message)); else resolve(data);
+          }).catch(err => reject(err));
         }
       });
     };
 
     const ScrambleText = ({ text }) => {
-      const [display, setDisplay] = useState(text);
-      useEffect(() => {
-        if (!text || text === '0') { setDisplay(text); return; }
-        let iteration = 0;
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-        const strText = String(text);
-        const interval = setInterval(() => {
-          setDisplay(strText.split("").map((letter, index) => {
-            if(index < iteration) return strText[index];
-            return chars[Math.floor(Math.random() * chars.length)];
-          }).join(""));
-          if(iteration >= strText.length) clearInterval(interval);
-          iteration += 1/2; 
-        }, 35);
-        return () => clearInterval(interval);
-      }, [text]);
-      return <span>{display}</span>;
+      return <span>{text}</span>; 
     };
 
     function App() {
@@ -272,30 +155,19 @@
           const next = !isEng;
           setIsEng(next);
           safeSetStorage('fos_lang', next.toString());
-          setTerminalMsg(next ? '>> LANGUAGE OVERRIDE: ENGLISH ENGAGED.' : '>> 系統重構：中文模式啟動。');
+          setTerminalMsg(next ? '>> LANGUAGE OVERRIDE: ENGLISH ENGAGED.' : '>> 系統重構：粗野主義模式啟動。');
       };
       const t = (zh, en) => isEng ? en : zh;
 
       const [inputTab, setInputTab] = useState('A'); 
-      
-      const [formDataB, setFormDataB] = useState({ 
-        tsla: '', qqq: '', tqqq: '', qld: '', eth: '', btc: '',
-        usdRate: safeGetStorage('fos_usdRate', '32.5')
-      });
-
-      const [formData, setFormData] = useState({ 
-        lAmount: '', c0050: '', c00733: '', p1Value: '',
-        p2Usdt: '0', btcAth: '73906.00', ethAth: '4956.62',
-        emergencyWithdrawal: '' 
-      });
-      
+      const [formDataB, setFormDataB] = useState({ tsla: '', qqq: '', tqqq: '', qld: '', eth: '', btc: '', usdRate: safeGetStorage('fos_usdRate', '32.5') });
+      const [formData, setFormData] = useState({ lAmount: '', c0050: '', c00733: '', p1Value: '', p2Usdt: '0', btcAth: '73906.00', ethAth: '4956.62', emergencyWithdrawal: '' });
       const [simData, setSimData] = useState({ lChange: '', cChange: '' });
       const [history, setHistory] = useState([]);
-      const [isGlitching, setIsGlitching] = useState(false);
       const [isSyncing, setIsSyncing] = useState(false);
       
       const isGasEnvironment = typeof google !== 'undefined' && google.script && google.script.run;
-      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED ENGINE]'} ENGAGED.`);
+      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - BRUTALISM V13`);
       
       const [isPart9, setIsPart9] = useState(safeGetStorage('fos_isPart9', 'false') === 'true');
       const [escapeAmount, setEscapeAmount] = useState('');
@@ -303,13 +175,7 @@
       
       const [liveCrypto, setLiveCrypto] = useState({ BTC: 0, ETH: 0 });
       const [dualMaMatrix, setDualMaMatrix] = useState({ qqqPrice: '0.00', qqqMa: '0.00', tslaPrice: '0.00', tslaMa: '0.00', isLoading: true, error: null });
-
-      // === CRASH RESISTANCE MATRIX (抗跌裝甲核心) ===
       const [betaConfig, setBetaConfig] = useState({ b0050: '1.0', b00733: '1.35', mrLimit: '130' });
-      const handleBetaChange = (e) => {
-        const { name, value } = e.target;
-        setBetaConfig(prev => ({ ...prev, [name]: value }));
-      };
 
       const chartRef = useRef(null);
       const chartInstance = useRef(null);
@@ -324,9 +190,7 @@
       const fetchCryptoConfig = async () => {
         try {
           const res = await gasAPI('getCryptoMatrix');
-          if (res.success) {
-            setFormData(p => ({ ...p, p2Usdt: res.p2Usdt, btcAth: res.btcAth, ethAth: res.ethAth }));
-          }
+          if (res.success) setFormData(p => ({ ...p, p2Usdt: res.p2Usdt, btcAth: res.btcAth, ethAth: res.ethAth }));
         } catch (e) {}
       };
 
@@ -337,21 +201,16 @@
           if (res.success) {
             setDualMaMatrix({ qqqPrice: res.qqqPrice, qqqMa: res.qqqMa, tslaPrice: res.tslaPrice, tslaMa: res.tslaMa, isLoading: false, error: null });
             setTerminalMsg('>> DUAL-MA ENGINE SYNCHRONIZED.');
-          } else {
-            setDualMaMatrix(prev => ({ ...prev, isLoading: false, error: res.message }));
-          }
+          } else setDualMaMatrix(prev => ({ ...prev, isLoading: false, error: res.message }));
         } catch (e) {
-          setDualMaMatrix(prev => ({ ...prev, isLoading: false, error: '後端連線失敗，請檢查跨域權限' }));
+          setDualMaMatrix(prev => ({ ...prev, isLoading: false, error: '連線失敗' }));
         }
       };
 
       useEffect(() => {
         const fetchCrypto = async () => {
           try {
-            const [btcRes, ethRes] = await Promise.all([
-              fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'),
-              fetch('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT')
-            ]);
+            const [btcRes, ethRes] = await Promise.all([ fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'), fetch('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT') ]);
             const btcData = await btcRes.json();
             const ethData = await ethRes.json();
             setLiveCrypto({ BTC: parseFloat(btcData.price), ETH: parseFloat(ethData.price) });
@@ -365,49 +224,38 @@
       useEffect(() => {
         if (!chartRef.current || history.length === 0) return;
         const chartData = [...history].reverse();
-        
-        const labels = chartData.map(item => {
-          try {
-            const rawDate = String(item.dateId || '');
-            const cleanStr = rawDate.replace('(同步中) ', '').replace('(SYNCING) ', '');
-            const parts = cleanStr.split(' ')[0].split('/');
-            if(parts.length >= 2) return parts.slice(-2).join('/');
-            return cleanStr.substring(0, 5);
-          } catch(e) { return 'N/A'; }
-        });
-        
+        const labels = chartData.map(item => item.dateId ? String(item.dateId).substring(0, 10) : 'N/A');
         const mrData = chartData.map(item => parseFloat(item.nominalMR || 0));
         const p1Data = chartData.map(item => parseFloat(item.p1Ratio || 0));
 
         if (chartInstance.current) chartInstance.current.destroy();
         const ctx = chartRef.current.getContext('2d');
-        const gradientMR = ctx.createLinearGradient(0, 0, 0, 300);
-        gradientMR.addColorStop(0, 'rgba(52, 211, 153, 0.4)');
-        gradientMR.addColorStop(1, 'rgba(52, 211, 153, 0)');
 
         Chart.defaults.font.size = 18;
-        Chart.defaults.color = '#94a3b8';
+        Chart.defaults.font.family = 'monospace';
+        Chart.defaults.font.weight = 'bold';
+        Chart.defaults.color = '#000';
 
         chartInstance.current = new Chart(ctx, {
           type: 'line',
           data: {
             labels: labels,
             datasets: [
-              { label: t('維持率 (MR %)', 'MR %'), data: mrData, borderColor: '#34d399', backgroundColor: gradientMR, borderWidth: 4, tension: 0.4, fill: true, yAxisID: 'y', pointBackgroundColor: '#020617', pointBorderColor: '#34d399', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 },
-              { label: t('資金池 (P1 %)', 'P1 %'), data: p1Data, borderColor: '#a855f7', borderWidth: 4, borderDash: [6, 6], tension: 0.4, fill: false, yAxisID: 'y1', pointBackgroundColor: '#020617', pointBorderColor: '#a855f7', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 }
+              { label: t('維持率 (MR %)', 'MR %'), data: mrData, borderColor: '#000', backgroundColor: '#3b82f6', borderWidth: 6, tension: 0, fill: false, yAxisID: 'y', pointBackgroundColor: '#facc15', pointBorderColor: '#000', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 },
+              { label: t('資金池 (P1 %)', 'P1 %'), data: p1Data, borderColor: '#000', borderWidth: 4, borderDash: [10, 10], tension: 0, fill: false, yAxisID: 'y1', pointBackgroundColor: '#a855f7', pointBorderColor: '#000', pointBorderWidth: 4, pointRadius: 8, pointHoverRadius: 12 }
             ]
           },
           options: {
             responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             scales: {
-              x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { font: { size: 16, family: 'monospace' }, color: '#64748b' } },
-              y: { position: 'left', grid: { color: 'rgba(255,255,255,0.05)' }, title: { display: true, text: 'MR %', color: '#34d399', font: { size: 20, weight: 'bold' } }, ticks: { font: { size: 18, family: 'monospace' }, color: '#34d399' } },
-              y1: { position: 'right', grid: { display: false }, title: { display: true, text: 'P1 %', color: '#a855f7', font: { size: 20, weight: 'bold' } }, ticks: { font: { size: 18, family: 'monospace' }, color: '#a855f7' } }
+              x: { grid: { color: '#000', lineWidth: 2 }, ticks: { color: '#000' }, border: { color: '#000', width: 4 } },
+              y: { position: 'left', grid: { color: '#000', lineWidth: 2 }, title: { display: true, text: 'MR %', color: '#000', font: { size: 24, weight: '900' } }, border: { color: '#000', width: 4 } },
+              y1: { position: 'right', grid: { display: false }, title: { display: true, text: 'P1 %', color: '#000', font: { size: 24, weight: '900' } }, border: { color: '#000', width: 4 } }
             },
             plugins: { 
-              legend: { position: 'top', labels: { color: '#cbd5e1', font: { size: 20, weight: 'bold' }, usePointStyle: true, boxWidth: 16 } },
-              tooltip: { backgroundColor: 'rgba(15, 23, 42, 0.95)', titleColor: '#f8fafc', bodyColor: '#cbd5e1', borderColor: 'rgba(52, 211, 153, 0.5)', borderWidth: 3, padding: 20, titleFont: { size: 20 }, bodyFont: { size: 18 } } 
+              legend: { position: 'top', labels: { color: '#000', font: { size: 20, weight: 'bold' }, usePointStyle: true, boxWidth: 20 } },
+              tooltip: { backgroundColor: '#fff', titleColor: '#000', bodyColor: '#000', borderColor: '#000', borderWidth: 4, padding: 15, titleFont: { size: 20 }, bodyFont: { size: 18 }, cornerRadius: 0 } 
             }
           }
         });
@@ -419,82 +267,41 @@
           if (res.success && res.data.length > 0) {
             setHistory(res.data);
             const latest = res.data[0];
-            setFormData(prev => ({
-              ...prev,
-              lAmount: prev.lAmount || latest.lAmount,
-              c0050: prev.c0050 || latest.c0050,
-              c00733: prev.c00733 || latest.c00733,
-              p1Value: prev.p1Value || latest.p1Value
-            }));
+            setFormData(p => ({ ...p, lAmount: p.lAmount || latest.lAmount, c0050: p.c0050 || latest.c0050, c00733: p.c00733 || latest.c00733, p1Value: p.p1Value || latest.p1Value }));
           }
-        } catch (err) { console.error('History Fetch Failed', err); }
+        } catch (err) {}
       };
 
       const fetchHistoryB = async () => {
         try {
           const res = await gasAPI('getHistoryDataB');
           if (res.success && res.data && Object.keys(res.data).length > 0) {
-            setFormDataB(prev => ({
-              ...prev,
-              tsla: res.data.tsla ?? prev.tsla,
-              qqq: res.data.qqq ?? prev.qqq,
-              tqqq: res.data.tqqq ?? prev.tqqq,
-              qld: res.data.qld ?? prev.qld,
-              eth: res.data.eth ?? prev.eth,
-              btc: res.data.btc ?? prev.btc
-            }));
+            setFormDataB(p => ({ ...p, tsla: res.data.tsla ?? p.tsla, qqq: res.data.qqq ?? p.qqq, tqqq: res.data.tqqq ?? p.tqqq, qld: res.data.qld ?? p.qld, eth: res.data.eth ?? p.eth, btc: res.data.btc ?? p.btc }));
           }
         } catch (err) {}
       };
 
-      const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-      };
-
-      const handleInputBChange = (e) => {
-        const { name, value } = e.target;
-        setFormDataB(prev => ({ ...prev, [name]: value }));
-        if (name === 'usdRate') safeSetStorage('fos_usdRate', value);
-      };
-      
-      const handleSimChange = (e) => {
-        const { name, value } = e.target;
-        setSimData(prev => ({ ...prev, [name]: value }));
-      };
+      const handleInputChange = (e) => setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
+      const handleInputBChange = (e) => { setFormDataB(p => ({ ...p, [e.target.name]: e.target.value })); if (e.target.name === 'usdRate') safeSetStorage('fos_usdRate', e.target.value); };
+      const handleSimChange = (e) => setSimData(p => ({ ...p, [e.target.name]: e.target.value }));
+      const handleBetaChange = (e) => setBetaConfig(p => ({ ...p, [e.target.name]: e.target.value }));
 
       const updateAth = (coin) => {
           const currentAth = coin === 'BTC' ? formData.btcAth : formData.ethAth;
           const newVal = window.prompt(`[SYS.ADMIN] Override ${coin} ATH:`, currentAth);
-          if(newVal && !isNaN(newVal) && newVal.trim() !== '') {
-              setFormData(p => ({...p, [coin === 'BTC' ? 'btcAth' : 'ethAth']: newVal}));
-          }
-      };
-
-      const triggerGlitch = () => {
-        setIsGlitching(true);
-        setTimeout(() => setIsGlitching(false), 800);
+          if(newVal && !isNaN(newVal) && newVal.trim() !== '') setFormData(p => ({...p, [coin === 'BTC' ? 'btcAth' : 'ethAth']: newVal}));
       };
 
       const handleSyncCrypto = async () => {
-        setIsSyncing(true);
-        setTerminalMsg('>> UPLOADING CRYPTO MATRIX CONFIG TO CLOUD...');
-        
+        setIsSyncing(true); setTerminalMsg('>> SYNCING DATA...');
         try {
           const res = await gasAPI('saveCryptoMatrix', formData.p2Usdt, formData.btcAth, formData.ethAth);
-          if (res.success) {
-            setIsSyncing(false);
-            setTerminalMsg('>> CRYPTO MATRIX SYNCHRONIZED ACROSS DEVICES 🔒.');
-            setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED ENGINE]'} ENGAGED.`), 4000);
-          } else throw new Error();
-        } catch (e) {
-          triggerGlitch();
-          setTerminalMsg('>> [SYSTEM ERROR] CLOUD SYNC FAILED.');
-          setIsSyncing(false);
-        }
+          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. BRUTALISM V13`), 3000); } 
+          else throw new Error();
+        } catch (e) { setTerminalMsg('>> SYNC FAILED.'); setIsSyncing(false); }
       };
 
-      // ==== 核心運算變數 ====
+      // ==== 核心運算 ====
       const L = parseFloat(formData.lAmount) || 0;
       const c0050 = parseFloat(formData.c0050) || 0;
       const c00733 = parseFloat(formData.c00733) || 0;
@@ -503,13 +310,11 @@
       const nominalMR = L > 0 ? ((C / L) * 100).toFixed(2) : '0.00';
       const p1Ratio = L > 0 ? ((P1 / L) * 100).toFixed(2) : '0.00';
       
-      // CRASH RESISTANCE MATRIX COMPUTATION
       const b0050Val = parseFloat(betaConfig.b0050) || 1.0;
       const b00733Val = parseFloat(betaConfig.b00733) || 1.35;
       const limitMRVal = parseFloat(betaConfig.mrLimit) || 130;
 
-      let portfolioBeta = 0;
-      let maxMarketDrop = 0;
+      let portfolioBeta = 0; let maxMarketDrop = 0;
       if (C > 0 && L > 0) {
           portfolioBeta = ((c0050 * b0050Val) + (c00733 * b00733Val)) / C;
           const maxCollateralDrop = (C - (limitMRVal / 100) * L) / C;
@@ -517,16 +322,12 @@
       }
       const isCrashSafe = maxMarketDrop > 0;
 
-      const currentBtc = liveCrypto.BTC || 0;
-      const currentEth = liveCrypto.ETH || 0;
+      const currentBtc = liveCrypto.BTC || 0; const currentEth = liveCrypto.ETH || 0;
       const ethBtcRatio = currentBtc > 0 ? (currentEth / currentBtc).toFixed(4) : '0.0000';
       
       const diffValue = Math.abs(c0050 - c00733);
       let targetInjection = t('已平衡', 'BALANCED');
-      if (c0050 > 0 || c00733 > 0) {
-          if (c0050 < c00733) targetInjection = '0050';
-          else if (c00733 < c0050) targetInjection = '00733';
-      }
+      if (c0050 > 0 || c00733 > 0) { if (c0050 < c00733) targetInjection = '0050'; else if (c00733 < c0050) targetInjection = '00733'; }
 
       const L_Sim = Math.max(0, L + (parseFloat(simData.lChange) || 0));
       const C_Sim = Math.max(0, C + (parseFloat(simData.cChange) || 0));
@@ -535,731 +336,359 @@
       const withdrawE = parseFloat(formData.emergencyWithdrawal) || 0;
       let hdpResult = null;
       if (withdrawE > 0 && L > 0 && C > 0) {
-        const psac = L - (C - withdrawE) / 3.3; 
-        const newL = L - psac;
-        const newP1 = P1 - psac;
-        const finalDeathLine = newL * 0.0606;
-        if (psac <= 0) hdpResult = { status: 'safe', msg: t('維持率極高，無須犧牲 P1 即可退券變現。', 'MR is extremely high. Safe to cash out without sacrificing P1.'), psac: 0 };
-        else if (newP1 < finalDeathLine) hdpResult = { status: 'danger', msg: t(`💀 代價過高！執行後 P1 擊穿 6.06% 死亡線。禁止執行！`, `💀 Cost too high! P1 drops below 6.06% deathline. ABORT!`), psac };
-        else hdpResult = { status: 'ok', msg: t(`✅ 請犧牲 P1 還款 ${psac.toLocaleString('en-US', {maximumFractionDigits:0})}，即可安全退券。`, `✅ Sacrifice P1 by ${psac.toLocaleString('en-US', {maximumFractionDigits:0})} to safely withdraw.`), psac };
+        const psac = L - (C - withdrawE) / 3.3; const newL = L - psac; const newP1 = P1 - psac; const finalDeathLine = newL * 0.0606;
+        if (psac <= 0) hdpResult = { status: 'safe', msg: t('無須犧牲 P1。', 'Safe to cash out.'), psac: 0 };
+        else if (newP1 < finalDeathLine) hdpResult = { status: 'danger', msg: t(`💀 擊穿 6.06% 死亡線！`, `💀 P1 Drops Below 6.06%!`), psac };
+        else hdpResult = { status: 'ok', msg: t(`犧牲 P1: ${psac.toLocaleString('en-US', {maximumFractionDigits:0})}`, `Sacrifice P1: ${psac.toLocaleString('en-US', {maximumFractionDigits:0})}`), psac };
       }
 
       const formatNumber = (num) => isNaN(parseFloat(num)) ? '0' : parseFloat(num).toLocaleString('en-US', {maximumFractionDigits: 0});
 
       const handleSave = async (e) => {
-        e.preventDefault();
-        if (L <= 0 || C <= 0) { setTerminalMsg('BOSS 警告：L 與 C 不可為 0。'); return; }
-        
+        e.preventDefault(); if (L <= 0 || C <= 0) return;
         const previousHistory = [...history];
         const timezoneOffset = (new Date()).getTimezoneOffset() * 60000;
         const localISOTime = (new Date(Date.now() - timezoneOffset)).toISOString().replace('T', ' ').slice(0, 19).replace(/-/g, '/');
-        
-        const payload = {
-          lAmount: L, c0050, c00733, p1Value: P1,
-          btcPrice: currentBtc, ethPrice: currentEth, p2Usdt: formData.p2Usdt,
-          nominalMR, p1Ratio, ethBtcRatio: ethBtcRatio
-        };
-
-        const optimisticRecord = { dateId: `(${isEng ? 'SYNCING' : '同步中'}) ${localISOTime}`, ...payload };
-        
-        setHistory([optimisticRecord, ...history].slice(0, 10)); 
-        setTerminalMsg('>> LOCAL STATE UPDATED. SILENT SYNC ENGAGED...');
-
-        try {
-          const res = await gasAPI('saveFOSData', payload);
-          if (res.success) {
-             fetchHistory(); 
-             setTerminalMsg('>> MAINFRAME SYNC COMPLETE.');
-          } else throw new Error();
-        } catch (err) {
-          setHistory(previousHistory);
-          triggerGlitch();
-          setTerminalMsg('>> [SYSTEM ERROR] DATA SYNC FAILED. STATE ROLLBACK.');
-        }
+        const payload = { lAmount: L, c0050, c00733, p1Value: P1, btcPrice: currentBtc, ethPrice: currentEth, p2Usdt: formData.p2Usdt, nominalMR, p1Ratio, ethBtcRatio: ethBtcRatio };
+        setHistory([{ dateId: `(SYNC) ${localISOTime}`, ...payload }, ...history].slice(0, 10)); 
+        setTerminalMsg('>> SYNCING...');
+        try { const res = await gasAPI('saveFOSData', payload); if (res.success) { fetchHistory(); setTerminalMsg('>> DONE.'); } else throw new Error(); } 
+        catch (err) { setHistory(previousHistory); setTerminalMsg('>> FAILED.'); }
       };
 
       const handleSaveB = async (e) => {
-        e.preventDefault();
-        setTerminalMsg('>> SAVING B ACCOUNT DATA...');
-        try {
-          const res = await gasAPI('saveFOSDataB', formDataB);
-          if (res.success) {
-             fetchHistoryB();
-             setTerminalMsg('>> B ACCOUNT O(1) SYNC COMPLETE.');
-          } else throw new Error();
-        } catch (err) {
-          triggerGlitch();
-          setTerminalMsg('>> [SYSTEM ERROR] B ACCOUNT SYNC FAILED.');
-        }
+        e.preventDefault(); setTerminalMsg('>> SYNCING B ACCOUNT...');
+        try { const res = await gasAPI('saveFOSDataB', formDataB); if (res.success) { fetchHistoryB(); setTerminalMsg('>> DONE.'); } else throw new Error(); } 
+        catch (err) { setTerminalMsg('>> FAILED.'); }
       };
 
       const handleDelete = async (dateId) => {
-        if (!window.confirm(t(`BOSS 抹除確認: ${dateId}`, `CONFIRM ERASE: ${dateId}`))) return;
-        const previousHistory = [...history];
-        setHistory(history.filter(item => item.dateId !== dateId)); 
-        setTerminalMsg('>> RECORD ERASED LOCALLY. SILENT SYNC...');
-        try {
-          const res = await gasAPI('deleteFOSData', dateId);
-          if (res.success) setTerminalMsg('>> MAINFRAME ERASE COMPLETE.');
-          else throw new Error();
-        } catch (err) {
-          setHistory(previousHistory); 
-          triggerGlitch();
-          setTerminalMsg('>> [SYSTEM ERROR] ERASE FAILED. STATE ROLLBACK.');
-        }
+        if (!window.confirm(`ERASE: ${dateId}?`)) return;
+        const previousHistory = [...history]; setHistory(history.filter(item => item.dateId !== dateId)); setTerminalMsg('>> DELETING...');
+        try { const res = await gasAPI('deleteFOSData', dateId); if (res.success) setTerminalMsg('>> DONE.'); else throw new Error(); } 
+        catch (err) { setHistory(previousHistory); setTerminalMsg('>> FAILED.'); }
       };
 
       const getMRZone = (mr) => {
         const val = parseFloat(mr);
-        if (val === 0) return { border: 'border-slate-800', text: 'text-slate-500', bg: 'bg-slate-900', title: t('待命中', 'STANDBY') };
-        if (val >= 350) return { border: 'border-emerald-500/80 shadow-[0_0_30px_rgba(16,185,129,0.3)]', text: 'text-emerald-400 neon-text-emerald', bg: 'bg-emerald-950/40', title: t('🟢 第一區 (≥350%)', '🟢 ZONE 1 (≥350%)') };
-        if (val >= 330) return { border: 'border-yellow-500/80 shadow-[0_0_30px_rgba(234,179,8,0.3)]', text: 'text-yellow-400 neon-text-amber', bg: 'bg-yellow-900/20', title: t('🟡 第二區 (330%-349%)', '🟡 ZONE 2 (330-349%)') };
-        if (val >= 310) return { border: 'border-orange-500/80 shadow-[0_0_30px_rgba(249,115,22,0.3)]', text: 'text-orange-500 neon-text-amber', bg: 'bg-orange-950/40', title: t('🟠 第三區 (310%-329%)', '🟠 ZONE 3 (310-329%)') };
-        return { border: 'border-red-600 shadow-[0_0_40px_rgba(220,38,38,0.5)]', text: 'text-red-500 neon-text-red', bg: 'bg-red-950/60', title: t('🔴 危險區 (<310%)', '🔴 DANGER (<310%)') };
+        if (val === 0) return { bg: 'bg-white', text: 'text-black', border: 'border-black', label: 'STANDBY' };
+        if (val >= 350) return { bg: 'bg-green-400', text: 'text-black', border: 'border-black', label: 'ZONE 1' };
+        if (val >= 330) return { bg: 'bg-yellow-400', text: 'text-black', border: 'border-black', label: 'ZONE 2' };
+        if (val >= 310) return { bg: 'bg-orange-500', text: 'text-black', border: 'border-black', label: 'ZONE 3' };
+        return { bg: 'bg-red-600', text: 'text-white', border: 'border-black', label: 'DANGER' };
       };
 
-      const qPrice = parseFloat(dualMaMatrix.qqqPrice);
-      const qMa = parseFloat(dualMaMatrix.qqqMa);
-      const tPrice = parseFloat(dualMaMatrix.tslaPrice);
-      const tMa = parseFloat(dualMaMatrix.tslaMa);
-
+      const qPrice = parseFloat(dualMaMatrix.qqqPrice); const qMa = parseFloat(dualMaMatrix.qqqMa);
+      const tPrice = parseFloat(dualMaMatrix.tslaPrice); const tMa = parseFloat(dualMaMatrix.tslaMa);
       const qqqGap = (qPrice > 0 && qMa > 0) ? ((qPrice - qMa) / qMa) * 100 : 0;
       const tslaGap = (tPrice > 0 && tMa > 0) ? ((tPrice - tMa) / tMa) * 100 : 0;
 
-      let matrixStatus = { label: t('待命中', 'STANDBY'), action: t('等待引擎連線...', 'AWAITING CONNECTION...'), bg: 'bg-slate-900/50', color: 'text-slate-500', target: 'NONE' };
-
+      let matrixStatus = { label: 'STANDBY', action: 'AWAITING...', bg: 'bg-white', color: 'text-black', target: 'NONE' };
       if (!dualMaMatrix.isLoading && !dualMaMatrix.error && qPrice > 0) {
           if (qqqGap > 1) {
-              if (tslaGap > 1) {
-                  matrixStatus = { label: t('🟢 雙引擎點火', '🟢 DUAL IGNITION'), action: t('大盤個股皆強勢突破。100% 買入 TSLA', 'Both index and stock broke out. 100% BUY TSLA'), bg: 'bg-emerald-950/40 border-emerald-500/50 shadow-[0_0_30px_rgba(16,185,129,0.3)]', color: 'text-emerald-400 neon-text-emerald', target: 'TSLA' };
-              } else {
-                  matrixStatus = { label: t('🟡 右側代班', '🟡 RIGHT SIDE SHIFT'), action: t('大盤強勢，但個股偏弱或盤整。100% 買入 TQQQ', 'Index strong, stock weak/ranging. 100% BUY TQQQ'), bg: 'bg-yellow-950/40 border-yellow-500/50 shadow-[0_0_30px_rgba(234,179,8,0.3)]', color: 'text-yellow-400 neon-text-amber', target: 'TQQQ' };
-              }
-          } else {
-              matrixStatus = { label: t('🔴 絕對冰凍', '🔴 ABSOLUTE FREEZE'), action: t('大盤跌破均線或進入盤整。強制 100% 買入 QQQ', 'Index below MA or ranging. 100% BUY QQQ'), bg: 'bg-red-950/40 border-red-500/50 shadow-[0_0_30px_rgba(220,38,38,0.3)]', color: 'text-red-400 neon-text-red', target: 'QQQ' };
-          }
-      } else if (dualMaMatrix.error) {
-           matrixStatus = { label: '⚠️ ERROR', action: dualMaMatrix.error, bg: 'bg-red-950/30 border-red-800', color: 'text-red-400 neon-text-red', target: 'NONE' };
-      }
+              if (tslaGap > 1) matrixStatus = { label: 'DUAL IGNITION', action: '100% BUY TSLA', bg: 'bg-green-400', color: 'text-black', target: 'TSLA' };
+              else matrixStatus = { label: 'RIGHT SHIFT', action: '100% BUY TQQQ', bg: 'bg-yellow-400', color: 'text-black', target: 'TQQQ' };
+          } else matrixStatus = { label: 'FREEZE', action: '100% BUY QQQ', bg: 'bg-red-600', color: 'text-white', target: 'QQQ' };
+      } else if (dualMaMatrix.error) matrixStatus = { label: 'ERROR', action: dualMaMatrix.error, bg: 'bg-black', color: 'text-white', target: 'NONE' };
 
-      const renderRadar = (title, price, ma, gap) => {
-        let textCol = 'text-slate-400';
-        let arrow = '➖';
-        if(gap > 1) { textCol = 'text-emerald-400 neon-text-emerald'; arrow = '▲'; }
-        else if(gap < -1) { textCol = 'text-red-400 neon-text-red'; arrow = '▼'; }
-        
-        return (
-          <div className={`bg-slate-900/80 p-6 md:p-8 rounded-2xl border-2 ${gap > 1 ? 'border-emerald-900/50' : 'border-red-900/50'} flex flex-col justify-center items-center w-full relative z-10 shadow-[0_0_15px_rgba(51,65,85,0.5)]`}>
-              <span className="text-xl text-slate-500 font-bold uppercase mb-4 tracking-widest">{title} {t('雷達', 'RADAR')}</span>
-              <div className="flex items-end gap-3 mb-2">
-                <span className="text-5xl font-mono font-black text-white">{price}</span>
-                <span className="text-xl font-bold text-slate-500 mb-1">/ {ma}</span>
-              </div>
-              <div className={`text-2xl font-black tracking-widest mt-2 flex items-center gap-2 ${textCol}`}>
-                <span>{arrow} {gap > 0 ? '+' : ''}{gap.toFixed(2)}%</span>
-              </div>
-              {Math.abs(gap) <= 1 && <div className="absolute top-2 right-4 text-xs font-black text-yellow-500 tracking-widest border border-yellow-600/50 bg-yellow-950/30 px-2 py-1 rounded-md">±1% BUFFER</div>}
-          </div>
-        );
-      };
-
-      const btcAth = parseFloat(formData.btcAth) || 1;
-      const ethAth = parseFloat(formData.ethAth) || 1;
+      const btcAth = parseFloat(formData.btcAth) || 1; const ethAth = parseFloat(formData.ethAth) || 1;
       const btcDrawdown = (currentBtc > 0 && btcAth > 0) ? (((currentBtc - btcAth) / btcAth) * 100).toFixed(2) : '0.00';
       const ethDrawdown = (currentEth > 0 && ethAth > 0) ? (((currentEth - ethAth) / ethAth) * 100).toFixed(2) : '0.00';
 
-      let consensusTarget = 'BTC';
-      let consensusColor = 'text-slate-400';
-      let consensusMsg = 'CALCULATING...';
+      let consensusTarget = 'BTC'; let consensusColor = 'bg-white'; let consensusMsg = '...';
       const ratioVal = parseFloat(ethBtcRatio);
-
-      if (ratioVal > 0.060) {
-        consensusTarget = 'BTC';
-        consensusColor = 'text-yellow-400 neon-text-amber';
-        consensusMsg = t('ETH 過熱區 (>0.060)', 'ETH OVERHEATED (>0.060)');
-      } else if (ratioVal >= 0.020 && ratioVal <= 0.060) {
-        consensusTarget = 'ETH';
-        consensusColor = 'text-cyan-400 neon-text-cyan';
-        consensusMsg = t('ETH 價值區 (0.020~0.060)', 'ETH VALUE ZONE (0.020-0.060)');
-      } else if (ratioVal > 0 && ratioVal < 0.020) {
-        consensusTarget = 'BTC';
-        consensusColor = 'text-blue-500 drop-shadow-[0_0_8px_currentColor]';
-        consensusMsg = t('⚫ ETH 冰凍協議生效 (<0.020)', '⚫ ETH FREEZE PROTOCOL ENGAGED (<0.020)');
-      }
-
-      const getCryptoAction = (asset, currentPrice, athPrice, drawdown) => {
-        const dd = parseFloat(drawdown);
-        const price = parseFloat(currentPrice);
-        const ath = parseFloat(athPrice);
-        
-        if (price > 0 && ath > 0) {
-          if (price >= ath * 1.5) return { label: t('🎯 第3槍鎖利', '🎯 SHOT 3: LOCK PROFIT'), msg: t('賣出 10% → P2', 'SELL 10% → P2'), ui: 'text-red-400 border-red-900 bg-red-950/30' };
-          if (price >= ath * 1.25) return { label: t('🎯 第2槍鎖利', '🎯 SHOT 2: LOCK PROFIT'), msg: t('賣出 10% → P2', 'SELL 10% → P2'), ui: 'text-red-400 border-red-900 bg-red-950/30' };
-          if (price >= ath) return { label: t('🎯 第1槍鎖利', '🎯 SHOT 1: LOCK PROFIT'), msg: t('賣出 10% → P2', 'SELL 10% → P2'), ui: 'text-red-400 border-red-900 bg-red-950/30' };
-        }
-
-        if (dd <= -60) return { label: t('🟢 第4段回補', '🟢 TIER 4 REBUY'), msg: t('動用 P2 總額 30%', 'DEPLOY 30% OF P2'), ui: 'text-emerald-300 border-emerald-400 bg-emerald-950/50 shadow-[0_0_30px_rgba(16,185,129,0.4)]', target: asset };
-        if (dd <= -50) return { label: t('🟢 第3段回補', '🟢 TIER 3 REBUY'), msg: t('動用 P2 總額 30%', 'DEPLOY 30% OF P2'), ui: 'text-emerald-400 border-emerald-500 bg-emerald-950/40 shadow-[0_0_20px_rgba(16,185,129,0.3)]', target: asset };
-        if (dd <= -40) return { label: t('🟢 第2段回補', '🟢 TIER 2 REBUY'), msg: t('動用 P2 總額 20%', 'DEPLOY 20% OF P2'), ui: 'text-emerald-500 border-emerald-700 bg-emerald-950/30', target: asset };
-        if (dd <= -30) return { label: t('🟢 第1段回補', '🟢 TIER 1 REBUY'), msg: t('動用 P2 總額 20%', 'DEPLOY 20% OF P2'), ui: 'text-emerald-600 border-emerald-800 bg-emerald-950/20', target: asset };
-        return { label: t('🛡️ 守備中', '🛡️ DEFENDING'), msg: t('持有觀察', 'HOLD & OBSERVE'), ui: 'text-slate-400 border-slate-700 bg-slate-900/50', target: '' };
-      };
-
-      const btcAction = getCryptoAction('BTC', currentBtc, btcAth, btcDrawdown);
-      const ethAction = getCryptoAction('ETH', currentEth, ethAth, ethDrawdown);
+      if (ratioVal > 0.060) { consensusTarget = 'BTC'; consensusColor = 'bg-yellow-400'; consensusMsg = '> 0.060'; } 
+      else if (ratioVal >= 0.020 && ratioVal <= 0.060) { consensusTarget = 'ETH'; consensusColor = 'bg-blue-400 text-white'; consensusMsg = '0.020-0.060'; } 
+      else if (ratioVal > 0 && ratioVal < 0.020) { consensusTarget = 'BTC'; consensusColor = 'bg-black text-white'; consensusMsg = '< 0.020'; }
 
       const escapeVal = parseFloat(escapeAmount) || 0;
-      const stockInject = escapeVal * 0.8;
-      const ethInject = escapeVal * 0.2;
-      const mrVal = parseFloat(nominalMR);
+      const stockInject = escapeVal * 0.8; const ethInject = escapeVal * 0.2; const mrVal = parseFloat(nominalMR);
 
       const handleCopyReport = () => {
-        const rate = parseFloat(formDataB.usdRate) || 32.5;
-        
-        const tslaTwd = (parseFloat(formDataB.tsla) || 0) * rate;
-        const qqqTwd = (parseFloat(formDataB.qqq) || 0) * rate;
-        const tqqqTwd = (parseFloat(formDataB.tqqq) || 0) * rate;
-        const qldTwd = (parseFloat(formDataB.qld) || 0) * rate;
-        const ethTwd = parseFloat(formDataB.eth) || 0;
-        const btcTwd = parseFloat(formDataB.btc) || 0;
-        
-        const p2UsdtVal = parseFloat(formData.p2Usdt) || 0;
-        const bAth = parseFloat(formData.btcAth) || 0;
-        const eAth = parseFloat(formData.ethAth) || 0;
-
-        const report = `【${isEng ? 'A ACCOUNT' : 'A帳戶'}】\nMR: ${nominalMR}% | L: ${formatNumber(L)} | C(0050+00733): ${formatNumber(C)} | P1: ${p1Ratio}%\n\n【${isEng ? 'B ACCOUNT' : 'B帳戶'} (TWD)】\nTSLA: ${formatNumber(tslaTwd)} | QQQ: ${formatNumber(qqqTwd)}\nTQQQ: ${formatNumber(tqqqTwd)} | QLD: ${formatNumber(qldTwd)}\nETH: ${formatNumber(ethTwd)} | BTC: ${formatNumber(btcTwd)}\n\n【${isEng ? 'MARKET MATRIX' : '市場矩陣'}】\nQQQ Price/10MA: ${dualMaMatrix.qqqPrice} / ${dualMaMatrix.qqqMa}\nTSLA Price/10MA: ${dualMaMatrix.tslaPrice} / ${dualMaMatrix.tslaMa}\nETH/BTC: ${ethBtcRatio}\n\n【${isEng ? 'DEFENSE & ATH' : '防禦與高點'}】\nP2: ${p2UsdtVal.toLocaleString('en-US')} USDT\nBTC ATH: $${bAth.toLocaleString('en-US')}\nETH ATH: $${eAth.toLocaleString('en-US')}`;
-
-        navigator.clipboard.writeText(report).then(() => {
-          setTerminalMsg(t('>> 戰報已淨化並包含 QLD！', '>> REPORT PURIFIED AND COPIED!'));
-          setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED ENGINE]'} ENGAGED.`), 4000);
-        }).catch(err => {
-          setTerminalMsg(t('>> 複製失敗，請手動圈選畫面數據。', '>> COPY FAILED. SELECT MANUALLY.'));
-        });
+        const report = `【A】\nMR: ${nominalMR}% | L: ${formatNumber(L)} | C: ${formatNumber(C)} | P1: ${p1Ratio}%\n【MATRIX】\nQQQ: ${dualMaMatrix.qqqPrice}/${dualMaMatrix.qqqMa}\nTSLA: ${dualMaMatrix.tslaPrice}/${dualMaMatrix.tslaMa}\nETH/BTC: ${ethBtcRatio}`;
+        navigator.clipboard.writeText(report).then(() => setTerminalMsg('>> COPIED.')).catch(() => setTerminalMsg('>> COPY FAILED.'));
       };
 
       return (
-        <div className={`max-w-[1800px] mx-auto p-6 md:p-10 space-y-14 relative tracking-wide transition-all ${isGlitching ? 'glitch-effect' : ''}`}>
+        <div className="max-w-[1800px] mx-auto px-4 md:px-10 space-y-12 pb-24">
           
-          <div className="fixed bottom-8 right-8 z-[9999]">
-            <button onClick={handleCopyReport} className="pointer-events-auto w-24 h-24 rounded-full bg-slate-900 border-4 border-cyan-500 flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.6)] hover:scale-110 hover:bg-cyan-950 transition-all duration-300 relative group">
-              <span className="text-4xl group-hover:scale-110 transition-transform">📋</span>
-              <span className="absolute -top-3 right-0 bg-cyan-500 text-slate-950 font-black text-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md pointer-events-none whitespace-nowrap">{t('複製戰報', 'COPY REPORT')}</span>
-            </button>
+          <div className="marquee-container -mx-4 md:-mx-10 mb-8 border-t-[6px] border-b-[6px] border-black shadow-[0_8px_0_0_#000]">
+            <div className="marquee-content px-4">
+              [SYSTEM NOTIFICATION] // NEO-BRUTALISM ARCHITECTURE ACTIVE // AUTHORIZED BY CHANGSHENG LIU // FOS TERMINAL V13 // L/C BALANCE ENFORCED // 
+              [SYSTEM NOTIFICATION] // NEO-BRUTALISM ARCHITECTURE ACTIVE // AUTHORIZED BY CHANGSHENG LIU // FOS TERMINAL V13 // L/C BALANCE ENFORCED //
+            </div>
           </div>
 
-          <header className="border-b-2 border-slate-800/80 pb-8 animate-fade-in-up mt-4">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-8">
-              <div>
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-slate-100 flex items-center gap-6">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-red-500 animate-text-shimmer bg-[length:200%_auto] drop-shadow-[0_0_25px_rgba(239,68,68,0.6)]">
-                    <ScrambleText text="Financial Optimization System" />
-                  </span> 
-                  <span className="opacity-90 font-bold text-4xl lg:text-6xl">v12.2</span>
-                </h1>
-                <p className="text-slate-400 text-xl mt-6 font-mono font-bold text-emerald-500/80 uppercase tracking-widest transition-colors duration-300">{terminalMsg}</p>
+          <div className="fixed bottom-8 right-8 z-[9999]">
+            <button onClick={handleCopyReport} className="brutal-btn w-20 h-20 bg-yellow-400 flex items-center justify-center text-4xl">📋</button>
+          </div>
+
+          <header className="brutal-panel p-8 md:p-12 mb-12 bg-white flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8">
+            <div>
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter text-black uppercase border-b-8 border-black pb-4 mb-4">
+                FOS <span className="bg-black text-white px-4">V13</span>
+              </h1>
+              <p className="text-xl font-bold text-black uppercase bg-yellow-400 inline-block px-4 py-1 border-2 border-black">{terminalMsg}</p>
+            </div>
+            
+            <div className="flex flex-col items-end gap-6 w-full xl:w-auto">
+              <div className="flex flex-wrap items-center gap-6">
+                <button onClick={handleLangToggle} className="brutal-btn bg-white px-6 py-3 text-2xl font-black">{isEng ? 'EN' : '中'}</button>
+                <div className="flex items-center gap-4 bg-white border-4 border-black px-6 py-3 shadow-[4px_4px_0_0_#000]">
+                  <span className="text-2xl font-black uppercase">PART 9</span>
+                  <label className="cyber-toggle">
+                    <input type="checkbox" checked={isPart9} onChange={() => { setIsPart9(!isPart9); safeSetStorage('fos_isPart9', (!isPart9).toString()); }} />
+                    <span className="cyber-slider"></span>
+                  </label>
+                </div>
               </div>
               
-              <div className="flex flex-col items-end gap-4 w-full md:w-auto">
-                <div className="flex flex-wrap items-center gap-6 md:gap-8">
-                  <button onClick={handleLangToggle} className="bg-slate-800 border-2 border-slate-600 text-slate-300 px-6 py-4 rounded-2xl flex items-center gap-3 text-xl font-black transition-all hover:bg-slate-700 hover:border-slate-500 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                    <span className="text-2xl">🌐</span> {isEng ? 'EN' : '中'}
-                  </button>
-                  <button onClick={() => setShowHelp(true)} className="bg-blue-900/40 hover:bg-blue-800/60 border-2 border-blue-500/50 text-blue-300 px-8 py-5 rounded-2xl flex items-center gap-3 text-2xl font-bold transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] backdrop-blur-sm">
-                    ❓ {t('HELP 系統說明', 'HELP & PROTOCOLS')}
-                  </button>
-                  <div className="flex items-center gap-6 px-8 py-5 rounded-2xl border-2 border-slate-700/80 bg-slate-900/60 backdrop-blur-md">
-                    <span className={`text-2xl font-black transition-colors ${isPart9 ? 'text-purple-400 neon-text-purple' : 'text-slate-500'}`}>🌌 {t('逃逸速度 (Part 9)', 'ESCAPE VELOCITY')}</span>
-                    <label className="cyber-toggle">
-                      <input type="checkbox" checked={isPart9} onChange={() => { setIsPart9(!isPart9); safeSetStorage('fos_isPart9', (!isPart9).toString()); }} />
-                      <span className="cyber-slider"></span>
-                    </label>
-                  </div>
-                </div>
-                
-                {isPart9 && (
-                  <div className="w-full md:w-[600px] mt-4 bg-slate-900/90 border-2 border-purple-500/60 rounded-[2rem] p-8 shadow-[0_0_40px_rgba(168,85,247,0.25)] animate-fade-in-up backdrop-blur-xl relative z-20">
-                    <div className="flex justify-between items-center mb-6">
-                      <label className="text-2xl font-black text-purple-400 neon-text-purple tracking-widest"><ScrambleText text={t("80/20 萃取注資矩陣", "80/20 INJECTION MATRIX")} /></label>
-                    </div>
-                    <input type="number" value={escapeAmount} onChange={e => setEscapeAmount(e.target.value)} className="w-full glass-input rounded-2xl mb-8 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/50 text-3xl font-black text-center" placeholder={t("輸入法幣金額...", "Input Fiat Amount...")} />
-                    
-                    {escapeVal > 0 && (
-                      <div className="relative">
-                        {mrVal > 0 && mrVal < 330 && (
-                          <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md z-10 flex flex-col items-center justify-center rounded-2xl border-2 border-red-500/80 shadow-[0_0_30px_rgba(220,38,38,0.3)]">
-                              <span className="text-5xl animate-pulse mb-3">⛔</span>
-                              <span className="text-xl font-black text-red-400 tracking-widest">{mrVal < 310 ? t('🔴 系統鎖死：強制賣出 P1', '🔴 LOCKED: FORCE LIQUIDATE P1') : t('🟠 系統鎖死：維持率過低', '🟠 LOCKED: MR TOO LOW')}</span>
-                          </div>
-                        )}
-                        <div className="grid grid-cols-2 gap-6 animate-fade-in-up">
-                          <div className={`p-6 rounded-2xl text-center border-2 transition-colors duration-300 ${matrixStatus.target === 'NONE' ? 'bg-slate-900/80 border-slate-600' : 'bg-emerald-950/40 border-emerald-500/50 shadow-[0_0_20px_rgba(16,185,129,0.3)]'}`}>
-                            <div className={`text-xl font-bold mb-3 tracking-widest transition-colors duration-300 ${matrixStatus.target === 'NONE' ? 'text-slate-400' : 'text-emerald-400'}`}>80% {t('買入', 'BUY')} {matrixStatus.target === 'NONE' ? t('原標的', 'ORIGINAL') : matrixStatus.target}</div>
-                            <div className={`text-4xl font-black transition-colors duration-300 ${matrixStatus.target === 'NONE' ? 'text-slate-300' : 'text-emerald-300 neon-text-emerald'}`}>{formatNumber(stockInject)}</div>
-                          </div>
-                          <div className={`p-6 rounded-2xl text-center border-2 transition-colors duration-300 ${consensusTarget === 'ETH' ? 'bg-cyan-950/50 border-cyan-500/60 shadow-[0_0_20px_rgba(34,211,238,0.2)]' : 'bg-yellow-950/50 border-yellow-500/60 shadow-[0_0_20px_rgba(234,179,8,0.2)]'}`}>
-                            <div className={`text-xl font-bold mb-3 tracking-widest ${consensusTarget === 'ETH' ? 'text-cyan-400' : 'text-yellow-400'}`}>20% {t('買入', 'BUY')} {consensusTarget}</div>
-                            <div className={`text-4xl font-black ${consensusTarget === 'ETH' ? 'text-cyan-300 neon-text-cyan' : 'text-yellow-300 neon-text-amber'}`}>{formatNumber(ethInject)}</div>
-                          </div>
-                        </div>
-                        {mrVal >= 330 && mrVal < 350 && (
-                           <div className="mt-6 text-center text-yellow-400 font-bold tracking-widest animate-pulse border-t-2 border-yellow-900/50 pt-4">⚠️ 🟡 {t('降頻注頻：當前僅限使用純淨股息', 'THROTTLED: USE PURE DIVIDENDS ONLY')}</div>
-                        )}
+              {isPart9 && (
+                <div className="w-full xl:w-[600px] brutal-panel p-8 bg-purple-200">
+                  <label className="text-3xl font-black uppercase mb-6 block border-b-4 border-black pb-2">80/20 INJECTION</label>
+                  <input type="number" value={escapeAmount} onChange={e => setEscapeAmount(e.target.value)} className="w-full brutal-input mb-6 text-center" placeholder="FIAT AMOUNT" />
+                  
+                  {escapeVal > 0 && (
+                    <div className="grid grid-cols-2 gap-6">
+                      <div className="brutal-panel p-6 text-center bg-white">
+                        <div className="text-xl font-black mb-2 border-b-2 border-black pb-2">80% {matrixStatus.target === 'NONE' ? 'STOCK' : matrixStatus.target}</div>
+                        <div className="text-4xl font-black text-blue-600">{formatNumber(stockInject)}</div>
                       </div>
-                    )}
-                  </div>
-                )}
-              </div>
+                      <div className="brutal-panel p-6 text-center bg-white">
+                        <div className="text-xl font-black mb-2 border-b-2 border-black pb-2">20% {consensusTarget}</div>
+                        <div className="text-4xl font-black text-blue-600">{formatNumber(ethInject)}</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </header>
 
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 relative z-10">
-            <div className="xl:col-span-4 space-y-10 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <div className="grid grid-cols-1 xl:grid-cols-12 gap-10">
+            <div className="xl:col-span-4 space-y-10">
               
-              {/* === A/B Toggle Input Panel === */}
-              <div className="solid-panel rounded-[2rem] p-8 md:p-10 border-t-4 border-t-slate-500/50">
-                <div className="flex justify-between items-center mb-8 border-b-2 border-slate-700/80 pb-5">
-                  <h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest flex items-center gap-4">
-                    <span className={`w-5 h-5 rounded-full animate-pulse ${inputTab === 'A' ? 'bg-emerald-400' : 'bg-blue-400'}`}></span>
-                    <ScrambleText text={inputTab === 'A' ? t("TW A 帳戶輸入", "ACCOUNT A INPUT") : t("TW B 帳戶輸入", "ACCOUNT B INPUT")} />
-                  </h2>
-                  <div className="flex bg-slate-900 rounded-xl border border-slate-700 overflow-hidden">
-                    <button onClick={() => setInputTab('A')} className={`px-4 py-2 font-bold transition-colors ${inputTab === 'A' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}>A</button>
-                    <button onClick={() => setInputTab('B')} className={`px-4 py-2 font-bold transition-colors ${inputTab === 'B' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}>B</button>
+              {/* === INPUT PANEL === */}
+              <div className="brutal-panel p-8 md:p-10 bg-white">
+                <div className="flex justify-between items-center mb-8 border-b-8 border-black pb-4">
+                  <h2 className="text-3xl font-black uppercase bg-black text-white px-4 py-1">{inputTab} INPUT</h2>
+                  <div className="flex border-4 border-black bg-white shadow-[4px_4px_0_0_#000]">
+                    <button onClick={() => setInputTab('A')} className={`px-6 py-2 text-2xl font-black ${inputTab === 'A' ? 'bg-black text-white' : 'hover:bg-gray-200'}`}>A</button>
+                    <button onClick={() => setInputTab('B')} className={`px-6 py-2 text-2xl font-black border-l-4 border-black ${inputTab === 'B' ? 'bg-black text-white' : 'hover:bg-gray-200'}`}>B</button>
                   </div>
                 </div>
 
                 {inputTab === 'A' ? (
-                  <div className="space-y-8 animate-fade-in-up">
-                    <div className="group"><label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-red-400">{t('L 借款總額', 'L Amount (Loan)')}</label><input type="number" name="lAmount" value={formData.lAmount} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /></div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="group"><label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-emerald-400">{t('C 0050 市值', 'C 0050 Value')}</label><input type="number" name="c0050" value={formData.c0050} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /></div>
-                      <div className="group"><label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-emerald-400">{t('C 00733 市值', 'C 00733 Value')}</label><input type="number" name="c00733" value={formData.c00733} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /></div>
+                  <div className="space-y-6">
+                    <div><label className="block text-xl font-black mb-2">L AMOUNT</label><input type="number" name="lAmount" value={formData.lAmount} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div><label className="block text-xl font-black mb-2">C 0050</label><input type="number" name="c0050" value={formData.c0050} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2">C 00733</label><input type="number" name="c00733" value={formData.c00733} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
                     </div>
-                    <div className="group"><label className="block text-xl font-bold text-slate-400 mb-4 transition-colors group-focus-within:text-purple-400">{t('P1 資金池 (00675L)', 'P1 Tactical Pool')}</label><input type="number" name="p1Value" value={formData.p1Value} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="0" /></div>
-                    
-                    <button type="button" onClick={handleSave} className="w-full bg-gradient-to-r from-red-800 to-red-950 hover:from-red-700 hover:to-red-900 border-2 border-red-600/50 text-slate-100 text-4xl font-black py-6 rounded-[2rem] transition-all duration-300 shadow-[0_8px_30px_rgba(185,28,28,0.6)] hover:shadow-[0_15px_50px_rgba(185,28,28,0.8)] tracking-widest neon-text-red">
-                      🚀 {t('寫入防禦', 'INJECT DEFENSE')}
-                    </button>
+                    <div><label className="block text-xl font-black mb-2">P1 (00675L)</label><input type="number" name="p1Value" value={formData.p1Value} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
+                    <button type="button" onClick={handleSave} className="w-full brutal-btn bg-red-500 text-white text-4xl py-6 mt-6">INJECT A</button>
                   </div>
                 ) : (
-                  <div className="space-y-6 animate-fade-in-up">
-                    <div className="flex justify-between items-center mb-4 border-b-2 border-slate-700 pb-4">
-                       <span className="text-slate-400 font-bold">{t('美股(USD) • 加密(TWD)', 'Stocks(USD) • Crypto(TWD)')}</span>
-                       <div className="flex items-center gap-3">
-                         <label className="text-blue-400 font-bold">USD/TWD</label>
-                         <input type="number" name="usdRate" value={formDataB.usdRate} onChange={handleInputBChange} className="w-24 glass-input rounded-xl py-2 px-3 text-xl focus:border-blue-500 text-center" />
-                       </div>
+                  <div className="space-y-6">
+                    <div className="flex justify-between items-center bg-gray-200 p-4 border-4 border-black">
+                       <span className="font-black text-xl">RATE</span>
+                       <input type="number" name="usdRate" value={formDataB.usdRate} onChange={handleInputBChange} className="w-32 brutal-input p-2 text-center" />
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="group"><label className="block text-xl font-bold text-blue-400 mb-2">TSLA <span className="text-sm opacity-70">(USD)</span></label><input type="number" name="tsla" value={formDataB.tsla} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-blue-500" placeholder="0" /></div>
-                      <div className="group"><label className="block text-xl font-bold text-blue-400 mb-2">QQQ <span className="text-sm opacity-70">(USD)</span></label><input type="number" name="qqq" value={formDataB.qqq} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-blue-500" placeholder="0" /></div>
+                    <div className="grid grid-cols-2 gap-6">
+                      <div><label className="block text-xl font-black mb-2">TSLA</label><input type="number" name="tsla" value={formDataB.tsla} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2">QQQ</label><input type="number" name="qqq" value={formDataB.qqq} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2">TQQQ</label><input type="number" name="tqqq" value={formDataB.tqqq} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2">QLD</label><input type="number" name="qld" value={formDataB.qld} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2">ETH</label><input type="number" name="eth" value={formDataB.eth} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
+                      <div><label className="block text-xl font-black mb-2">BTC</label><input type="number" name="btc" value={formDataB.btc} onChange={handleInputBChange} className="w-full brutal-input" placeholder="0" /></div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="group"><label className="block text-xl font-bold text-blue-400 mb-2">TQQQ <span className="text-sm opacity-70">(USD)</span></label><input type="number" name="tqqq" value={formDataB.tqqq} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-blue-500" placeholder="0" /></div>
-                      <div className="group"><label className="block text-xl font-bold text-purple-400 mb-2">QLD <span className="text-sm opacity-70">(USD)</span></label><input type="number" name="qld" value={formDataB.qld} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-purple-500" placeholder="0" /></div>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t-2 border-slate-800">
-                      <div className="group"><label className="block text-xl font-bold text-cyan-400 mb-2">ETH <span className="text-sm opacity-70">(TWD)</span></label><input type="number" name="eth" value={formDataB.eth} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-cyan-500" placeholder="0" /></div>
-                      <div className="group"><label className="block text-xl font-bold text-yellow-500 mb-2">BTC <span className="text-sm opacity-70">(TWD)</span></label><input type="number" name="btc" value={formDataB.btc} onChange={handleInputBChange} className="w-full glass-input rounded-2xl focus:border-yellow-500" placeholder="0" /></div>
-                    </div>
-                    
-                    <button type="button" onClick={handleSaveB} className="w-full bg-gradient-to-r from-blue-800 to-blue-950 hover:from-blue-700 hover:to-blue-900 border-2 border-blue-600/50 text-slate-100 text-4xl font-black py-6 rounded-[2rem] transition-all duration-300 shadow-[0_8px_30px_rgba(37,99,235,0.6)] hover:shadow-[0_15px_50px_rgba(37,99,235,0.8)] tracking-widest neon-text-blue mt-4">
-                      ⚔️ {t('寫入突擊', 'INJECT ASSAULT')}
-                    </button>
+                    <button type="button" onClick={handleSaveB} className="w-full brutal-btn bg-blue-500 text-white text-4xl py-6 mt-6">INJECT B</button>
                   </div>
                 )}
               </div>
 
-              {/* 極端流動性防禦 */}
-              <div className="solid-panel rounded-[2rem] p-10 border-l-8 border-l-red-500/70 bg-gradient-to-r from-red-950/20 to-transparent">
-                <h2 className="text-2xl font-black text-red-400 mb-6 uppercase tracking-widest flex items-center gap-4 neon-text-red">
-                  <span className="text-3xl">🩸</span> <ScrambleText text={t("極端流動性防禦", "EXTREME LIQUIDITY DEFENSE")} />
-                </h2>
-                <div className="text-lg text-red-300/80 mb-8 border-b-2 border-red-900/50 pb-5 font-bold tracking-wide leading-relaxed">
-                  {t('9.6 實體提現 SOP', '9.6 Physical Withdrawal SOP')}<br/>
-                  {t('第一順位：A 帳戶股息 (純淨活水)', 'Tier 1: Account A Dividends')}<br/>
-                  {t('第二順位：4.5 防禦性混合解質 (精算如下)', 'Tier 2: Defensive Liquidation (Calculated)')}
-                </div>
-                <div className="group mb-8">
-                  <label className="block text-xl font-bold text-slate-400 mb-4 group-focus-within:text-red-400">{t('請輸入急需變現之法幣金額 (抽出)', 'Input required fiat amount to withdraw')}</label>
-                  <input type="number" name="emergencyWithdrawal" value={formData.emergencyWithdrawal} onChange={handleInputChange} className="w-full glass-input rounded-2xl text-slate-100 bg-slate-900 focus:border-red-500 focus:ring-2 focus:ring-red-500/50" placeholder="e.g. 150000" />
-                </div>
+              {/* LIQUIDITY DEFENSE */}
+              <div className="brutal-panel p-8 md:p-10 bg-yellow-400">
+                <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-6">LIQUIDITY DEFENSE</h2>
+                <div className="mb-6"><label className="block text-2xl font-black mb-2">WITHDRAW (FIAT)</label><input type="number" name="emergencyWithdrawal" value={formData.emergencyWithdrawal} onChange={handleInputChange} className="w-full brutal-input" placeholder="0" /></div>
                 {hdpResult && (
-                  <div className={`p-6 rounded-2xl border-2 backdrop-blur-md transition-all duration-300 ${hdpResult.status === 'danger' ? 'bg-red-950/60 border-red-800 text-red-200' : 'bg-yellow-950/60 border-yellow-800 text-yellow-100'}`}>
-                    <p className="text-xl font-bold mb-4">{hdpResult.msg}</p>
-                    {hdpResult.status === 'ok' && <div className="text-lg font-mono bg-black/60 p-4 rounded-xl text-yellow-400 font-bold tracking-wider">Psac ({t('P1 犧牲額', 'P1 Sacrifice')}): {formatNumber(hdpResult.psac)}</div>}
+                  <div className={`p-6 border-4 border-black font-black text-xl ${hdpResult.status === 'danger' ? 'bg-red-500 text-white' : 'bg-white text-black'}`}>
+                    {hdpResult.msg}
                   </div>
                 )}
-              </div>
-
-              {/* 戰術模擬器 */}
-              <div className="solid-panel rounded-[2rem] p-10 border-l-8 border-l-cyan-500/70 bg-gradient-to-r from-cyan-950/20 to-transparent">
-                <h2 className="text-2xl font-black text-cyan-400 mb-8 uppercase tracking-widest flex items-center gap-4 neon-text-cyan">
-                  <span className="text-3xl">🔮</span> <ScrambleText text={t("戰術模擬器", "TACTICAL SIMULATOR")} />
-                </h2>
-                <div className="space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="group"><label className="block text-xl font-bold text-slate-400 mb-4 group-focus-within:text-cyan-400">{t('L 增減模擬', 'L Simulation (+/-)')}</label><input type="number" name="lChange" value={simData.lChange} onChange={handleSimChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="+/- 0" /></div>
-                    <div className="group"><label className="block text-xl font-bold text-slate-400 mb-4 group-focus-within:text-cyan-400">{t('C 增減模擬', 'C Simulation (+/-)')}</label><input type="number" name="cChange" value={simData.cChange} onChange={handleSimChange} className="w-full glass-input rounded-2xl text-slate-100" placeholder="+/- 0" /></div>
-                  </div>
-                  <div className="p-6 bg-slate-900/90 rounded-2xl border-2 border-slate-700 flex justify-between items-center shadow-inner mt-6">
-                    <span className="text-xl font-bold text-slate-400 uppercase tracking-widest">{t('模擬維持率', 'SIMULATED MR')}</span>
-                    <span className={`font-black text-5xl tracking-tight ${getMRZone(simMR).text}`}>{simMR}%</span>
-                  </div>
-                </div>
               </div>
 
             </div>
 
-            <div className="xl:col-span-8 space-y-12 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-12 relative z-20">
-                
-                {/* === A帳戶 名目維持率 === */}
-                <div className={`solid-panel border-4 rounded-[2.5rem] p-10 transition-all duration-500 relative group flex flex-col justify-between h-full ${getMRZone(nominalMR).border} ${getMRZone(nominalMR).bg} hover:z-[60]`}>
-                  <div className="absolute top-0 right-0 w-56 h-56 bg-white/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none transition-opacity duration-500 opacity-50 group-hover:opacity-100"></div>
-                  
-                  <h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest drop-shadow-md whitespace-nowrap shrink-0 relative z-10">
-                    <ScrambleText text={t("A帳戶 名目維持率", "ACCOUNT A NOMINAL MR")} />
-                  </h2>
-                  
-                  <div className="relative w-full flex-1 flex justify-end items-end mt-8 cursor-pointer group/hologram z-50">
-                    <div className={`text-6xl md:text-8xl font-black tracking-tighter transition-all duration-300 group-hover/hologram:opacity-0 group-hover/hologram:blur-md flex items-center gap-4 ${getMRZone(nominalMR).text}`}>
-                      <span className="text-4xl md:text-5xl animate-pulse drop-shadow-lg">🔒</span> {nominalMR}% 
-                    </div>
-                    
-                    <div className={`absolute right-0 bottom-0 opacity-0 scale-[0.8] blur-lg pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/hologram:opacity-100 group-hover/hologram:scale-100 group-hover/hologram:blur-0 group-hover/hologram:pointer-events-auto z-[999] origin-bottom-right ${getMRZone(nominalMR).text}`}>
-                      <div className="bg-slate-950/95 backdrop-blur-3xl border-2 border-current p-10 rounded-3xl shadow-[0_0_80px_currentColor] flex flex-col items-end min-w-[400px]">
-                        <div className="text-sm font-bold tracking-widest text-current/70 mb-2 uppercase animate-pulse">Decrypting Mainframe...</div>
-                        <span className="text-[7rem] md:text-[9rem] font-black tracking-tighter whitespace-nowrap drop-shadow-[0_0_30px_currentColor] leading-none">
-                          {nominalMR}%
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-8 pt-8 border-t-2 border-slate-700/50 relative z-10">
-                    <div className={`text-4xl md:text-5xl font-black tracking-widest ${getMRZone(nominalMR).text}`}>{getMRZone(nominalMR).title}</div>
-                  </div>
+            <div className="xl:col-span-8 space-y-10">
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {/* NOMINAL MR */}
+                <div className={`brutal-panel p-10 flex flex-col justify-between ${getMRZone(nominalMR).bg} ${getMRZone(nominalMR).text}`}>
+                  <h2 className="text-3xl font-black uppercase border-b-8 border-current pb-4">NOMINAL MR</h2>
+                  <div className="text-8xl md:text-9xl font-black tracking-tighter mt-12 mb-8">{nominalMR}%</div>
+                  <div className="text-4xl font-black uppercase bg-black text-white inline-block px-6 py-2 self-start border-4 border-white">{getMRZone(nominalMR).label}</div>
                 </div>
 
-                {/* === 1:1 市值天平 === */}
-                <div className="solid-panel rounded-[2.5rem] p-10 flex flex-col justify-between group relative z-10 hover:z-[60]">
-                  <div className="border-b-2 border-slate-700/50 pb-10 mb-10">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-5">
-                      <h2 className="text-2xl font-black text-yellow-400 uppercase tracking-widest flex items-center gap-4 neon-text-amber">
-                        <span className="text-yellow-500 text-3xl drop-shadow-none">⚖️</span> <ScrambleText text={t("1:1 市值天平", "1:1 MARKET BALANCE")} />
-                      </h2>
-                      <span className="text-xl font-mono text-slate-400 font-bold bg-slate-900/60 px-5 py-3 rounded-xl border border-slate-700">{t('差額:', 'DIFF:')} {formatNumber(diffValue)}</span>
+                {/* CRASH RESISTANCE MATRIX */}
+                <div className={`brutal-panel p-10 bg-white`}>
+                  <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-8">CRASH RESISTANCE</h2>
+                  <div className="grid grid-cols-3 gap-4 mb-8">
+                    <div className="border-4 border-black p-2 text-center bg-gray-100">
+                      <div className="font-black text-sm">0050 β</div>
+                      <input type="number" step="0.01" name="b0050" value={betaConfig.b0050} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none" />
                     </div>
-                    <div className="bg-slate-900/90 p-8 rounded-2xl border-2 border-slate-700 flex justify-between items-center">
-                      <span className="text-2xl font-bold text-slate-400">{t('本次注資目標：', 'TARGET INJECTION:')}</span>
-                      <span className={`text-6xl font-black tracking-widest ${targetInjection !== t('已平衡', 'BALANCED') ? 'text-blue-400 neon-text-cyan animate-pulse' : 'text-emerald-500 neon-text-emerald'}`}>{targetInjection}</span>
+                    <div className="border-4 border-black p-2 text-center bg-gray-100">
+                      <div className="font-black text-sm">00733 β</div>
+                      <input type="number" step="0.01" name="b00733" value={betaConfig.b00733} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none" />
                     </div>
-                  </div>
-
-                  <div>
-                    <div className="flex justify-between items-end mb-8">
-                       <h2 className="text-2xl font-black text-purple-400 tracking-wider neon-text-purple"><ScrambleText text={t("P1 戰備資金池", "P1 TACTICAL POOL")} /></h2>
-                       <span className={`text-4xl px-6 py-3 rounded-2xl border-2 font-black ${parseFloat(p1Ratio) < 33.3 ? 'text-red-400 border-red-500/50 bg-red-950/40 neon-text-red shadow-[0_0_20px_rgba(248,113,113,0.4)]' : 'text-purple-400 border-purple-500/50 bg-purple-950/40 neon-text-purple'}`}>{p1Ratio}%</span>
-                    </div>
-                    
-                    <div className="h-10 bg-slate-900 rounded-full overflow-hidden border-2 border-slate-700 relative shadow-inner">
-                      <div className={`absolute top-0 left-0 h-full transition-all duration-1000 ease-out shadow-[0_0_25px_currentColor] ${parseFloat(p1Ratio) < 33.3 ? 'bg-gradient-to-r from-red-600 to-red-400' : 'bg-gradient-to-r from-purple-700 to-purple-400'}`} style={{width: `${Math.min(100, parseFloat(p1Ratio))}%`}}>
-                         <div className="w-full h-full absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.15)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.15)_50%,rgba(255,255,255,0.15)_75%,transparent_75%,transparent)] bg-[length:2rem_2rem] animate-[textShimmer_1s_linear_infinite]"></div>
-                      </div>
-                      <div className="absolute top-0 w-[4px] h-full bg-red-500 shadow-[0_0_15px_red] z-10" style={{left: '6.06%'}}></div>
-                      <div className="absolute top-0 w-[4px] h-full bg-emerald-500 shadow-[0_0_15px_green] z-10" style={{left: '33.33%'}}></div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-8 mt-8">
-                       <div className="bg-slate-900/70 p-6 rounded-2xl border-2 border-slate-700">
-                          <div className="text-lg text-slate-500 font-bold mb-3 tracking-widest">{t('目標 1/3 線', 'TARGET 1/3 LINE')}</div>
-                          <div className="text-3xl font-black text-emerald-400">{formatNumber(L/3)}</div>
-                       </div>
-                       <div className="bg-red-950/30 p-6 rounded-2xl border-2 border-red-900/60">
-                          <div className="text-lg text-red-500 font-bold mb-3 flex items-center gap-3 tracking-widest"><span className="w-4 h-4 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_red]"></span>{t('死亡線 6.06%', 'DEATHLINE 6.06%')}</div>
-                          <div className="text-3xl font-black text-red-400">{formatNumber(L*0.0606)}</div>
-                       </div>
+                    <div className="border-4 border-black p-2 text-center bg-red-200">
+                      <div className="font-black text-sm text-red-600">LIMIT</div>
+                      <input type="number" name="mrLimit" value={betaConfig.mrLimit} onChange={handleBetaChange} className="w-full text-center text-xl font-black bg-transparent outline-none text-red-600" />
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* === 抗跌裝甲測算矩陣 (CRASH RESISTANCE MATRIX) === */}
-              <div className={`solid-panel rounded-[2.5rem] p-10 relative group overflow-hidden border-2 transition-colors duration-500 ${isCrashSafe ? 'border-emerald-900/50 shadow-[0_0_40px_rgba(16,185,129,0.1)]' : 'border-red-900/80 shadow-[0_0_50px_rgba(220,38,38,0.3)]'}`}>
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none transition-opacity opacity-40 group-hover:opacity-80"></div>
-                
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b-2 border-slate-700/50 pb-6 relative z-10 gap-4">
-                  <h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest flex items-center gap-4">
-                    <span className="text-3xl animate-pulse">🛡️</span> 
-                    <ScrambleText text={t("抗跌裝甲測算矩陣", "CRASH RESISTANCE MATRIX")} />
-                  </h2>
-                  <div className="flex items-center gap-3 bg-slate-900/80 px-4 py-2 rounded-xl border border-slate-700">
-                    <span className="text-sm font-bold text-slate-400">P-BETA:</span>
-                    <span className="text-xl font-black text-blue-400 neon-text-blue">{portfolioBeta > 0 ? portfolioBeta.toFixed(3) : '0.000'}</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 relative z-10 items-center">
-                  <div className="xl:col-span-1 space-y-4">
-                    <div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-700 flex justify-between items-center group/input">
-                      <label className="text-slate-400 font-bold group-focus-within/input:text-emerald-400 transition-colors">0050 <span className="font-mono text-sm">β</span></label>
-                      <input type="number" step="0.01" name="b0050" value={betaConfig.b0050} onChange={handleBetaChange} className="w-24 bg-transparent text-right text-xl font-black text-slate-100 focus:outline-none" />
-                    </div>
-                    <div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-700 flex justify-between items-center group/input">
-                      <label className="text-slate-400 font-bold group-focus-within/input:text-emerald-400 transition-colors">00733 <span className="font-mono text-sm">β</span></label>
-                      <input type="number" step="0.01" name="b00733" value={betaConfig.b00733} onChange={handleBetaChange} className="w-24 bg-transparent text-right text-xl font-black text-slate-100 focus:outline-none" />
-                    </div>
-                    <div className="bg-slate-900/60 p-4 rounded-2xl border border-slate-700 flex justify-between items-center group/input">
-                      <label className="text-slate-400 font-bold group-focus-within/input:text-red-400 transition-colors">{t('死亡線', 'DEATHLINE')} %</label>
-                      <input type="number" name="mrLimit" value={betaConfig.mrLimit} onChange={handleBetaChange} className="w-24 bg-transparent text-right text-xl font-black text-red-400 focus:outline-none" />
-                    </div>
-                  </div>
-
-                  <div className="xl:col-span-2 bg-slate-950/80 p-8 rounded-3xl border-2 border-slate-800 flex flex-col justify-center items-center relative overflow-hidden shadow-inner h-full min-h-[160px]">
-                    <div className="absolute inset-0 scanlines opacity-50 pointer-events-none"></div>
-                    <div className="text-lg font-bold text-slate-400 uppercase tracking-widest mb-2 z-10 text-center">
-                      {t('大盤最大容許跌幅 (至斷頭線)', 'MAX INDEX DROP BEFORE LIQUIDATION')}
-                    </div>
-                    
+                  
+                  <div className={`border-8 border-black p-8 text-center ${isCrashSafe ? 'bg-green-400' : 'bg-red-500 text-white'}`}>
+                    <div className="text-2xl font-black mb-2 uppercase">MAX DROP</div>
                     {C > 0 && L > 0 ? (
-                      isCrashSafe ? (
-                        <div className="flex items-baseline gap-2 z-10 mt-2">
-                          <span className="text-6xl md:text-8xl font-black text-emerald-400 neon-text-emerald tracking-tighter">
-                            -{maxMarketDrop.toFixed(2)}
-                          </span>
-                          <span className="text-4xl font-bold text-emerald-500/80">%</span>
-                        </div>
-                      ) : (
-                        <div className="z-10 mt-4 text-center">
-                          <span className="text-4xl md:text-5xl font-black text-red-500 neon-text-red tracking-widest block mb-2">
-                            🔴 {t('系統已穿倉', 'SYSTEM BREACHED')}
-                          </span>
-                          <span className="text-xl text-red-400/80 font-bold">
-                            {t('目前維持率已低於設定之死亡線', 'Current MR is below the set deathline.')}
-                          </span>
-                        </div>
-                      )
-                    ) : (
-                      <div className="text-4xl font-black text-slate-600 tracking-widest z-10 mt-4">AWAITING DATA</div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* 雙軌動能矩陣儀表板 */}
-              <div className="solid-panel rounded-[2.5rem] mb-12 border-2 border-blue-900/50 shadow-[0_0_50px_rgba(59,130,246,0.15)] relative z-10">
-                <div className="bg-slate-900/95 backdrop-blur-xl px-8 md:px-12 py-8 border-b-2 border-slate-800 rounded-t-[2.5rem] flex flex-col xl:flex-row justify-between items-start xl:items-center gap-6">
-                  <h2 className="text-3xl font-black text-blue-400 tracking-widest flex items-center gap-5 whitespace-nowrap neon-text-cyan">
-                    <span className="w-5 h-5 rounded-full bg-blue-500 animate-ping shadow-[0_0_15px_blue]"></span>
-                    <ScrambleText text={t("雙軌動能矩陣", "DUAL-MA MATRIX")} />
-                  </h2>
-                  
-                  <div className="flex flex-wrap items-center gap-4 w-full xl:w-auto mt-4 xl:mt-0">
-                    {!dualMaMatrix.isLoading && !dualMaMatrix.error && matrixStatus.target !== 'NONE' && (
-                      <div className={`px-6 py-3 border-2 rounded-xl text-xl font-black tracking-widest flex items-center gap-3 shadow-[0_0_15px_currentColor] animate-pulse ${matrixStatus.target === 'TSLA' ? 'text-emerald-400 border-emerald-500/50 bg-emerald-950/40' : matrixStatus.target === 'TQQQ' ? 'text-yellow-400 border-yellow-500/50 bg-yellow-950/40' : 'text-red-400 border-red-500/50 bg-red-950/40'}`}>
-                        🎯 {t('行動指令：買入', 'ACTION: BUY')} {matrixStatus.target}
-                      </div>
-                    )}
-                    
-                    {dualMaMatrix.isLoading ? (
-                      <div className="px-6 py-4 bg-slate-950 border-2 border-slate-700 rounded-2xl text-2xl font-mono text-slate-400 flex items-center gap-4">
-                         <svg className="animate-spin-slow h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                      <div className="text-7xl font-black">
+                        {isCrashSafe ? `-${maxMarketDrop.toFixed(2)}%` : 'BREACHED'}
                       </div>
                     ) : (
-                      <button onClick={fetchDualMaMatrix} className="p-4 bg-slate-900 hover:bg-slate-800 border-2 border-slate-700 rounded-2xl transition-colors" title="REFRESH">
-                        <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                      </button>
+                      <div className="text-4xl font-black mt-4">N/A</div>
                     )}
                   </div>
                 </div>
-                
-                <div className="p-8 md:p-12 grid grid-cols-1 gap-10 bg-slate-950/50 border-b-2 border-cyan-900/50 rounded-b-[2.5rem]">
-                  <div className="bg-slate-900/90 p-8 md:p-10 rounded-[2rem] border-2 border-slate-700 shadow-inner">
-                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-10">
-                        {renderRadar(t('大盤宏觀', 'MACRO') + ' (QQQ)', dualMaMatrix.qqqPrice, dualMaMatrix.qqqMa, qqqGap)}
-                        {renderRadar(t('個股動能', 'MOMENTUM') + ' (TSLA)', dualMaMatrix.tslaPrice, dualMaMatrix.tslaMa, tslaGap)}
-                    </div>
+              </div>
 
-                    <div className={`p-10 rounded-3xl border-2 transition-all duration-300 flex flex-col xl:flex-row items-center justify-between gap-8 ${matrixStatus.bg}`}>
-                      <div className={`text-4xl font-black tracking-widest ${matrixStatus.color}`}>{matrixStatus.label}</div>
-                      <div className="text-2xl font-bold tracking-wider text-white bg-black/50 px-8 py-5 rounded-2xl border border-white/10 text-center xl:text-left">{matrixStatus.action}</div>
+              {/* 1:1 BALANCE & P1 */}
+              <div className="brutal-panel p-10 bg-white">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                  <div>
+                    <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-6">1:1 BALANCE</h2>
+                    <div className="border-4 border-black p-6 bg-gray-100 flex justify-between items-center mb-4">
+                      <span className="text-2xl font-black">DIFF</span>
+                      <span className="text-3xl font-black">{formatNumber(diffValue)}</span>
+                    </div>
+                    <div className="border-4 border-black p-6 bg-blue-500 text-white flex justify-between items-center">
+                      <span className="text-2xl font-black">TARGET</span>
+                      <span className="text-4xl font-black">{targetInjection}</span>
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-6">P1 POOL</h2>
+                    <div className={`border-8 border-black p-8 text-center mb-4 ${parseFloat(p1Ratio) < 33.3 ? 'bg-red-500 text-white' : 'bg-purple-400 text-black'}`}>
+                      <span className="text-7xl font-black">{p1Ratio}%</span>
+                    </div>
+                    <div className="flex justify-between font-black text-xl px-2">
+                       <span>DEATH: {formatNumber(L*0.0606)}</span>
+                       <span>1/3: {formatNumber(L/3)}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* 加密資產模組 */}
-              <div className="solid-panel rounded-[2.5rem] relative z-10 hover:z-50">
-                <div className="bg-slate-900/95 backdrop-blur-xl px-8 md:px-12 py-8 border-b-2 border-slate-800 rounded-t-[2.5rem] flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-                  <h2 className="text-3xl font-black text-cyan-400 tracking-widest flex items-center gap-5 whitespace-nowrap neon-text-cyan">
-                    <span className="w-5 h-5 rounded-full bg-cyan-500 animate-ping shadow-[0_0_15px_cyan]"></span>
-                    <ScrambleText text={t("加密資產 (3態冰凍協議)", "CRYPTO (3-STATE PROTOCOL)")} />
-                  </h2>
-                  
-                  <div className="flex flex-wrap items-center gap-5 w-full lg:w-auto">
-                    <div className="px-5 py-4 bg-slate-950 border-2 border-slate-700 rounded-2xl text-xl font-mono text-slate-400 whitespace-nowrap tracking-wider flex-1 lg:flex-none text-center">
-                      ETH/BTC: <span className="text-white font-black ml-2">{ethBtcRatio}</span>
-                    </div>
-                    
-                    <button onClick={handleSyncCrypto} className={`flex-1 lg:flex-none bg-cyan-950/80 hover:bg-cyan-900 border-2 border-cyan-500/80 text-cyan-400 px-6 py-4 rounded-2xl text-xl font-black tracking-widest transition-all shadow-[0_0_15px_rgba(34,211,238,0.3)] hover:shadow-[0_0_30px_rgba(34,211,238,0.6)] neon-text-cyan whitespace-nowrap flex items-center justify-center gap-3 ${isSyncing ? 'animate-danger-flash' : ''}`}>
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8V7a4 4 0 00-8 0v4h8z" /></svg>
-                      {isSyncing ? 'SYNCING...' : t('🔒 雲端定錨 (SYNC)', '🔒 CLOUD SYNC')}
-                    </button>
+              {/* DUAL-MA MATRIX */}
+              <div className="brutal-panel bg-white p-0 overflow-hidden">
+                <div className="bg-black text-white p-6 md:p-8 flex justify-between items-center">
+                  <h2 className="text-3xl font-black uppercase">DUAL-MA MATRIX</h2>
+                  <button onClick={fetchDualMaMatrix} className="brutal-btn bg-white text-black px-4 py-2 text-xl">REFRESH</button>
+                </div>
+                <div className="p-8 md:p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="border-4 border-black p-6 bg-gray-100">
+                    <div className="text-xl font-black mb-4 uppercase">QQQ MACRO</div>
+                    <div className="text-4xl font-black mb-2">{dualMaMatrix.qqqPrice} <span className="text-2xl">/ {dualMaMatrix.qqqMa}</span></div>
+                    <div className={`text-2xl font-black ${qqqGap > 1 ? 'text-green-600' : qqqGap < -1 ? 'text-red-600' : 'text-black'}`}>{qqqGap > 0 ? '+' : ''}{qqqGap.toFixed(2)}%</div>
+                  </div>
+                  <div className="border-4 border-black p-6 bg-gray-100">
+                    <div className="text-xl font-black mb-4 uppercase">TSLA MOMENTUM</div>
+                    <div className="text-4xl font-black mb-2">{dualMaMatrix.tslaPrice} <span className="text-2xl">/ {dualMaMatrix.tslaMa}</span></div>
+                    <div className={`text-2xl font-black ${tslaGap > 1 ? 'text-green-600' : tslaGap < -1 ? 'text-red-600' : 'text-black'}`}>{tslaGap > 0 ? '+' : ''}{tslaGap.toFixed(2)}%</div>
                   </div>
                 </div>
-                
-                <div className="bg-slate-950/60 p-6 px-8 md:px-12 border-b-2 border-slate-800">
-                  <div className={`px-6 py-4 border-2 border-slate-700 rounded-2xl text-xl font-bold tracking-wider w-full ${consensusColor} ${consensusTarget === 'ETH' ? 'bg-cyan-950/30 border-cyan-900/50' : (consensusTarget === 'BTC' ? 'bg-yellow-950/30 border-yellow-900/50' : 'bg-slate-900/50')}`}>
-                      {t('行動共識:', 'CONSENSUS:')} <span className="text-white ml-3 text-2xl font-black">{consensusTarget}</span> <span className="text-lg ml-3 opacity-80">({consensusMsg})</span>
-                  </div>
-                </div>
-                
-                <div className="p-8 md:p-12 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 bg-slate-950/50 rounded-b-[2.5rem]">
-                  
-                  <div className={`border-4 rounded-[2.5rem] p-10 transition-all duration-500 relative group flex flex-col justify-between h-full bg-slate-900/80 ${btcDrawdown < -30 ? 'border-cyan-500/50 shadow-[inset_0_0_30px_rgba(6,182,212,0.15)]' : 'border-slate-800'} hover:z-[60]`}>
-                    <div className="absolute top-0 right-0 w-56 h-56 bg-white/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none transition-opacity duration-500 opacity-50 group-hover:opacity-100"></div>
-                    
-                    <div className="flex flex-col mb-6 relative z-10 w-full">
-                      <h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest drop-shadow-md whitespace-nowrap">
-                        <ScrambleText text={t("BTC 主權資產", "BTC SOVEREIGN ASSET")} />
-                      </h2>
-                      <div className="text-slate-500 font-bold mt-2 tracking-widest cursor-pointer hover:text-cyan-400 transition-colors" onClick={() => updateAth('BTC')} title="SET ATH">
-                        ATH: ${parseFloat(formData.btcAth).toLocaleString()}
-                      </div>
-                    </div>
-                    
-                    <div className="relative w-full flex justify-start items-start mt-4 cursor-pointer group/hologram z-50">
-                      <div className={`text-5xl md:text-7xl font-mono font-black tracking-tighter transition-all duration-300 group-hover/hologram:opacity-0 group-hover/hologram:blur-md flex items-center gap-4 ${btcDrawdown < -30 ? 'text-cyan-400 drop-shadow-[0_0_10px_currentColor]' : 'text-slate-300'}`}>
-                        <span className="text-3xl md:text-5xl animate-pulse drop-shadow-lg">🔒</span> ${liveCrypto.BTC > 0 ? liveCrypto.BTC.toLocaleString('en-US', {maximumFractionDigits:0}) : '---'}
-                      </div>
-                      
-                      <div className={`absolute left-0 bottom-0 opacity-0 scale-[0.8] blur-lg pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/hologram:opacity-100 group-hover/hologram:scale-100 group-hover/hologram:blur-0 group-hover/hologram:pointer-events-auto z-[999] origin-bottom-left ${btcDrawdown < -30 ? 'text-cyan-400' : 'text-slate-100'}`}>
-                        <div className="bg-slate-950/95 backdrop-blur-3xl border-2 border-current p-10 rounded-3xl shadow-[0_0_80px_currentColor] flex flex-col items-start min-w-[350px] md:min-w-[450px]">
-                          <div className="text-sm font-bold tracking-widest text-current/70 mb-4 uppercase animate-pulse">Decrypting Live Feed...</div>
-                          <div className="text-xl text-slate-400 font-bold tracking-widest mb-1 text-left w-full">{t('即時現價', 'LIVE PRICE')}</div>
-                          <div className="text-[4rem] md:text-[5rem] font-mono font-black tracking-tighter whitespace-nowrap drop-shadow-[0_0_30px_currentColor] leading-none mb-6 text-left w-full">
-                            ${liveCrypto.BTC > 0 ? liveCrypto.BTC.toLocaleString('en-US', {maximumFractionDigits:2}) : '0.00'}
-                          </div>
-                          <div className="text-xl text-slate-400 font-bold tracking-widest border-t-2 border-current/30 pt-6 w-full text-left mb-1">{t('回撤幅度', 'DRAWDOWN')}</div>
-                          <div className={`text-[6rem] md:text-[8rem] font-mono font-black tracking-tighter whitespace-nowrap leading-none drop-shadow-[0_0_30px_currentColor] text-left w-full`}>
-                            {btcDrawdown}%
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className={`mt-auto pt-8 relative z-10 flex flex-col items-center justify-center rounded-3xl transition-all duration-300`}>
-                       <div className={`w-full p-6 rounded-2xl border-2 ${btcAction.ui} text-center`}>
-                           <div className="text-xl font-bold mb-2 tracking-widest">{btcAction.label}</div>
-                           <div className="text-2xl md:text-3xl font-black tracking-wide">{btcAction.msg}</div>
-                           {(btcAction.target && consensusTarget === 'BTC') && <div className="mt-4 text-lg text-emerald-300/90 font-bold tracking-wider">👉 {t('3 態協議：核准買入', '3-STATE: BUY APPROVED')}</div>}
-                           {(btcAction.target && consensusTarget !== 'BTC') && <div className="mt-4 text-lg text-red-400/90 font-bold tracking-wider">⚠️ {t(`協議擋下：應買入 ${consensusTarget}`, `PROTOCOL DENIED: BUY ${consensusTarget}`)}</div>}
-                       </div>
-                    </div>
-                  </div>
-
-                  <div className={`border-4 rounded-[2.5rem] p-10 transition-all duration-500 relative group flex flex-col justify-between h-full bg-slate-900/80 ${ethDrawdown < -30 ? 'border-cyan-500/50 shadow-[inset_0_0_30px_rgba(6,182,212,0.15)]' : 'border-slate-800'} hover:z-[60]`}>
-                    <div className="absolute top-0 right-0 w-56 h-56 bg-white/5 rounded-full blur-3xl -mr-12 -mt-12 pointer-events-none transition-opacity duration-500 opacity-50 group-hover:opacity-100"></div>
-                    
-                    <div className="flex flex-col mb-6 relative z-10 w-full text-right items-end">
-                      <h2 className="text-2xl font-black text-slate-300 uppercase tracking-widest drop-shadow-md whitespace-nowrap">
-                        <ScrambleText text={t("ETH 主權資產", "ETH SOVEREIGN ASSET")} />
-                      </h2>
-                      <div className="text-slate-500 font-bold mt-2 tracking-widest cursor-pointer hover:text-cyan-400 transition-colors" onClick={() => updateAth('ETH')} title="SET ATH">
-                        ATH: ${parseFloat(formData.ethAth).toLocaleString()}
-                      </div>
-                    </div>
-                    
-                    <div className="relative w-full flex justify-end items-end mt-4 cursor-pointer group/hologram z-50">
-                      <div className={`text-5xl md:text-7xl font-mono font-black tracking-tighter transition-all duration-300 group-hover/hologram:opacity-0 group-hover/hologram:blur-md flex items-center gap-4 ${ethDrawdown < -30 ? 'text-cyan-400 drop-shadow-[0_0_10px_currentColor]' : 'text-slate-300'}`}>
-                        <span className="text-3xl md:text-5xl animate-pulse drop-shadow-lg">🔒</span> ${liveCrypto.ETH > 0 ? liveCrypto.ETH.toLocaleString('en-US', {maximumFractionDigits:0}) : '---'}
-                      </div>
-                      
-                      <div className={`absolute right-0 bottom-0 opacity-0 scale-[0.8] blur-lg pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/hologram:opacity-100 group-hover/hologram:scale-100 group-hover/hologram:blur-0 group-hover/hologram:pointer-events-auto z-[999] origin-bottom-right ${ethDrawdown < -30 ? 'text-cyan-400' : 'text-slate-100'}`}>
-                        <div className="bg-slate-950/95 backdrop-blur-3xl border-2 border-current p-10 rounded-3xl shadow-[0_0_80px_currentColor] flex flex-col items-end min-w-[350px] md:min-w-[450px]">
-                          <div className="text-sm font-bold tracking-widest text-current/70 mb-4 uppercase animate-pulse">Decrypting Live Feed...</div>
-                          <div className="text-xl text-slate-400 font-bold tracking-widest mb-1 text-right w-full">{t('即時現價', 'LIVE PRICE')}</div>
-                          <div className="text-[4rem] md:text-[5rem] font-mono font-black tracking-tighter whitespace-nowrap drop-shadow-[0_0_30px_currentColor] leading-none mb-6 text-right w-full">
-                            ${liveCrypto.ETH > 0 ? liveCrypto.ETH.toLocaleString('en-US', {maximumFractionDigits:2}) : '0.00'}
-                          </div>
-                          <div className="text-xl text-slate-400 font-bold tracking-widest border-t-2 border-current/30 pt-6 w-full text-right mb-1">{t('回撤幅度', 'DRAWDOWN')}</div>
-                          <div className={`text-[6rem] md:text-[8rem] font-mono font-black tracking-tighter whitespace-nowrap leading-none drop-shadow-[0_0_30px_currentColor] text-right w-full`}>
-                            {ethDrawdown}%
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className={`mt-auto pt-8 relative z-10 flex flex-col items-center justify-center rounded-3xl transition-all duration-300`}>
-                       <div className={`w-full p-6 rounded-2xl border-2 ${ethAction.ui} text-center`}>
-                           <div className="text-xl font-bold mb-2 tracking-widest">{ethAction.label}</div>
-                           <div className="text-2xl md:text-3xl font-black tracking-wide">{ethAction.msg}</div>
-                           {(ethAction.target && consensusTarget === 'ETH') && <div className="mt-4 text-lg text-emerald-300/90 font-bold tracking-wider">👉 {t('3 態協議：核准買入', '3-STATE: BUY APPROVED')}</div>}
-                           {(ethAction.target && consensusTarget !== 'ETH') && <div className="mt-4 text-lg text-red-400/90 font-bold tracking-wider">⚠️ {t(`協議擋下：應買入 ${consensusTarget}`, `PROTOCOL DENIED: BUY ${consensusTarget}`)}</div>}
-                       </div>
-                    </div>
-                  </div>
-
-                  <div className="md:col-span-2 bg-slate-950/80 p-8 md:p-10 rounded-[2rem] border-4 border-slate-800 flex flex-col md:flex-row justify-center items-center gap-6 md:gap-10 relative overflow-hidden group shadow-[inset_0_0_30px_rgba(0,0,0,0.8)]">
-                    <div className="absolute inset-0 scanlines opacity-50 pointer-events-none"></div>
-                    <span className="text-2xl md:text-3xl font-bold text-slate-400 whitespace-nowrap tracking-widest z-10"><ScrambleText text={t("目前 P2 總庫存 (USDT):", "CURRENT P2 (USDT):")} /></span>
-                    <input type="number" name="p2Usdt" value={formData.p2Usdt} onChange={handleInputChange} className="w-full md:w-[400px] glass-input rounded-2xl text-center text-5xl font-black text-cyan-400 focus:ring-2 focus:ring-cyan-500/60 min-w-0 py-6 z-10" placeholder="0" />
-                  </div>
+                <div className={`p-8 border-t-8 border-black text-center ${matrixStatus.bg} ${matrixStatus.color}`}>
+                  <div className="text-5xl font-black mb-4 uppercase">{matrixStatus.label}</div>
+                  <div className="text-3xl font-black bg-black text-white inline-block px-8 py-3 border-4 border-current">{matrixStatus.action}</div>
                 </div>
               </div>
 
-              {/* 戰情雷達 */}
-              <div className="solid-panel rounded-[2.5rem] p-12 h-[600px] relative group">
-                <h2 className="text-2xl font-black text-slate-300 mb-8 uppercase tracking-widest flex items-center gap-5">
-                  <svg className="w-8 h-8 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" /></svg>
-                  <ScrambleText text={t("戰情雷達 (近 10 次防禦趨勢)", "TACTICAL RADAR (LAST 10 TRENDS)")} />
-                </h2>
-                <div className="w-full h-[450px] relative z-0"><canvas ref={chartRef}></canvas></div>
+              {/* CRYPTO MODULE */}
+              <div className="brutal-panel bg-white p-0 overflow-hidden">
+                <div className="bg-black text-white p-6 flex flex-wrap justify-between items-center gap-4">
+                  <h2 className="text-3xl font-black uppercase">CRYPTO 3-STATE</h2>
+                  <button onClick={handleSyncCrypto} className="brutal-btn bg-cyan-400 text-black px-6 py-2 text-xl">SYNC P2/ATH</button>
+                </div>
+                <div className={`p-6 border-b-8 border-black text-center text-3xl font-black uppercase ${consensusColor}`}>
+                   CONSENSUS: {consensusTarget} ({consensusMsg})
+                </div>
+                <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="border-4 border-black p-6 bg-gray-50 flex flex-col">
+                    <div className="flex justify-between items-center mb-6 border-b-4 border-black pb-4">
+                      <span className="text-3xl font-black">BTC</span>
+                      <span className="text-xl font-black cursor-pointer bg-black text-white px-2" onClick={() => updateAth('BTC')}>ATH: {btcAth}</span>
+                    </div>
+                    <div className="text-6xl font-black mb-4">${liveCrypto.BTC > 0 ? liveCrypto.BTC.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
+                    <div className="text-3xl font-black text-red-600 mb-8">{btcDrawdown}%</div>
+                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black bg-white`}>
+                      {btcAction.label}<br/><span className="text-xl mt-2 block">{btcAction.msg}</span>
+                    </div>
+                  </div>
+                  <div className="border-4 border-black p-6 bg-gray-50 flex flex-col">
+                    <div className="flex justify-between items-center mb-6 border-b-4 border-black pb-4">
+                      <span className="text-3xl font-black">ETH</span>
+                      <span className="text-xl font-black cursor-pointer bg-black text-white px-2" onClick={() => updateAth('ETH')}>ATH: {ethAth}</span>
+                    </div>
+                    <div className="text-6xl font-black mb-4">${liveCrypto.ETH > 0 ? liveCrypto.ETH.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
+                    <div className="text-3xl font-black text-red-600 mb-8">{ethDrawdown}%</div>
+                    <div className={`mt-auto p-4 border-4 border-black text-center text-2xl font-black bg-white`}>
+                      {ethAction.label}<br/><span className="text-xl mt-2 block">{ethAction.msg}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-gray-200 p-8 border-t-8 border-black flex justify-between items-center">
+                  <span className="text-3xl font-black uppercase">P2 (USDT)</span>
+                  <input type="number" name="p2Usdt" value={formData.p2Usdt} onChange={handleInputChange} className="w-64 brutal-input text-right" />
+                </div>
               </div>
 
-              {/* 歷史矩陣 */}
-              <div className="solid-panel rounded-[2.5rem] p-8 md:p-12">
-                <h2 className="text-3xl font-black text-slate-300 mb-10 border-b-2 border-slate-700/80 pb-6 uppercase tracking-widest flex items-center gap-5">
-                  <svg className="w-10 h-10 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <ScrambleText text={t("A帳戶 歷史斷點 (HISTORY MATRIX)", "ACCOUNT A HISTORY MATRIX")} />
-                </h2>
-                <div className="overflow-x-auto custom-scrollbar rounded-3xl border-2 border-slate-800/60 relative">
-                  <table className="w-full text-left whitespace-nowrap text-2xl">
+              {/* RADAR CHART */}
+              <div className="brutal-panel p-10 bg-white h-[600px] flex flex-col">
+                <h2 className="text-3xl font-black uppercase border-b-8 border-black pb-4 mb-8">RADAR (LAST 10)</h2>
+                <div className="w-full flex-1 relative"><canvas ref={chartRef}></canvas></div>
+              </div>
+
+              {/* HISTORY MATRIX */}
+              <div className="brutal-panel p-0 bg-white overflow-hidden">
+                <h2 className="text-3xl font-black uppercase bg-black text-white p-6">HISTORY MATRIX</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left whitespace-nowrap text-xl font-black">
                     <thead>
-                      <tr className="text-slate-400 border-b-2 border-slate-700 bg-slate-900/90 uppercase tracking-widest font-black">
-                        <th className="p-6 md:p-8">{t('記錄時間', 'TIMESTAMP')}</th>
-                        <th className="p-6 md:p-8 text-right text-blue-300/90">{t('L 借款', 'L LOAN')}</th>
-                        <th className="p-6 md:p-8 text-right text-emerald-400/90">C(0050)</th>
-                        <th className="p-6 md:p-8 text-right text-emerald-400/90">C(00733)</th>
-                        <th className="p-6 md:p-8 text-right text-purple-400/90">{t('P1 資金池', 'P1 POOL')}</th>
-                        <th className="p-6 md:p-8 text-right">MR %</th>
-                        <th className="p-6 md:p-8 text-right">P1 %</th>
-                        <th className="p-6 md:p-8 text-center">{t('操作', 'ACTION')}</th>
+                      <tr className="bg-gray-200 border-b-4 border-black uppercase">
+                        <th className="p-4 border-r-2 border-black">TIME</th>
+                        <th className="p-4 border-r-2 border-black text-right">L</th>
+                        <th className="p-4 border-r-2 border-black text-right">C50</th>
+                        <th className="p-4 border-r-2 border-black text-right">C733</th>
+                        <th className="p-4 border-r-2 border-black text-right">P1</th>
+                        <th className="p-4 border-r-2 border-black text-right">MR%</th>
+                        <th className="p-4 border-r-2 border-black text-right">P1%</th>
+                        <th className="p-4 text-center">ACT</th>
                       </tr>
                     </thead>
-                    <tbody className="bg-slate-950/30">
+                    <tbody>
                       {history.map((item, idx) => (
-                        <tr key={idx} className={`border-b border-slate-800/50 hover:bg-slate-800/80 hover:border-l-8 hover:border-l-emerald-500 transition-all duration-200 ${(item.dateId.includes('同步中') || item.dateId.includes('SYNCING')) ? 'opacity-50 animate-pulse bg-emerald-950/20' : ''}`}>
-                          <td className="p-6 md:p-8 text-slate-300 font-mono opacity-90 tracking-wider">
-                            {(item.dateId.includes('同步中') || item.dateId.includes('SYNCING')) ? <span className="text-emerald-400 font-black">{item.dateId}</span> : item.dateId}
-                          </td>
-                          <td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl">{formatNumber(item.lAmount)}</td>
-                          <td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl">{formatNumber(item.c0050)}</td>
-                          <td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl">{formatNumber(item.c00733)}</td>
-                          <td className="p-6 md:p-8 text-right font-mono font-black text-slate-100 md:text-3xl">{formatNumber(item.p1Value)}</td>
-                          <td className={`p-6 md:p-8 text-right font-black tracking-widest md:text-3xl ${getMRZone(item.nominalMR).text}`}>{item.nominalMR}%</td>
-                          <td className={`p-6 md:p-8 text-right font-black tracking-widest md:text-3xl ${parseFloat(item.p1Ratio) < 33.3 ? 'text-red-400' : 'text-purple-400'}`}>{item.p1Ratio}%</td>
-                          <td className="p-6 md:p-8 text-center">
-                            <button onClick={() => handleDelete(item.dateId)} disabled={item.dateId.includes('同步中') || item.dateId.includes('SYNCING')} className="text-slate-500 hover:text-red-400 bg-slate-900 hover:bg-red-950/60 p-4 rounded-2xl transition-all border-2 border-transparent hover:border-red-900/60 disabled:opacity-50 disabled:cursor-not-allowed" title={t("抹除此筆紀錄", "ERASE RECORD")}>
-                              <svg className="w-10 h-10 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                            </button>
+                        <tr key={idx} className="border-b-2 border-gray-300 hover:bg-yellow-200 transition-colors">
+                          <td className="p-4 border-r-2 border-black">{item.dateId}</td>
+                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.lAmount)}</td>
+                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.c0050)}</td>
+                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.c00733)}</td>
+                          <td className="p-4 border-r-2 border-black text-right">{formatNumber(item.p1Value)}</td>
+                          <td className="p-4 border-r-2 border-black text-right">{item.nominalMR}%</td>
+                          <td className="p-4 border-r-2 border-black text-right text-purple-600">{item.p1Ratio}%</td>
+                          <td className="p-4 text-center">
+                            <button onClick={() => handleDelete(item.dateId)} className="bg-red-500 text-white px-4 py-2 border-2 border-black hover:bg-black hover:text-white transition-colors">DEL</button>
                           </td>
                         </tr>
                       ))}
-                      {history.length === 0 && (
-                        <tr><td colSpan="8" className="p-12 text-center text-slate-500 font-black tracking-widest text-3xl">{t('目前沒有任何歷史紀錄', 'NO HISTORY RECORDS FOUND')}</td></tr>
-                      )}
                     </tbody>
                   </table>
                 </div>
@@ -1267,118 +696,12 @@
 
             </div>
           </div>
-
-          {/* AUTHOR SIGNATURE */}
-          <div className="text-center pt-8 pb-12 opacity-80 hover:opacity-100 transition-opacity">
-            <div className="inline-block border-4 border-slate-700 bg-black px-8 py-3 font-mono font-black tracking-[0.5em] text-slate-500 uppercase shadow-[0_0_20px_rgba(0,0,0,0.8)] relative">
-              <div className="absolute top-0 left-0 w-2 h-full bg-slate-500 animate-pulse"></div>
+          
+          <div className="text-center mt-20">
+            <div className="inline-block bg-black text-white text-3xl font-black uppercase tracking-widest px-12 py-6 shadow-[8px_8px_0_0_#facc15] border-4 border-black hover:shadow-none hover:translate-x-2 hover:translate-y-2 transition-all">
               AUTHORIZED BY CHANGSHENG LIU
             </div>
           </div>
-
-          {showHelp && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-10 bg-slate-950/90 backdrop-blur-xl animate-fade-in-up">
-              <div className="solid-panel rounded-[2.5rem] max-w-6xl w-full max-h-[85vh] overflow-y-auto custom-scrollbar border-2 border-blue-500/40 shadow-[0_0_80px_rgba(0,0,0,0.9)]">
-                <div className="sticky top-0 bg-slate-900/95 backdrop-blur-xl p-10 border-b-2 border-slate-800 flex justify-between items-center z-10 rounded-t-[2.5rem]">
-                  <h3 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 flex items-center gap-5 tracking-widest">
-                    📖 FOS 系統戰略說明書 (v12.2.0 絕對指令版)
-                  </h3>
-                  <button onClick={() => setShowHelp(false)} className="text-slate-500 hover:text-red-400 text-5xl font-black w-16 h-16 flex items-center justify-center rounded-full hover:bg-red-500/20 transition-colors">&times;</button>
-                </div>
-                <div className="p-12 space-y-12 text-slate-300 leading-relaxed text-2xl">
-                  
-                  <div className="bg-red-950/40 p-8 border-2 border-red-900/60 rounded-3xl relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-3 h-full bg-red-500 shadow-[0_0_20px_rgba(239,68,68,0.9)]"></div>
-                    <strong className="text-red-400 block mb-4 flex items-center gap-4 tracking-widest uppercase text-2xl"><span className="w-4 h-4 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_red]"></span> 核心鐵律</strong>
-                    <span className="font-bold tracking-wide">存活永遠優先於報酬。任何操作前須確認防禦燈號。嚴禁為了追求短期的法幣帳面富貴，而犧牲 A 帳戶防禦縱深。</span>
-                  </div>
-
-                  <section>
-                    <h4 className="text-blue-400 font-black border-b-2 border-blue-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4">
-                      <span className="text-4xl">🚀</span> Part 10 雙軌動能矩陣 (The Dual-MA Matrix)
-                    </h4>
-                    <p className="text-slate-400 mb-6 text-xl font-bold">導入大盤 10MA 絕對防禦濾網，並配合 1% 防洗盤緩衝 (Whipsaw Buffer)，徹底斬斷左側接刀風險。</p>
-                    <ul className="list-none space-y-6 bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800 text-xl font-bold tracking-wide">
-                      <li className="flex gap-4 items-start"><span className="text-emerald-500 mt-1 text-2xl">🟢</span> <div><strong className="text-emerald-400">雙引擎點火 (QQQ &gt; 10MA &amp; TSLA &gt; 10MA)：</strong>順風局，全力灌注高 β 個股。當月新資金 <strong className="text-emerald-300">100% 買入 TSLA</strong>。</div></li>
-                      <li className="flex gap-4 items-start"><span className="text-yellow-500 mt-1 text-2xl">🟡</span> <div><strong className="text-yellow-400">右側代班 (QQQ &gt; 10MA &amp; TSLA &lt; 10MA)：</strong>大盤狂飆但個股盤整。吸收 3x 大盤紅利，當月新資金 <strong className="text-yellow-300">100% 買入 TQQQ / QLD</strong>。</div></li>
-                      <li className="flex gap-4 items-start"><span className="text-red-500 mt-1 text-2xl">🔴</span> <div><strong className="text-red-400">絕對冰凍 (QQQ &lt; 10MA)：</strong>宏觀趨勢破裂。嚴禁買入 TSLA/TQQQ 拒絕接刀，當月新資金 <strong className="text-red-300">100% 買入 QQQ 避險</strong>。</div></li>
-                      <li className="flex gap-4 items-start"><span className="text-slate-500 mt-1 text-2xl">🛡️</span> <div><strong className="text-slate-300">1% 緩衝區 (Whipsaw Buffer)：</strong>當乖離率介於 ±1% 之間，視為未突破。在資金動用決策上，採取防禦性降級。</div></li>
-                    </ul>
-                  </section>
-
-                  <section>
-                    <h4 className="text-orange-400 font-black border-b-2 border-orange-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4">
-                      <span className="text-4xl">💵</span> 9.6 實體提現 SOP (The Physical Cash-Out)
-                    </h4>
-                    <p className="text-slate-400 mb-6 text-xl font-bold">當 TRP (外部現金流) 枯竭，急需法幣生活費時，強迫遵循以下提款順位：</p>
-                    <ul className="list-none space-y-6 bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800 text-xl font-bold tracking-wide">
-                      <li className="flex gap-4 items-start"><span className="text-orange-500 mt-1 text-2xl">1️⃣</span> <strong className="text-orange-300 whitespace-nowrap">第一順位 (純淨活水)：</strong>直接提領 A 帳戶發放的現金股息。</li>
-                      <li className="flex gap-4 items-start"><span className="text-orange-500 mt-1 text-2xl">2️⃣</span> <div><strong className="text-orange-300">第二順位 (防禦性解質)：</strong>啟動 4.5 協議精算。賣出 P1 -&gt; 償還借款降 L -&gt; 提領現金。<strong className="text-yellow-400 drop-shadow-md">前提：精算後 MR 必須 ≥ 330%，且殘存 P1 必須 ≥ 6.06% 死亡線。</strong></div></li>
-                      <li className="flex gap-4 items-start"><span className="text-red-500 mt-1 text-2xl">🚫</span> <strong className="text-red-400">絕對禁區：</strong>嚴禁賣出 B 帳戶主權資產換生活費；嚴禁賣出 A 帳戶核心擔保品破壞 1:1 天平。</li>
-                    </ul>
-                  </section>
-
-                  <section>
-                    <h4 className="text-cyan-400 font-black border-b-2 border-cyan-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4">
-                      <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                      加密反週期模組 &amp; 3 態冰凍協議
-                    </h4>
-                    <div className="space-y-8">
-                      <div className="bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800">
-                        <strong className="text-cyan-300 block mb-5 text-2xl tracking-widest">【3 態冰凍協議】(決定買什麼)</strong>
-                        <ul className="text-xl space-y-4 text-slate-400 font-bold">
-                          <li><span className="text-yellow-400">🔴 ETH/BTC &gt; 0.060 (ETH 過熱)：</span>新資金全投 BTC。</li>
-                          <li><span className="text-emerald-400">🟢 0.020 ≤ ETH/BTC ≤ 0.060 (ETH 價值區)：</span>新資金全投 ETH。</li>
-                          <li><span className="text-blue-500">⚫ ETH/BTC &lt; 0.020 (冰凍協議)：</span>停止買入 ETH，強制全投 BTC。舊有 ETH 鎖死，嚴禁攤平。</li>
-                        </ul>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800">
-                          <strong className="text-red-400 block mb-5 text-2xl tracking-widest">【3 槍鎖利法則】(賣出換 USDT)</strong>
-                          <ul className="text-xl space-y-3 text-slate-400 font-bold">
-                            <li>🎯 價格突破 ATH -&gt; 賣出 10%</li>
-                            <li>🎯 價格達 ATH 1.25 倍 -&gt; 再賣 10%</li>
-                            <li>🎯 價格達 ATH 1.5 倍 -&gt; 再賣 10%</li>
-                          </ul>
-                        </div>
-                        <div className="bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800">
-                          <strong className="text-emerald-400 block mb-5 text-2xl tracking-widest">【4 段回補法則】(動用 P2)</strong>
-                          <ul className="text-xl space-y-3 text-slate-400 font-bold">
-                            <li>📉 回撤 -30% -&gt; 動用 20%</li>
-                            <li>📉 回撤 -40% -&gt; 動用 20%</li>
-                            <li>📉 回撤 -50% -&gt; 動用 30%</li>
-                            <li>📉 回撤 -60% -&gt; 動用 30%</li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                  
-                  <section>
-                    <h4 className="text-purple-400 font-black border-b-2 border-purple-900/60 pb-4 mb-6 uppercase tracking-widest text-3xl flex items-center gap-4">
-                      <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" /></svg>
-                      Part 9 逃逸速度與全自立循環
-                    </h4>
-                    <ul className="list-none space-y-6 text-xl font-bold bg-slate-900/60 p-8 rounded-3xl border-2 border-slate-800 tracking-wide">
-                      <li className="flex gap-5 items-start">
-                        <span className="text-purple-500 mt-1 text-3xl">▸</span>
-                        <div><strong className="text-purple-300 block mb-3 text-2xl">觸發條件：</strong>總資產達標 3,000 萬，或外部現金流永久歸零。</div>
-                      </li>
-                      <li className="flex gap-5 items-start">
-                        <span className="text-purple-500 mt-1 text-3xl">▸</span>
-                        <div><strong className="text-purple-300 block mb-3 text-2xl">80/20 萃取矩陣：</strong>當開啟右上角開關且處於綠燈區時，系統進入自立循環。A 帳戶萃取之活水，強制執行 <strong className="text-emerald-400 bg-emerald-950/60 px-4 py-1.5 rounded-lg border border-emerald-900">80% 美股</strong> / <strong className="text-cyan-400 bg-cyan-950/60 px-4 py-1.5 rounded-lg border border-cyan-900">20% 加密</strong> 注頻。</div>
-                      </li>
-                      <li className="flex gap-5 items-start">
-                        <span className="text-purple-500 mt-1 text-3xl">▸</span>
-                        <div><strong className="text-red-400 block mb-3 text-2xl">防禦綁定：</strong>上述注資受 MR 嚴格限制。🟢 ≥350% (全功率注資)；🟡 330~350% (暫停增貸，僅股息注資)；🟠 310~330% (凍結注資)；🔴 &lt;310% (強制賣出 P1 償債)。</div>
-                      </li>
-                    </ul>
-                  </section>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       );
     }
