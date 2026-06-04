@@ -221,7 +221,10 @@
       useEffect(() => {
         const fetchCrypto = async () => {
           try {
-            const [btcRes, ethRes] = await Promise.all([ fetch('https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'), fetch('https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT') ]);
+           const [btcRes, ethRes] = await Promise.all([ 
+  fetch('https://api.binance.us/api/v3/ticker/price?symbol=BTCUSDT'), 
+  fetch('https://api.binance.us/api/v3/ticker/price?symbol=ETHUSDT') 
+]);
             const btcData = await btcRes.json();
             const ethData = await ethRes.json();
             setLiveCrypto({ BTC: parseFloat(btcData.price), ETH: parseFloat(ethData.price) });
