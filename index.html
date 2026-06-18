@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
-  <title>FOS Boss Terminal v15.4.1 (Pure White Lab / Visual Enhanced)</title>
+  <title>FOS Boss Terminal v15.4.1 ( Pure White Lab / Visual Enhanced / Decision Anchor Enhanced )</title>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
@@ -20,10 +20,15 @@
           animation: {
             'fade-in-up': 'fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             'float': 'float 6s ease-in-out infinite',
+            'pulse-neon': 'pulse-neon 2s infinite',
           },
           keyframes: {
             fadeInUp: { '0%': { opacity: '0', transform: 'translateY(15px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-5px)' } }
+            float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-5px)' } },
+            'pulse-neon': {
+              '0%, 100%': { boxShadow: '0 0 15px currentColor' },
+              '50%': { boxShadow: '0 0 25px currentColor' },
+            },
           }
         } 
       }
@@ -113,6 +118,39 @@
     .tech-slider:before { position: absolute; content: ""; height: 28px; width: 28px; left: 4px; bottom: 4px; background-color: #fff; border-radius: 50%; transition: .3s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     input:checked + .tech-slider { background-color: #8b5cf6; } 
     input:checked + .tech-slider:before { transform: translateX(34px); }
+
+    /* [決策定錨強化] 霓虹燈行動按鈕與標籤 */
+    .neon-buy-btn {
+      background: none;
+      border: 3px solid #10b981;
+      color: #10b981;
+      font-weight: 800;
+      text-shadow: 0 0 10px #10b981;
+      box-shadow: 0 0 15px #10b981;
+      animation: pulse-buy 2s infinite;
+    }
+    .neon-sell-btn {
+      background: none;
+      border: 3px solid #f43f5e;
+      color: #f43f5e;
+      font-weight: 800;
+      text-shadow: 0 0 10px #f43f5e;
+      box-shadow: 0 0 15px #f43f5e;
+    }
+    .neon-consensus-tag {
+      color: #0ea5e9;
+      text-shadow: 0 0 10px #0ea5e9;
+      font-weight: 800;
+      border: 2px solid #0ea5e9;
+      padding: 0.5rem 1rem;
+      border-radius: 1.5rem;
+      background-color: transparent;
+    }
+    @keyframes pulse-buy {
+      0% { box-shadow: 0 0 15px #10b981; }
+      50% { box-shadow: 0 0 25px #10b981; }
+      100% { box-shadow: 0 0 15px #10b981; }
+    }
   </style>
 </head>
 <body class="clean-grid-bg text-slate-800 dark:text-slate-200 font-sans min-h-screen relative overflow-x-hidden pt-8 pb-20 selection:bg-sky-200 dark:selection:bg-sky-900 text-lg md:text-xl transition-colors duration-300">
@@ -162,15 +200,15 @@
         const ath = parseFloat(athPrice);
         
         if (price > 0 && ath > 0) {
-          if (price >= ath * 1.5) return { label: 'SHOT 3: LOCK', msg: 'SELL 10% → P2', ui: 'bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50' };
-          if (price >= ath * 1.25) return { label: 'SHOT 2: LOCK', msg: 'SELL 10% → P2', ui: 'bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50' };
-          if (price >= ath) return { label: 'SHOT 1: LOCK', msg: 'SELL 10% → P2', ui: 'bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-900/50' };
+          if (price >= ath * 1.5) return { label: 'SHOT 3: LOCK', msg: 'SELL 10% → P2', ui: 'neon-sell-btn' };
+          if (price >= ath * 1.25) return { label: 'SHOT 2: LOCK', msg: 'SELL 10% → P2', ui: 'neon-sell-btn' };
+          if (price >= ath) return { label: 'SHOT 1: LOCK', msg: 'SELL 10% → P2', ui: 'neon-sell-btn' };
         }
 
-        if (dd <= -60) return { label: 'TIER 4 REBUY', msg: 'USE 30% P2', ui: 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50', target: asset };
-        if (dd <= -50) return { label: 'TIER 3 REBUY', msg: 'USE 30% P2', ui: 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50', target: asset };
-        if (dd <= -40) return { label: 'TIER 2 REBUY', msg: 'USE 20% P2', ui: 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50', target: asset };
-        if (dd <= -30) return { label: 'TIER 1 REBUY', msg: 'USE 20% P2', ui: 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50', target: asset };
+        if (dd <= -60) return { label: 'TIER 4 REBUY', msg: 'USE 30% P2', ui: 'neon-buy-btn', target: asset };
+        if (dd <= -50) return { label: 'TIER 3 REBUY', msg: 'USE 30% P2', ui: 'neon-buy-btn', target: asset };
+        if (dd <= -40) return { label: 'TIER 2 REBUY', msg: 'USE 20% P2', ui: 'neon-buy-btn', target: asset };
+        if (dd <= -30) return { label: 'TIER 1 REBUY', msg: 'USE 20% P2', ui: 'neon-buy-btn', target: asset };
         return { label: 'DEFENDING', msg: 'HOLD & OBSERVE', ui: 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700', target: '' };
       }
 
@@ -444,19 +482,19 @@
               matrixStatus = { 
                 label: 'MOMENTUM IGNITION', 
                 action: `100% BUY ${winner.asset}`, 
-                ui: 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400', 
+                ui: 'neon-buy-btn', 
                 target: winner.asset 
               };
           } else {
               matrixStatus = { 
                 label: 'ABSOLUTE FREEZE', 
                 action: '100% BUY CASH (P2)', 
-                ui: 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-400', 
+                ui: 'neon-buy-btn', 
                 target: 'CASH' 
               };
           }
       } else if (momentumMatrix.error) {
-          matrixStatus = { label: 'ERROR', action: momentumMatrix.error, ui: 'bg-rose-50 dark:bg-rose-950/40 border-rose-200 dark:border-rose-900/50 text-rose-600 dark:text-rose-400', target: 'NONE' };
+          matrixStatus = { label: 'ERROR', action: momentumMatrix.error, ui: 'neon-sell-btn', target: 'NONE' };
       }
 
       let consensusTarget = 'BTC'; let consensusColor = 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'; let consensusMsg = '...';
@@ -508,8 +546,8 @@
           </div>
 
           <header className="tech-panel p-8 md:p-12 mb-10 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 relative overflow-hidden">
-            {/* [視覺強化] V15 水印增強透明度與陰影 */}
-            <div className="absolute right-0 top-0 opacity-10 dark:opacity-20 text-[15rem] font-black leading-none pointer-events-none -mt-16 -mr-8 font-mono text-sky-900 dark:text-sky-300 drop-shadow-md select-none">V15</div>
+            {/* [決策定錨強化] V15 水印透明度微調，並加上 pointer-events-none 防止干擾 */}
+            <div className="absolute right-0 top-0 opacity-10 dark:opacity-20 text-[15rem] font-black leading-none pointer-events-none -mt-16 -mr-8 font-mono text-sky-900 dark:text-sky-300 drop-shadow-sm select-none">V15</div>
             
             <div className="relative z-10">
               <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-800 dark:text-slate-100 uppercase flex items-center gap-4 mb-3">
@@ -623,7 +661,7 @@
               </div>
 
               {/* LIQUIDITY DEFENSE */}
-              <div className="tech-panel p-8 bg-gradient-to-br from-rose-50 to-white dark:from-rose-950/20 dark:to-slate-900 border-rose-100 dark:border-rose-900/50">
+              <div className="tech-panel p-8 bg-gradient-to-br from-rose-50 to-white dark:from-rose-950/20 dark:to-slate-900 border-rose-100 dark:border-rose-900/50 overflow-hidden">
                 <h2 className="text-xl font-black uppercase text-rose-600 dark:text-rose-500 mb-6 flex items-center gap-2">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                   LIQUIDITY DEFENSE
@@ -722,7 +760,7 @@
                 </div>
               </div>
 
-              {/* TRI-FORCE MOMENTUM MATRIX */}
+              {/* [決策定錨強化] 動能矩陣與行動建議強化 */}
               <div className="tech-panel p-0 overflow-hidden border-sky-500 dark:border-sky-500/50 shadow-[0_0_15px_rgba(14,165,233,0.15)]">
                 <div className="bg-sky-50 dark:bg-slate-800/80 border-b border-sky-100 dark:border-slate-700 p-6 flex justify-between items-center">
                   <h2 className="text-xl font-black uppercase text-sky-600 dark:text-sky-400 flex items-center gap-2">
@@ -732,7 +770,7 @@
                   <button onClick={fetchMomentumMatrix} className="tech-btn bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-300 hover:text-sky-500 dark:hover:text-sky-400 px-4 py-1.5 text-sm shadow-sm">REFRESH</button>
                 </div>
                 
-                <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 bg-white dark:bg-slate-900">
+                <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
                   <div className="rounded-2xl border border-slate-100 dark:border-slate-700 p-5 bg-slate-50 dark:bg-slate-800/50 scale-card cursor-default">
                     <div className="text-xs font-bold mb-2 uppercase text-slate-400 tracking-widest flex justify-between">QLD <span className="opacity-50">Nasdaq 2X</span></div>
                     <div className="text-2xl font-black font-mono text-slate-800 dark:text-slate-200 mb-1 data-text">{momentumMatrix.qldPrice} <span className="text-lg text-slate-400">/ {momentumMatrix.qldMa}</span></div>
@@ -752,13 +790,16 @@
                   </div>
                 </div>
 
-                <div className={`p-6 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 ${matrixStatus.ui}`}>
-                  <div className="text-2xl font-black uppercase">{matrixStatus.label}</div>
-                  <div className="text-xl font-bold bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm px-6 py-2 rounded-xl shadow-sm border border-transparent dark:border-slate-700/50">{matrixStatus.action}</div>
+                <div className={`p-8 flex flex-col md:flex-row justify-between items-center gap-6 bg-slate-50 dark:bg-slate-800/50 ${matrixStatus.ui}`}>
+                  <div className={`flex items-center gap-3 ${matrixStatus.ui === 'neon-buy-btn' || matrixStatus.ui === 'neon-sell-btn' ? 'neon-consensus-tag' : 'bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm px-6 py-2 rounded-xl border border-transparent dark:border-slate-700/50 text-xl font-bold '}`}>
+                      {matrixStatus.ui === 'neon-buy-btn' || matrixStatus.ui === 'neon-sell-btn' ? null : <span className="w-2.5 h-2.5 rounded-full bg-sky-500 animate-pulse"></span>}
+                      {matrixStatus.label}
+                  </div>
+                  <div className={`text-2xl font-black uppercase tracking-wider px-12 py-5 rounded-2xl ${matrixStatus.ui}`}>{matrixStatus.action}</div>
                 </div>
               </div>
 
-              {/* CRYPTO MODULE */}
+              {/* [決策定錨強化] 加密貨幣模組與共識強化 */}
               <div className="tech-panel p-0 overflow-hidden">
                 <div className="bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 p-6 flex flex-wrap justify-between items-center gap-4">
                   <h2 className="text-xl font-black uppercase text-slate-700 dark:text-slate-200 flex items-center gap-2">
@@ -768,7 +809,7 @@
                   <button onClick={handleSyncCrypto} className="tech-btn bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-300 hover:text-violet-500 dark:hover:text-violet-400 px-4 py-1.5 text-sm shadow-sm">SYNC P2/ATH</button>
                 </div>
                 
-                <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 bg-white dark:bg-slate-900">
+                <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-2 gap-6 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
                   <div className="rounded-2xl border border-slate-100 dark:border-slate-700 p-6 bg-slate-50 dark:bg-slate-800/50 flex flex-col scale-card cursor-default">
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-2xl font-black text-amber-500">BTC</span>
@@ -776,8 +817,8 @@
                     </div>
                     <div className="text-5xl font-black font-mono text-slate-800 dark:text-slate-200 mb-2 data-text">${liveCrypto.BTC > 0 ? liveCrypto.BTC.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
                     <div className="text-xl font-bold text-rose-500 mb-6 font-mono">{btcDrawdown}%</div>
-                    <div className={`mt-auto p-4 rounded-xl text-center text-sm font-bold border ${btcAction.ui}`}>
-                      <span className="block text-lg font-black mb-1">{btcAction.label}</span>{btcAction.msg}
+                    <div className={`mt-auto p-5 rounded-2xl text-center text-sm font-bold ${btcAction.ui}`}>
+                      <span className="block text-xl font-black mb-1">{btcAction.label}</span>{btcAction.msg}
                     </div>
                   </div>
                   <div className="rounded-2xl border border-slate-100 dark:border-slate-700 p-6 bg-slate-50 dark:bg-slate-800/50 flex flex-col scale-card cursor-default">
@@ -787,8 +828,8 @@
                     </div>
                     <div className="text-5xl font-black font-mono text-slate-800 dark:text-slate-200 mb-2 data-text">${liveCrypto.ETH > 0 ? liveCrypto.ETH.toLocaleString('en-US',{maximumFractionDigits:0}) : '---'}</div>
                     <div className="text-xl font-bold text-rose-500 mb-6 font-mono">{ethDrawdown}%</div>
-                    <div className={`mt-auto p-4 rounded-xl text-center text-sm font-bold border ${ethAction.ui}`}>
-                      <span className="block text-lg font-black mb-1">{ethAction.label}</span>{ethAction.msg}
+                    <div className={`mt-auto p-5 rounded-2xl text-center text-sm font-bold ${ethAction.ui}`}>
+                      <span className="block text-xl font-black mb-1">{ethAction.label}</span>{ethAction.msg}
                     </div>
                   </div>
                 </div>
@@ -798,15 +839,18 @@
                   <input type="number" name="p2Usdt" value={formData.p2Usdt} onChange={handleInputChange} className="w-48 tech-input text-right text-xl py-2 px-4" />
                 </div>
                 
-                {/* CRYPTO BILLBOARD */}
-                <div className={`p-6 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 ${consensusColor}`}>
-                  <div className="text-sm font-bold uppercase tracking-widest opacity-80">CONSENSUS {consensusMsg}</div>
-                  <div className="text-2xl font-black uppercase tracking-wider">100% BUY {consensusTarget}</div>
+                {/* [決策定錨強化] CRYPTO BILLBOARD 強化共識與霓虹燈 */}
+                <div className={`p-8 flex flex-col md:flex-row justify-between items-center gap-6 ${ratioVal > 0.060 || ratioVal > 0 && ratioVal < 0.020 ? 'bg-yellow-50 dark:bg-yellow-950/30' : ratioVal >= 0.020 && ratioVal <= 0.060 ? 'bg-sky-50 dark:bg-sky-950/30' : 'bg-slate-50 dark:bg-slate-800/50'}`}>
+                  <div className="flex items-center gap-3 neon-consensus-tag">
+                      <span className={`w-2.5 h-2.5 rounded-full animate-pulse ${ratioVal > 0.060 ? 'bg-yellow-500' : ratioVal >= 0.020 && ratioVal <= 0.060 ? 'bg-sky-500' : ratioVal > 0 && ratioVal < 0.020 ? 'bg-rose-500' : 'bg-slate-400'}`}></span>
+                      {consensusMsg}
+                  </div>
+                  <div className="text-2xl font-black uppercase tracking-wider px-12 py-5 rounded-2xl neon-buy-btn">100% BUY {consensusTarget}</div>
                 </div>
               </div>
 
               {/* RADAR CHART */}
-              <div className="tech-panel p-8 h-[500px] flex flex-col">
+              <div className="tech-panel p-8 h-[500px] flex flex-col overflow-hidden">
                 <h2 className="text-xl font-black uppercase text-slate-700 dark:text-slate-200 mb-6 flex items-center gap-2">
                   <svg className="w-5 h-5 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
                   RADAR (LAST 10)
@@ -815,7 +859,7 @@
               </div>
 
               {/* HISTORY MATRIX */}
-              <div className="tech-panel p-0 overflow-hidden">
+              <div className="tech-panel p-0 overflow-hidden border-violet-300 dark:border-violet-700">
                 <h2 className="text-xl font-black uppercase bg-slate-50 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 p-6 flex items-center gap-2">
                   <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   HISTORY MATRIX
