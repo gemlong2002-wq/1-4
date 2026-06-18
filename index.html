@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="google" content="notranslate">
-  <title>FOS Boss Terminal v15.3.1 (Pure White Lab / Ultimate Fix)</title>
+  <title>FOS Boss Terminal v15.4.1 (Pure White Lab / Visual Enhanced)</title>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin></script>
@@ -39,19 +39,19 @@
     .dark ::-webkit-scrollbar-thumb { background: #475569; border: 3px solid #0f172a; }
     .dark ::-webkit-scrollbar-thumb:hover { background: #64748b; }
 
-    /* 雙軌網格系統 */
+    /* 雙軌網格系統 - 視覺強化版 */
     .clean-grid-bg {
       background-color: #ffffff;
       background-image: 
-        linear-gradient(to right, #f1f5f9 1px, transparent 1px),
-        linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+        linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+        linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
       background-size: 40px 40px;
     }
     .dark .clean-grid-bg {
       background-color: #020617;
       background-image: 
-        linear-gradient(to right, #0f172a 1px, transparent 1px),
-        linear-gradient(to bottom, #0f172a 1px, transparent 1px);
+        linear-gradient(to right, #1e293b 1px, transparent 1px),
+        linear-gradient(to bottom, #1e293b 1px, transparent 1px);
     }
 
     /* 雙軌高階玻璃面板 */
@@ -146,7 +146,7 @@
     };
 
     function App() {
-      // 核心物理運算函數 (強制提升至作用域頂層)
+      // 核心物理運算函數 (強制提升至作用域頂層，絕不物理蒸發)
       function getMRZone(mr) {
         const val = parseFloat(mr);
         if (val === 0) return { dot: 'bg-slate-300 dark:bg-slate-600', text: 'text-slate-400', label: 'STANDBY' };
@@ -212,7 +212,7 @@
       const [isSyncing, setIsSyncing] = useState(false);
       
       const isGasEnvironment = typeof google !== 'undefined' && google.script && google.script.run;
-      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - V15.3.1 (STABLE)`);
+      const [terminalMsg, setTerminalMsg] = useState(`SYSTEM ONLINE. ${isGasEnvironment ? '[GAS NATIVE ENGINE]' : '[GITHUB DECOUPLED]'} - V15.4.1 (STABLE)`);
       
       const [isPart9, setIsPart9] = useState(safeGetStorage('fos_isPart9', 'false') === 'true');
       const [escapeAmount, setEscapeAmount] = useState('');
@@ -304,8 +304,8 @@
             responsive: true, maintainAspectRatio: false,
             interaction: { mode: 'index', intersect: false },
             scales: {
-              x: { grid: { color: isDarkMode ? '#1e293b' : '#f1f5f9', lineWidth: 1 }, ticks: { color: isDarkMode ? '#94a3b8' : '#64748b' }, border: { display: false } },
-              y: { position: 'left', grid: { color: isDarkMode ? '#1e293b' : '#f1f5f9', lineWidth: 1 }, title: { display: true, text: 'MR %', color: '#0ea5e9', font: { size: 18, weight: '800' } }, border: { display: false } },
+              x: { grid: { color: isDarkMode ? '#1e293b' : '#e2e8f0', lineWidth: 1 }, ticks: { color: isDarkMode ? '#94a3b8' : '#64748b' }, border: { display: false } },
+              y: { position: 'left', grid: { color: isDarkMode ? '#1e293b' : '#e2e8f0', lineWidth: 1 }, title: { display: true, text: 'MR %', color: '#0ea5e9', font: { size: 18, weight: '800' } }, border: { display: false } },
               y1: { position: 'right', grid: { display: false }, title: { display: true, text: 'P1 %', color: '#8b5cf6', font: { size: 18, weight: '800' } }, border: { display: false } }
             },
             plugins: { 
@@ -368,7 +368,7 @@
         setIsSyncing(true); setTerminalMsg('>> SYNCING DATA...');
         try {
           const res = await gasAPI('saveCryptoMatrix', formData.p2Usdt, formData.btcAth, formData.ethAth);
-          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. V15.3.1 (STABLE)`), 3000); } 
+          if (res.success) { setIsSyncing(false); setTerminalMsg('>> SYNC COMPLETE.'); setTimeout(() => setTerminalMsg(`SYSTEM ONLINE. V15.4.1 (STABLE)`), 3000); } 
           else throw new Error();
         } catch (e) { setTerminalMsg('>> SYNC FAILED.'); setIsSyncing(false); }
       };
@@ -508,7 +508,9 @@
           </div>
 
           <header className="tech-panel p-8 md:p-12 mb-10 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 relative overflow-hidden">
-            <div className="absolute right-0 top-0 opacity-[0.03] dark:opacity-[0.05] text-[15rem] font-black leading-none pointer-events-none -mt-16 -mr-8 font-mono text-sky-900 dark:text-sky-300">V15</div>
+            {/* [視覺強化] V15 水印增強透明度與陰影 */}
+            <div className="absolute right-0 top-0 opacity-10 dark:opacity-20 text-[15rem] font-black leading-none pointer-events-none -mt-16 -mr-8 font-mono text-sky-900 dark:text-sky-300 drop-shadow-md select-none">V15</div>
+            
             <div className="relative z-10">
               <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-800 dark:text-slate-100 uppercase flex items-center gap-4 mb-3">
                 <span className="bg-sky-500 text-white px-3 py-1 rounded-xl text-3xl md:text-5xl shadow-md">FOS</span> 
